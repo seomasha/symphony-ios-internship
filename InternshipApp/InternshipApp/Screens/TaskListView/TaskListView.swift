@@ -10,6 +10,7 @@ import SwiftUI
 struct TaskListView: View {
     
     let taskViewModel: TaskViewModel
+    let profileViewModel: ProfileScreenViewModel
     
     var body: some View {
         NavigationStack {
@@ -21,11 +22,24 @@ struct TaskListView: View {
                 }
             }
             .navigationTitle("Task list")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink(destination: CreateTaskView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
+                        Image(systemName: "plus")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)) {
+                        Image(systemName: "person.crop.circle")
+                    }
+                }
+            }
             Spacer()
         }
     }
 }
 
 #Preview {
-    TaskListView(taskViewModel: TaskViewModel())
+    TaskListView(taskViewModel: TaskViewModel(), profileViewModel: ProfileScreenViewModel())
 }

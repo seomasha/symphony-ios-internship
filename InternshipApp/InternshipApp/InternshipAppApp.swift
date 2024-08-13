@@ -11,11 +11,11 @@ import SwiftUI
 struct InternshipAppApp: App {
     
     let taskManager = TaskViewModel()
+    @StateObject var profileViewModel = ProfileScreenViewModel()
     
     var body: some Scene {
         WindowGroup {
-            CreateTaskView()
-                .environmentObject(taskManager)
+            CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: profileViewModel)
         }
     }
 }

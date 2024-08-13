@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct Task: Identifiable, Equatable {
+struct TaskModel: Identifiable, Equatable {
     let id = UUID()
     let taskName: String
     let taskDescription: String
     
-    static func == (lhs: Task, rhs: Task) -> Bool {
+    static func == (lhs: TaskModel, rhs: TaskModel) -> Bool {
         return lhs.taskName == rhs.taskName
     }
 }
