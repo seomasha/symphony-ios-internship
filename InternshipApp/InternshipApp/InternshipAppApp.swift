@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct InternshipAppApp: App {
+    
+    let taskManager = TaskManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CreateTaskView()
+                .environmentObject(taskManager)
         }
     }
 }
