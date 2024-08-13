@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct InternshipAppApp: App {
     
-    let taskManager = TaskManager()
+    let taskManager = TaskViewModel()
     
     var body: some Scene {
         WindowGroup {

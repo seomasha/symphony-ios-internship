@@ -15,35 +15,31 @@ struct CreateTaskView: View {
     @FocusState private var taskNameIsFocused: Bool
     @FocusState private var taskDetailsIsFocused: Bool
     
-    @EnvironmentObject var taskManager: TaskManager
+    @EnvironmentObject var taskViewModel: TaskViewModel
     
     var body: some View {
         NavigationStack {
             VStack {
                 VStack(spacing: 20) {
-                    TextField("Enter the task name: ", text: $taskName)
-                        .focused($taskNameIsFocused)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Enter the task description: ", text: $taskDetails)
-                        .focused($taskDetailsIsFocused)
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .textFieldStyle(.roundedBorder)
+                    TextFieldView(placeholder: "Enter the task name:", text: $taskName, isFocused: _taskNameIsFocused)
+                    
+                    TextFieldView(placeholder: "Enter the task description:", text: $taskDetails, isFocused: _taskDetailsIsFocused)
+                    
                     Button(action: {
                         let newTask = Task(taskName: taskName, taskDescription: taskDetails)
-                        taskManager.addTask(task: newTask)
+                        taskViewModel.addTask(task: newTask)
                         taskName = ""
                         taskDetails = ""
                     }, label: {
                         Text("Add new task")
                     }).buttonStyle(.borderedProminent)
                 }.padding()
+                
                 Spacer()
+                
             }.toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: TaskListView(taskManager: taskManager)) {
+                    NavigationLink(destination: TaskListView(taskViewModel: taskViewModel)) {
                         Image(systemName: "list.bullet")
                     }
                 }
@@ -55,5 +51,5 @@ struct CreateTaskView: View {
 
 #Preview {
     CreateTaskView()
-        .environmentObject(TaskManager())
+        .environmentObject(TaskViewModel())
 }
