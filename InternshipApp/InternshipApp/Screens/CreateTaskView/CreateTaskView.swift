@@ -8,38 +8,33 @@
 import SwiftUI
 
 struct CreateTaskView: View {
-    
-    @State private var taskName: String = ""
-    @State private var taskDescription: String = ""
+        
+    @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var profileViewModel: ProfileScreenViewModel
     
     @FocusState private var taskNameIsFocused: Bool
     @FocusState private var taskDescriptionIsFocused: Bool
-    
-    @StateObject var taskViewModel: TaskViewModel
-    @StateObject var profileViewModel: ProfileScreenViewModel
     
     var body: some View {
         NavigationStack {
             VStack {
                 VStack(spacing: 20) {
-                    TextFieldView(placeholder: "Enter the task name:", text: $taskName, isFocused: _taskNameIsFocused)
+                    TextFieldView(placeholder: "Enter the task name:", text: $taskViewModel.taskName, isFocused: _taskNameIsFocused)
                     
-                    TextFieldView(placeholder: "Enter the task description:", text: $taskDescription, isFocused: _taskDescriptionIsFocused)
+                    TextFieldView(placeholder: "Enter the task description:", text: $taskViewModel.taskDescription, isFocused: _taskDescriptionIsFocused)
                     
                     Button(action: {
-                        let newTask = TaskModel(taskName: taskName, taskDescription: taskDescription)
+                        let newTask = TaskModel(taskName: taskViewModel.taskName, taskDescription: taskViewModel.taskDescription)
                         taskViewModel.addTask(task: newTask)
-                        taskName = ""
-                        taskDescription = ""
+                        taskViewModel.taskName = ""
+                        taskViewModel.taskDescription = ""
                     }, label: {
-                        //NavigationLink(destination: TaskListView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
-                            Label("Add new task", systemImage: "plus.app")
-                                .foregroundStyle(.white)
-                                .controlSize(.large)
-                        //}
+                        Label("Add new task", systemImage: "plus.app")
+                            .foregroundStyle(.white)
+                            .controlSize(.large)
                     })
                     .buttonStyle(.borderedProminent)
-                    .disabled(!validate())
+                    .disabled(!taskViewModel.validate())
                 }
                 .padding()
                 
@@ -60,16 +55,6 @@ struct CreateTaskView: View {
             .navigationTitle("Add task")
             .navigationBarBackButtonHidden(true)
         }
-    }
-    
-    func validate() -> Bool {
-        var isValid = true
-        
-        if taskName.isEmpty || taskDescription.isEmpty{
-            isValid = false
-        }
-        
-        return isValid
     }
 }
 

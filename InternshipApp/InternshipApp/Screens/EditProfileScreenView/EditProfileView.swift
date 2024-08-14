@@ -9,19 +9,14 @@ import SwiftUI
 import PhotosUI
 
 struct EditProfileView: View {
-    
-    @State private var localName: String
-    @State private var localEmail: String
-    @State private var localImage: UIImage?
-    
-    @StateObject var taskViewModel: TaskViewModel = TaskViewModel()
+    @ObservedObject var taskViewModel: TaskViewModel = TaskViewModel()
     @ObservedObject var profileViewModel: ProfileScreenViewModel = ProfileScreenViewModel()
     
     init(profileViewModel: ProfileScreenViewModel) {
         _profileViewModel = ObservedObject(wrappedValue: profileViewModel)
-        _localName = State(initialValue: profileViewModel.name)
-        _localEmail = State(initialValue: profileViewModel.email)
-        _localImage = State(initialValue: profileViewModel.image)
+        profileViewModel.localName = profileViewModel.name
+        profileViewModel.localEmail = profileViewModel.email
+        profileViewModel.localImage = profileViewModel.image
     }
     
     var body: some View {
@@ -46,19 +41,19 @@ struct EditProfileView: View {
                 
                 VStack(alignment: .leading) {
                     TextFieldView(placeholder: "Your name:", text: $profileViewModel.name)
-                        .border(!validateName() ? .red : .gray)
+                        .border(!profileViewModel.validateName() ? .red : .gray)
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 4, height: 10)))
-                    if(!validateName()) {
+                    if(!profileViewModel.validateName()) {
                         Text("You should enter your name and surname")
                             .font(.caption)
                             .foregroundStyle(.red)
                     }
                     
                     TextFieldView(placeholder: "Your email:", text: $profileViewModel.email)
-                        .border(!validateEmail() ? .red : .gray)
+                        .border(!profileViewModel.validateEmail() ? .red : .gray)
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 4, height: 10)))
                     
-                    if(!validateEmail()) {
+                    if(!profileViewModel.validateEmail()) {
                         Text("You should enter your email and it needs to have an @ symbol")
                             .font(.caption)
                             .foregroundStyle(.red)
@@ -66,7 +61,7 @@ struct EditProfileView: View {
                 }.padding()
                 
                 Button(action: {
-                    profileViewModel.updateProfile(name: localName, email: localEmail, image: localImage)
+                    profileViewModel.updateProfile(name: profileViewModel.localName, email: profileViewModel.localEmail, image: profileViewModel.localImage)
                 }, label: {
                     NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)) {
                         Label("Save", systemImage: "pencil")
@@ -76,7 +71,7 @@ struct EditProfileView: View {
                 }).buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .padding()
-                    .disabled(!validate())
+                    .disabled(!profileViewModel.validate())
             }
             .padding()
             
@@ -84,20 +79,6 @@ struct EditProfileView: View {
             Spacer()
         }
         .navigationTitle("Edit profile")
-    }
-    
-    func validate() -> Bool {
-        return validateName() && validateEmail()
-    }
-    
-    func validateName() -> Bool {
-        return !profileViewModel.name.isEmpty && profileViewModel.name.contains(" ")
-    }
-    
-    func validateEmail() -> Bool {
-        let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$"
-        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        return emailPredicate.evaluate(with: profileViewModel.email)
     }
 }
 

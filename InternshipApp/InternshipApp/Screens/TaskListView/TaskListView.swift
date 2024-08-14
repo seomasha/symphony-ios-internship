@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TaskListView: View {
     
-    let taskViewModel: TaskViewModel
-    let profileViewModel: ProfileScreenViewModel
+    @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var profileViewModel: ProfileScreenViewModel
     
     var body: some View {
         NavigationStack {

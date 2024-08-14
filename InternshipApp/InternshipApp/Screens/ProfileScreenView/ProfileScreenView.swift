@@ -15,7 +15,7 @@ struct ProfileScreenView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if(profileViewModel.image != nil) {
+                if profileViewModel.image != nil {
                     Image(uiImage: profileViewModel.image!)
                         .resizable()
                         .frame(width: 150, height: 150)
