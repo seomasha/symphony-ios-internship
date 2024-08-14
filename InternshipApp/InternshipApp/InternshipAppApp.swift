@@ -15,7 +15,7 @@ struct InternshipAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: profileViewModel)
+            CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: profileViewModel, reminderViewModel: ReminderViewModel(), createReminderViewModel: CreateReminderViewModel())
         }
     }
 }

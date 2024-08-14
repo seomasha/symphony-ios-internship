@@ -11,6 +11,8 @@ struct TaskListView: View {
     
     @ObservedObject var taskViewModel: TaskViewModel
     @ObservedObject var profileViewModel: ProfileScreenViewModel
+    @ObservedObject var reminderViewModel: ReminderViewModel
+    @ObservedObject var createReminderViewModel: CreateReminderViewModel
     
     var body: some View {
         NavigationStack {
@@ -25,13 +27,18 @@ struct TaskListView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink(destination: CreateTaskView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
+                    NavigationLink(destination: CreateTaskView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                         Image(systemName: "plus")
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)) {
+                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                         Image(systemName: "person.crop.circle")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: ReminderScreenView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
+                        Image(systemName: "bell")
                     }
                 }
             }
@@ -41,5 +48,5 @@ struct TaskListView: View {
 }
 
 #Preview {
-    TaskListView(taskViewModel: TaskViewModel(), profileViewModel: ProfileScreenViewModel())
+    TaskListView(taskViewModel: TaskViewModel(), profileViewModel: ProfileScreenViewModel(), reminderViewModel: ReminderViewModel(), createReminderViewModel: CreateReminderViewModel())
 }

@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ProfileScreenView: View {
     
-    @StateObject var profileViewModel: ProfileScreenViewModel
-    @StateObject var taskViewModel: TaskViewModel
+    @ObservedObject var profileViewModel: ProfileScreenViewModel
+    @ObservedObject var taskViewModel: TaskViewModel
+    @ObservedObject var reminderViewModel: ReminderViewModel
+    @ObservedObject var createReminderViewModel: CreateReminderViewModel
     
     var body: some View {
         NavigationStack {
@@ -40,12 +42,12 @@ struct ProfileScreenView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                NavigationLink(destination: TaskListView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
+                NavigationLink(destination: TaskListView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                     Image(systemName: "list.bullet")
                 }
             }
             ToolbarItem(placement: .topBarLeading) {
-                NavigationLink(destination: CreateTaskView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
+                NavigationLink(destination: CreateTaskView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                     Image(systemName: "plus")
                 }
             }
@@ -61,8 +63,9 @@ struct ProfileScreenView: View {
 
 struct ProfileScreenView_Preview: PreviewProvider {
     static var previews: some View {
-        let profileViewModel = ProfileScreenViewModel()
-        let taskViewModel = TaskViewModel()
-        ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)
+        @ObservedObject var profileViewModel = ProfileScreenViewModel()
+        @ObservedObject var taskViewModel = TaskViewModel()
+        @ObservedObject var reminderViewModel = ReminderViewModel()
+        ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: CreateReminderViewModel())
     }
 }

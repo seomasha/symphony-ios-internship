@@ -11,6 +11,8 @@ struct CreateTaskView: View {
         
     @ObservedObject var taskViewModel: TaskViewModel
     @ObservedObject var profileViewModel: ProfileScreenViewModel
+    @ObservedObject var reminderViewModel: ReminderViewModel
+    @ObservedObject var createReminderViewModel: CreateReminderViewModel
     
     @FocusState private var taskNameIsFocused: Bool
     @FocusState private var taskDescriptionIsFocused: Bool
@@ -41,14 +43,19 @@ struct CreateTaskView: View {
                 Spacer()
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: TaskListView(taskViewModel: taskViewModel, profileViewModel: profileViewModel)) {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink(destination: TaskListView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                         Image(systemName: "list.bullet")
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)) {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
                         Image(systemName: "person.crop.circle")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink(destination: ReminderScreenView(taskViewModel: taskViewModel, profileViewModel: profileViewModel, reminderViewModel: reminderViewModel, createReminderViewModel: createReminderViewModel)) {
+                        Image(systemName: "bell")
                     }
                 }
             }
@@ -59,5 +66,5 @@ struct CreateTaskView: View {
 }
 
 #Preview {
-    CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: ProfileScreenViewModel())
+    CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: ProfileScreenViewModel(), reminderViewModel: ReminderViewModel(), createReminderViewModel: CreateReminderViewModel())
 }
