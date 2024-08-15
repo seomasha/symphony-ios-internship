@@ -11,6 +11,7 @@ import PhotosUI
 struct EditProfileView: View {
     @ObservedObject var taskViewModel: TaskViewModel = TaskViewModel()
     @ObservedObject var profileViewModel: ProfileScreenViewModel = ProfileScreenViewModel()
+    @ObservedObject var reminderViewModel: ReminderViewModel = ReminderViewModel()
     
     init(profileViewModel: ProfileScreenViewModel) {
         _profileViewModel = ObservedObject(wrappedValue: profileViewModel)
@@ -61,9 +62,13 @@ struct EditProfileView: View {
                 }.padding()
                 
                 Button(action: {
-                    profileViewModel.updateProfile(name: profileViewModel.localName, email: profileViewModel.localEmail, image: profileViewModel.localImage)
+                    profileViewModel.updateProfile(name: profileViewModel.localName,
+                                                   email: profileViewModel.localEmail,
+                                                   image: profileViewModel.localImage)
                 }, label: {
-                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel, taskViewModel: taskViewModel)) {
+                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel,
+                                                                  taskViewModel: taskViewModel,
+                                                                  reminderViewModel: reminderViewModel)) {
                         Label("Save", systemImage: "pencil")
                             .font(.system(size: 20))
                             .foregroundStyle(.white)
