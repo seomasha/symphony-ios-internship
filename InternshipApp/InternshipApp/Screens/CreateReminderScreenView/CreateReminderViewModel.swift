@@ -32,7 +32,7 @@ final class CreateReminderViewModel: ObservableObject {
         }
         
         if selectedOption == "Custom" {
-            if days == 0 || weeks == 0 || months == 0 {
+            if days == 0 && weeks == 0 && months == 0 {
                 isValid = false
             }
         }

@@ -27,8 +27,10 @@ struct ReminderView: View {
             
             HStack {
                 Text(reminderViewModel.formatDate(reminderDate))
+                    .font(.caption)
                 Spacer()
                 Text(reminderRecurrence)
+                    .font(.caption)
                 Spacer()
             }
         }

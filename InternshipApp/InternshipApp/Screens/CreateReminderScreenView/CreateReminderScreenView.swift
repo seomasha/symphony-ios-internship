@@ -82,9 +82,29 @@ struct CreateReminderScreenView: View {
 
             
             Button {
-                
                 if createReminderViewModel.isOn {
+                    if createReminderViewModel.selectedOption == "Custom" {
+                        var formattedString = ""
+
+                        if createReminderViewModel.days > 0 {
+                            formattedString += "\(createReminderViewModel.days) day" + (createReminderViewModel.days > 1 ? "s" : "")
+                        }
+
+                        if createReminderViewModel.weeks > 0 {
+                            if !formattedString.isEmpty { formattedString += ", " }
+                            formattedString += "\(createReminderViewModel.weeks) week" + (createReminderViewModel.weeks > 1 ? "s" : "")
+                        }
+
+                        if createReminderViewModel.months > 0 {
+                            if !formattedString.isEmpty { formattedString += ", " }
+                            formattedString += "\(createReminderViewModel.months) month" + (createReminderViewModel.months > 1 ? "s" : "")
+                        }
+
+                        createReminderViewModel.selectedOption = formattedString
+                    }
+                    
                     reminderViewModel.addReminder(reminder: ReminderModel(title: createReminderViewModel.reminderTitle, description: createReminderViewModel.reminderDescription, date: createReminderViewModel.reminderDate, recurrence: createReminderViewModel.selectedOption))
+                    
                 } else {
                     reminderViewModel.addReminder(reminder: ReminderModel(title: createReminderViewModel.reminderTitle, description: createReminderViewModel.reminderDescription, date: createReminderViewModel.reminderDate, recurrence: "No recurrence"))
                 }
