@@ -14,6 +14,8 @@ struct ReminderView: View {
     let reminderDate: Date
     let reminderRecurrence: String
     
+    @ObservedObject var reminderViewModel = ReminderViewModel()
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(reminderTitle)
@@ -24,7 +26,7 @@ struct ReminderView: View {
                 .font(.subheadline)
             
             HStack {
-                Text("\(reminderDate.debugDescription)")
+                Text(reminderViewModel.formatDate(reminderDate))
                 Spacer()
                 Text(reminderRecurrence)
                 Spacer()

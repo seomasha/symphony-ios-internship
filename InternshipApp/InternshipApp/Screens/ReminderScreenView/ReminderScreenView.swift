@@ -16,11 +16,13 @@ struct ReminderScreenView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ForEach(reminderViewModel.reminders, id: \.id) { reminder in
-                    ReminderView(reminderTitle: reminder.title, reminderDescription: reminder.description, reminderDate: reminder.date, reminderRecurrence: reminder.recurrence)
-                }
-            }.padding()
+            ScrollView {
+                VStack {
+                    ForEach(reminderViewModel.reminders, id: \.id) { reminder in
+                        ReminderView(reminderTitle: reminder.title, reminderDescription: reminder.description, reminderDate: reminder.date, reminderRecurrence: reminder.recurrence)
+                    }
+                }.padding()
+            }
             Spacer()
         }
         .navigationTitle("Reminders")

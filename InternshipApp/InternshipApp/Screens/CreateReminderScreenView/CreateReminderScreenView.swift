@@ -40,6 +40,47 @@ struct CreateReminderScreenView: View {
                 }
             }.disabled(!createReminderViewModel.disableRecurrence()).padding()
             
+            if createReminderViewModel.selectedOption == "Custom" {
+                HStack {
+                    TextFieldView(placeholder: "Days:", text: Binding(
+                        get: { String(createReminderViewModel.days) },
+                        set: {
+                            let filtered = $0.filter { $0.isNumber }
+                            if let intValue = Int(filtered), intValue >= 0 {
+                                createReminderViewModel.days = intValue
+                            } else {
+                                createReminderViewModel.days = 0
+                            }
+                        }
+                    )).keyboardType(.numberPad)
+                    
+                    TextFieldView(placeholder: "Weeks:", text: Binding(
+                        get: { String(createReminderViewModel.weeks) },
+                        set: {
+                            let filtered = $0.filter { $0.isNumber }
+                            if let intValue = Int(filtered), intValue >= 0 {
+                                createReminderViewModel.weeks = intValue
+                            } else {
+                                createReminderViewModel.weeks = 0
+                            }
+                        }
+                    )).keyboardType(.numberPad)
+                    
+                    TextFieldView(placeholder: "Months:", text: Binding(
+                        get: { String(createReminderViewModel.months) },
+                        set: {
+                            let filtered = $0.filter { $0.isNumber }
+                            if let intValue = Int(filtered), intValue >= 0 {
+                                createReminderViewModel.months = intValue
+                            } else {
+                                createReminderViewModel.months = 0
+                            }
+                        }
+                    )).keyboardType(.numberPad)
+                }.padding()
+            }
+
+            
             Button {
                 
                 if createReminderViewModel.isOn {
@@ -50,7 +91,12 @@ struct CreateReminderScreenView: View {
                 
                 createReminderViewModel.reminderTitle = ""
                 createReminderViewModel.reminderDescription = ""
+                createReminderViewModel.selectedOption = "Daily"
                 createReminderViewModel.isOn = false
+                
+                createReminderViewModel.days = 0
+                createReminderViewModel.weeks = 0
+                createReminderViewModel.months = 0
                 
                 reminderViewModel.isPresented = false
             } label: {
