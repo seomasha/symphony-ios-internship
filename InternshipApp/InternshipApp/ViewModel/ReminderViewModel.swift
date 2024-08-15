@@ -14,8 +14,43 @@ final class ReminderViewModel: ObservableObject {
     @Published var weeks: Int = 0
     @Published var months: Int = 0
     
+    func displayReminderRecurrence() -> String {
+        switch reminderRecurrence {
+        case .daily:
+            return "Daily"
+        case .weekly:
+            return "Weekly"
+        case .monthly:
+            return "Monthly"
+        case .custom:
+            var components: [String] = []
+            if days > 0 {
+                components.append("\(days) day\(days > 1 ? "s" : "")")
+            }
+            if weeks > 0 {
+                components.append("\(weeks) week\(weeks > 1 ? "s" : "")")
+            }
+            if months > 0 {
+                components.append("\(months) month\(months > 1 ? "s" : "")")
+            }
+            return components.joined(separator: ", ")
+        }
+    }
+    
     func addReminder(reminder: ReminderModel) {
         reminders.append(reminder)
+        
+        reminderTitle = ""
+        reminderDescription = ""
+        reminderDate = Date()
+        reminderRecurrence = .daily
+        days = 0
+        weeks = 0
+        months = 0
+        isOn = false
+        
+        
+        isPresented = false
     }
     
     func formatDate(_ date: Date) -> String {

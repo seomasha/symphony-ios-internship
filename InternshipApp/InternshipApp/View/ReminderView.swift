@@ -29,7 +29,7 @@ struct ReminderView: View {
                 Text(reminderViewModel.formatDate(reminderDate))
                     .font(.caption)
                 Spacer()
-                Text(reminderRecurrence?.displayResult ?? "No recurrence")
+                Text(reminderRecurrence?.displayText ?? "No recurrence")
                     .font(.caption)
                 Spacer()
             }

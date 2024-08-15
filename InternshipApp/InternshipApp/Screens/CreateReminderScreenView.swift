@@ -83,7 +83,7 @@ struct CreateReminderScreenView: View {
             }
             
             Button {
-                let recurrence = reminderViewModel.isOn ? reminderViewModel.reminderRecurrence : nil
+                var recurrence = reminderViewModel.isOn ? reminderViewModel.reminderRecurrence : nil
                 
                 reminderViewModel.addReminder(reminder: ReminderModel(
                     title: reminderViewModel.reminderTitle,
@@ -91,14 +91,6 @@ struct CreateReminderScreenView: View {
                     date: reminderViewModel.reminderDate,
                     recurrence: recurrence
                 ))
-                
-                reminderViewModel.reminderTitle = ""
-                reminderViewModel.reminderDescription = ""
-                reminderViewModel.reminderDate = Date()
-                reminderViewModel.reminderRecurrence = .daily
-                reminderViewModel.isOn = false
-                
-                reminderViewModel.isPresented = false
             } label: {
                 Label("Add reminder", systemImage: "plus.app")
             }
