@@ -13,4 +13,7 @@ struct ReminderModel: Identifiable {
     let description: String
     let date: Date
     let recurrence: Recurrence?
+    let days: Int
+    let weeks: Int
+    let months: Int
 }

@@ -19,10 +19,8 @@ struct ReminderScreenView: View {
                 VStack {
                     ForEach(reminderViewModel.reminders, id: \.id) { reminder in
                         ReminderView(
-                            reminderTitle: reminder.title,
-                            reminderDescription: reminder.description,
-                            reminderDate: reminder.date,
-                            reminderRecurrence: reminder.recurrence)
+                            reminder: reminder
+                        )
                     }
                 }.padding()
             }

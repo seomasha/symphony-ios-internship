@@ -40,57 +40,43 @@ struct CreateReminderScreenView: View {
             
             if reminderViewModel.isOn, case .custom = reminderViewModel.reminderRecurrence {
                 HStack {
-                    TextFieldView(placeholder: "Days:", text: Binding(
-                        get: { String(reminderViewModel.days) },
-                        set: {
-                            let filtered = $0.filter { $0.isNumber }
-                            if let intValue = Int(filtered), intValue >= 0 {
-                                reminderViewModel.days = intValue
-                            } else {
-                                reminderViewModel.days = 0
-                            }
-                        }
-                    ))
-                    .keyboardType(.numberPad)
+                    TextField("Days:", value: $reminderViewModel.days, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
                     
-                    TextFieldView(placeholder: "Weeks:", text: Binding(
-                        get: { String(reminderViewModel.weeks) },
-                        set: {
-                            let filtered = $0.filter { $0.isNumber }
-                            if let intValue = Int(filtered), intValue >= 0 {
-                                reminderViewModel.weeks = intValue
-                            } else {
-                                reminderViewModel.weeks = 0
-                            }
-                        }
-                    ))
-                    .keyboardType(.numberPad)
+                    TextField("Weeks:", value: $reminderViewModel.weeks, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
                     
-                    TextFieldView(placeholder: "Months:", text: Binding(
-                        get: { String(reminderViewModel.months) },
-                        set: {
-                            let filtered = $0.filter { $0.isNumber }
-                            if let intValue = Int(filtered), intValue >= 0 {
-                                reminderViewModel.months = intValue
-                            } else {
-                                reminderViewModel.months = 0
-                            }
-                        }
-                    ))
-                    .keyboardType(.numberPad)
+                    TextField("Months:", value: $reminderViewModel.months, formatter: NumberFormatter())
+                        .keyboardType(.numberPad)
                 }
                 .padding()
             }
             
             Button {
-                var recurrence = reminderViewModel.isOn ? reminderViewModel.reminderRecurrence : nil
+                let recurrence = reminderViewModel.isOn ? reminderViewModel.reminderRecurrence : nil
                 
-                reminderViewModel.addReminder(reminder: ReminderModel(
-                    title: reminderViewModel.reminderTitle,
-                    description: reminderViewModel.reminderDescription,
-                    date: reminderViewModel.reminderDate,
-                    recurrence: recurrence
-                ))
+                if reminderViewModel.days > 0 || reminderViewModel.weeks > 0 || reminderViewModel.months > 0 {
+                    reminderViewModel.addReminder(reminder: ReminderModel(
+                        title: reminderViewModel.reminderTitle,
+                        description: reminderViewModel.reminderDescription,
+                        date: reminderViewModel.reminderDate,
+                        recurrence: recurrence,
+                        days: reminderViewModel.days,
+                        weeks: reminderViewModel.weeks,
+                        months: reminderViewModel.months
+                        ))
+                }
+                else {
+                    reminderViewModel.addReminder(reminder: ReminderModel(
+                                title: reminderViewModel.reminderTitle,
+                                description: reminderViewModel.reminderDescription,
+                                date: reminderViewModel.reminderDate,
+                                recurrence: recurrence,
+                                days: 0,
+                                weeks: 0,
+                                months: 0
+                                ))
+                }
             } label: {
                 Label("Add reminder", systemImage: "plus.app")
             }
