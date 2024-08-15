@@ -16,7 +16,6 @@ final class CreateReminderViewModel: ObservableObject {
     @Published var selectedOption = "Daily"
     @Published var options = ["Daily", "Weekly", "Monthly", "Custom"]
     
-    // Changed to Int
     @Published var days: Int = 0
     @Published var weeks: Int = 0
     @Published var months: Int = 0
