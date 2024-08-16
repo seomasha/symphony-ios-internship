@@ -52,6 +52,22 @@ final class ReminderViewModel: ObservableObject {
         isPresented = false
     }
     
+    func handleAddReminder() {
+        let recurrence = isOn ? reminderRecurrence : nil
+        
+        let newReminder = ReminderModel(
+            title: reminderTitle,
+            description: reminderDescription,
+            date: reminderDate,
+            recurrence: recurrence,
+            days: days > 0 ? days : 0,
+            weeks: weeks > 0 ? weeks : 0,
+            months: months > 0 ? months : 0
+        )
+        
+        addReminder(reminder: newReminder)
+    }
+    
     func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"

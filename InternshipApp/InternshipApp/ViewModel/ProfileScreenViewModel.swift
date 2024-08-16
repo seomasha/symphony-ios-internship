@@ -19,6 +19,7 @@ final class ProfileScreenViewModel: ObservableObject {
     @Published var localImage: UIImage? = nil
     @Published var imageSelection: PhotosPickerItem? = nil {
         didSet {
+            guard imageSelection != nil else { return }
             setImage(from: imageSelection)
         }
     }
