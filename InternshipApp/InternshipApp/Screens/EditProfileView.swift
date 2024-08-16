@@ -13,18 +13,13 @@ struct EditProfileView: View {
     @ObservedObject var profileViewModel: ProfileScreenViewModel = ProfileScreenViewModel()
     @ObservedObject var reminderViewModel: ReminderViewModel = ReminderViewModel()
     
-    init(profileViewModel: ProfileScreenViewModel) {
-        _profileViewModel = ObservedObject(wrappedValue: profileViewModel)
-        profileViewModel.localName = profileViewModel.name
-        profileViewModel.localEmail = profileViewModel.email
-        profileViewModel.localImage = profileViewModel.image
-    }
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             VStack {
                 PhotosPicker(selection: $profileViewModel.imageSelection, matching: .images) {
-                    if let image = profileViewModel.image {
+                    if let image = profileViewModel.localImage {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
@@ -41,7 +36,7 @@ struct EditProfileView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    TextFieldView(placeholder: "Your name:", text: $profileViewModel.name)
+                    TextFieldView(placeholder: "Your name:", text: $profileViewModel.localName)
                         .border(!profileViewModel.validateName() ? .red : .gray)
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 4, height: 10)))
                     if(!profileViewModel.validateName()) {
@@ -50,7 +45,7 @@ struct EditProfileView: View {
                             .foregroundStyle(.red)
                     }
                     
-                    TextFieldView(placeholder: "Your email:", text: $profileViewModel.email)
+                    TextFieldView(placeholder: "Your email:", text: $profileViewModel.localEmail)
                         .border(!profileViewModel.validateEmail() ? .red : .gray)
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 4, height: 10)))
                     
@@ -62,28 +57,34 @@ struct EditProfileView: View {
                 }.padding()
                 
                 Button(action: {
-                    profileViewModel.updateProfile(name: profileViewModel.localName,
+                    profileViewModel.updateProfile(name: profileViewModel.localName, 
                                                    email: profileViewModel.localEmail,
-                                                   image: profileViewModel.localImage)
+                                                   image: profileViewModel.localImage!)
+                    
+                    dismiss()
                 }, label: {
-                    NavigationLink(destination: ProfileScreenView(profileViewModel: profileViewModel,
-                                                                  taskViewModel: taskViewModel,
-                                                                  reminderViewModel: reminderViewModel)) {
-                        Label("Save", systemImage: "pencil")
-                            .font(.system(size: 20))
-                            .foregroundStyle(.white)
-                    }
+                    Label("Save", systemImage: "pencil")
+                        .font(.system(size: 20))
+                        .foregroundStyle(.white)
                 }).buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .padding()
                     .disabled(!profileViewModel.validate())
             }
             .padding()
+            .onAppear {
+                profileViewModel.resetProfileData()
+            }
             
             
             Spacer()
         }
         .navigationTitle("Edit profile")
+        .onDisappear {
+            if !profileViewModel.validate() {
+                profileViewModel.resetProfileData()
+            }
+        }
     }
 }
 
