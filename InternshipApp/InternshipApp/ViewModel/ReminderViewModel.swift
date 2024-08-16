@@ -1,4 +1,5 @@
 import Foundation
+import UserNotifications
 
 final class ReminderViewModel: ObservableObject {
     @Published var reminders: [ReminderModel] = []
@@ -37,8 +38,64 @@ final class ReminderViewModel: ObservableObject {
         return "No recurrence"
     }
     
+    func scheduleNotification(reminder: ReminderModel) {
+        let content = UNMutableNotificationContent()
+        content.title = reminder.title
+        content.body = reminder.description
+        content.sound = .default
+        
+        var trigger: UNNotificationTrigger?
+        
+        if let recurrence = reminder.recurrence {
+            switch recurrence {
+            case .daily:
+                trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents(hour: Calendar.current.component(.hour, from: reminder.date), 
+                                                                                     minute: Calendar.current.component(.minute, from: reminder.date)),
+                                                        repeats: true)
+            case .weekly:
+                trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents(hour: Calendar.current.component(.hour, from: reminder.date),
+                                                                                     minute: Calendar.current.component(.minute, from: reminder.date),
+                                                                                     weekday: Calendar.current.component(.weekday, from: reminder.date)),
+                                                        repeats: true)
+            case .monthly:
+                trigger = UNCalendarNotificationTrigger(dateMatching: DateComponents(day: Calendar.current.component(.day, from: reminder.date), 
+                                                                                     hour: Calendar.current.component(.hour, from: reminder.date),
+                                                                                     minute: Calendar.current.component(.minute, from: reminder.date)),
+                                                        repeats: true)
+            case .custom:
+                trigger = createCustomTrigger(for: reminder)
+            }
+        } else {
+            let timeInterval = reminder.date.timeIntervalSinceNow
+            if timeInterval > 0 {
+                trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+            }
+        }
+        
+        if let trigger = trigger {
+            let request = UNNotificationRequest(identifier: reminder.id.uuidString, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func createCustomTrigger(for reminder: ReminderModel) -> UNNotificationTrigger? {
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: reminder.date) + reminder.days
+        dateComponents.weekOfMonth = Calendar.current.component(.weekOfMonth, from: reminder.date) + reminder.weeks
+        dateComponents.month = Calendar.current.component(.month, from: reminder.date) + reminder.months
+        dateComponents.hour = Calendar.current.component(.hour, from: reminder.date)
+        dateComponents.minute = Calendar.current.component(.minute, from: reminder.date)
+        
+        return UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+    }
+    
     func addReminder(reminder: ReminderModel) {
         reminders.append(reminder)
+        scheduleNotification(reminder: reminder)
         
         reminderTitle = ""
         reminderDescription = ""

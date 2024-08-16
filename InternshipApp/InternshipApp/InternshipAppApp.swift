@@ -10,6 +10,10 @@ import SwiftUI
 @main
 struct InternshipAppApp: App {
     
+    init() {
+        NotificationManager.shared.requestAuthorization()
+    }
+    
     var body: some Scene {
         WindowGroup {
             CreateTaskView(
