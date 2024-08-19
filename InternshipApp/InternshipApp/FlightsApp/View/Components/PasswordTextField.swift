@@ -15,6 +15,11 @@ struct PasswordTextField: View {
     
     var body: some View {
         HStack {
+            Text("Your password")
+                .fontWeight(.semibold)
+            Spacer()
+        }
+        HStack {
             if isSecure {
                 SecureField("Enter your password", text: $text)
                     .padding(.leading, 8)
