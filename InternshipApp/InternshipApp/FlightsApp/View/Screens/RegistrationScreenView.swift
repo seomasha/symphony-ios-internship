@@ -75,11 +75,7 @@ struct RegistrationScreenView: View {
                         }
                         
                         VStack(alignment: .leading) {
-                            TextFieldInput(label: "Password",
-                                           placeholder: "Enter your password",
-                                           text: $userViewModel.password,
-                                           iconName: "eye",
-                                           password: true)
+                            PasswordTextField(text: $userViewModel.password)
                             
                             if !userViewModel.isValid && !userViewModel.validatePassword() {
                                 Text("Password is invalid")

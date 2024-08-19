@@ -33,6 +33,7 @@
 		6DC339662C73709D004E991A /* Break.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339652C73709D004E991A /* Break.swift */; };
 		6DC339682C73751E004E991A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339672C73751E004E991A /* User.swift */; };
 		6DC3396A2C737580004E991A /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339692C737580004E991A /* UserViewModel.swift */; };
+		6DC3396E2C738245004E991A /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3396D2C738245004E991A /* PasswordTextField.swift */; };
 		BFF14E1C2C6A002C007B9632 /* InternshipAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF14E1B2C6A002C007B9632 /* InternshipAppApp.swift */; };
 		BFF14E202C6A002E007B9632 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF14E1F2C6A002E007B9632 /* Assets.xcassets */; };
 		BFF14E232C6A002E007B9632 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF14E222C6A002E007B9632 /* Preview Assets.xcassets */; };
@@ -85,6 +86,7 @@
 		6DC339652C73709D004E991A /* Break.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Break.swift; sourceTree = "<group>"; };
 		6DC339672C73751E004E991A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6DC339692C737580004E991A /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		6DC3396D2C738245004E991A /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		BFF14E182C6A002C007B9632 /* InternshipApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternshipApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF14E1B2C6A002C007B9632 /* InternshipAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternshipAppApp.swift; sourceTree = "<group>"; };
 		BFF14E1F2C6A002E007B9632 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				6DC3395D2C735487004E991A /* CheckboxView.swift */,
 				6DC3395F2C735517004E991A /* ButtonView.swift */,
 				6DC339652C73709D004E991A /* Break.swift */,
+				6DC3396D2C738245004E991A /* PasswordTextField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				6D62EA9F2C6B5EE400DDC95B /* TextFieldView.swift in Sources */,
 				6DC3396A2C737580004E991A /* UserViewModel.swift in Sources */,
 				6DB94C382C6E32CD004F4C6E /* Recurrence.swift in Sources */,
+				6DC3396E2C738245004E991A /* PasswordTextField.swift in Sources */,
 				6DC339622C73570F004E991A /* ButtonStyle.swift in Sources */,
 				6DB94C3D2C6E331D004F4C6E /* ReminderModel.swift in Sources */,
 				6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */,
