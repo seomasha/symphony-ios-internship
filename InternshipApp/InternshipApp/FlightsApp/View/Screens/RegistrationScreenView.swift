@@ -32,47 +32,76 @@ struct RegistrationScreenView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 24) {
-                        VStack {
-                            TextFieldInput(label: "Your name", 
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Your name",
                                            placeholder: "Enter your name",
                                            text: $userViewModel.name,
                                            iconName: "",
                                            password: false)
+                            
+                            if !userViewModel.isValid && userViewModel.name.isEmpty {
+                                Text("Name is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
                         }
                         
-                        VStack {
-                            TextFieldInput(label: "Your surname", 
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Your surname",
                                            placeholder: "Enter your surname",
                                            text: $userViewModel.surname,
                                            iconName: "",
                                            password: false)
+                            
+                            if !userViewModel.isValid && userViewModel.surname.isEmpty {
+                                Text("Surname is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
                         }
                         
-                        VStack {
-                            TextFieldInput(label: "Your email", 
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Your email",
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
                                            iconName: "",
                                            password: false)
+                            
+                            if !userViewModel.isValid && !userViewModel.validateEmail() {
+                                Text("Email is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
                         }
                         
-                        VStack {
-                            TextFieldInput(label: "Password", 
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Password",
                                            placeholder: "Enter your password",
                                            text: $userViewModel.password,
                                            iconName: "eye",
                                            password: true)
+                            
+                            if !userViewModel.isValid && !userViewModel.validatePassword() {
+                                Text("Password is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
                         }
                         
                         VStack(spacing: 24) {
                             ButtonView(title: "Register", 
                                        style: .primary,
                                        action: {
-                                userViewModel.addUser(user: User(name: userViewModel.name,
-                                                                 surname: userViewModel.surname,
-                                                                 email: userViewModel.email,
-                                                                 password: userViewModel.password))
-                                print(userViewModel.users)
+                                
+                                if userViewModel.validate() {
+                                    userViewModel.addUser(user: User(name: userViewModel.name,
+                                                                     surname: userViewModel.surname,
+                                                                     email: userViewModel.email,
+                                                                     password: userViewModel.password))
+                                    userViewModel.isValid = true
+                                } else {
+                                    userViewModel.isValid = false
+                                }
                             })
                             
                             Button {
