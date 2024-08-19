@@ -10,12 +10,16 @@ import SwiftUI
 @main
 struct InternshipAppApp: App {
     
-    let taskManager = TaskViewModel()
-    @StateObject var profileViewModel = ProfileScreenViewModel()
+    init() {
+        NotificationManager.shared.requestAuthorization()
+    }
     
     var body: some Scene {
         WindowGroup {
-            CreateTaskView(taskViewModel: TaskViewModel(), profileViewModel: profileViewModel)
+            CreateTaskView(
+                taskViewModel: TaskViewModel(),
+                profileViewModel: ProfileScreenViewModel(),
+                reminderViewModel: ReminderViewModel())
         }
     }
 }
