@@ -11,7 +11,7 @@ struct TextFieldInput: View {
     
     var label: String
     var placeholder: String
-    @State var text: String
+    @Binding var text: String
     var iconName: String
     var secondaryText: String = ""
     var password: Bool
@@ -30,6 +30,8 @@ struct TextFieldInput: View {
                 SecureField(placeholder, text: $text)
                     .padding(.leading, 8)
                     .foregroundStyle(.secondary)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                 
                 Image(systemName: iconName)
                     .foregroundColor(.gray)
@@ -53,6 +55,8 @@ struct TextFieldInput: View {
                 TextField(placeholder, text: $text)
                     .padding(.leading, 8)
                     .foregroundStyle(.secondary)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                 
                 Image(systemName: iconName)
                     .foregroundColor(.gray)
@@ -65,8 +69,4 @@ struct TextFieldInput: View {
             )
         }
     }
-}
-
-#Preview {
-    TextFieldInput(label: "Email Address", placeholder: "Enter your email", text: "", iconName: "eye", secondaryText: "Forgot Password?", password: true)
 }

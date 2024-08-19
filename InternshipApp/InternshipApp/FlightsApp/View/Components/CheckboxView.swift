@@ -27,11 +27,8 @@ struct CheckboxToggleStyle: ToggleStyle {
                 .resizable()
                 .frame(width: 20, height: 20)
                 .foregroundStyle(.blue)
-                .transition(.scale)
                 .onTapGesture {
-                    withAnimation(.spring()) {
-                        configuration.isOn.toggle()
-                    }
+                    configuration.isOn.toggle()
                 }
             configuration.label
         }

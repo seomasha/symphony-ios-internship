@@ -1,5 +1,5 @@
 //
-//  LoginScreenView.swift
+//  RegistrationScreenView.swift
 //  InternshipApp
 //
 //  Created by Sead Mašetić on 19. 8. 2024..
@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct LoginScreenView: View {
+struct RegistrationScreenView: View {
     
-    @State var email: String = ""
     @ObservedObject var userViewModel: UserViewModel
     
     var body: some View {
@@ -21,58 +20,66 @@ struct LoginScreenView: View {
                 
                 VStack {
                     VStack {
-                        Text("Login")
+                        Text("Register")
                             .font(.title)
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .padding()
                         
-                        Text("Welcome back to the app")
+                        Text("Create your account")
                             .font(.callout)
                             .foregroundStyle(.white)
                     }
                     
                     VStack(alignment: .leading, spacing: 24) {
                         VStack {
-                            TextFieldInput(label: "Email Address", 
-                                           placeholder: "Enter your email",
-                                           text: $email, 
+                            TextFieldInput(label: "Your name", 
+                                           placeholder: "Enter your name",
+                                           text: $userViewModel.name,
                                            iconName: "",
                                            password: false)
                         }
-
+                        
+                        VStack {
+                            TextFieldInput(label: "Your surname", 
+                                           placeholder: "Enter your surname",
+                                           text: $userViewModel.surname,
+                                           iconName: "",
+                                           password: false)
+                        }
+                        
+                        VStack {
+                            TextFieldInput(label: "Your email", 
+                                           placeholder: "Enter your email",
+                                           text: $userViewModel.email,
+                                           iconName: "",
+                                           password: false)
+                        }
+                        
                         VStack {
                             TextFieldInput(label: "Password", 
                                            placeholder: "Enter your password",
-                                           text: $email,
+                                           text: $userViewModel.password,
                                            iconName: "eye",
-                                           secondaryText: "Forgot Password?", 
                                            password: true)
                         }
                         
-                        
-                        CheckboxView(label: "Keep me signed in")
-                        
                         VStack(spacing: 24) {
-                            ButtonView(title: "Login", 
-                                       style: .primary, 
+                            ButtonView(title: "Register", 
+                                       style: .primary,
                                        action: {
-                                print("Primary button tapped")
+                                userViewModel.addUser(user: User(name: userViewModel.name,
+                                                                 surname: userViewModel.surname,
+                                                                 email: userViewModel.email,
+                                                                 password: userViewModel.password))
+                                print(userViewModel.users)
                             })
-                            
-                            Break(label: "or sign in with")
-
-                            ButtonView(title: "Continue with Google", 
-                                       style: .secondary,
-                                       action: {
-                                print("Secondary button tapped")
-                            }, leadingIcon: ImageResource.google)
                             
                             Button {
 
                             } label: {
-                                NavigationLink(destination: RegistrationScreenView(userViewModel: userViewModel)) {
-                                    Text("Create an account")
+                                NavigationLink(destination: LoginScreenView(userViewModel: UserViewModel())) {
+                                    Text("Already have an account?")
                                 }
                             }
                             .buttonStyle(.plain)
@@ -86,12 +93,15 @@ struct LoginScreenView: View {
                     .clipShape(RoundedRectangle(cornerSize: CGSize(width: 15, height: 10)))
                     .padding()
                 }
+                
             }
-            .navigationBarBackButtonHidden(true)
+            
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
+
 #Preview {
-    LoginScreenView(userViewModel: UserViewModel())
+    RegistrationScreenView(userViewModel: UserViewModel())
 }

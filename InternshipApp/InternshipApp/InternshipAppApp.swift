@@ -25,7 +25,7 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            LoginScreenView()
+            LoginScreenView(userViewModel: UserViewModel())
         }
     }
 }
