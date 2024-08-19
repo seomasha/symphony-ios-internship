@@ -23,6 +23,11 @@ final class UserViewModel: ObservableObject {
     
     func addUser(user: User) {
         users.append(user)
+        
+        name = ""
+        surname = ""
+        email = ""
+        password = ""
     }
     
     private let minLength = 8
