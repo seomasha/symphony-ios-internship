@@ -7,30 +7,42 @@
 
 import Foundation
 
+@MainActor
 final class UserViewModel: ObservableObject {
-    var users: [User] = []
+    var users: [UserModel] = []
     
-    @Published var name: String = ""
-    @Published var surname: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
     
     @Published var isValid: Bool = true
+    private let minLength = 8
     private let uppercasePattern = "(?=.*[A-Z])"
     private let lowercasePattern = "(?=.*[a-z])"
     private let digitPattern = "(?=.*[0-9])"
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
-    func addUser(user: User) {
+    func addUser(user: UserModel) {
         users.append(user)
         
-        name = ""
-        surname = ""
         email = ""
         password = ""
     }
     
-    private let minLength = 8
+    func signIn() {
+        guard !email.isEmpty, !password.isEmpty else {
+            isValid = false
+            return
+        }
+        
+        Task {
+            do {
+                let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
+                print(returnedUserData)
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+    }
     
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
@@ -50,12 +62,10 @@ final class UserViewModel: ObservableObject {
     }
     
     func validate() -> Bool {
-        let isNameValid = !name.isEmpty
-        let isSurnameValid = !surname.isEmpty
         let isEmailValid = validateEmail()
         let isPasswordValid = validatePassword()
         
-        return isNameValid && isSurnameValid && isEmailValid && isPasswordValid
+        return isEmailValid && isPasswordValid
     }
     
     func validateEmail() -> Bool {

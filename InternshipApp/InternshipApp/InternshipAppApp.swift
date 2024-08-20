@@ -31,7 +31,13 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            LoginScreenView(userViewModel: UserViewModel())
+            let authUser = try? AuthenticationManager.shared.getAuthenticateduser()
+            
+            if authUser != nil {
+                HomeScreenView()
+            } else {
+                LoginScreenView(userViewModel: UserViewModel())
+            }
         }
     }
 }
