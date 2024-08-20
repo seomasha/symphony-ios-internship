@@ -67,7 +67,15 @@ struct LoginScreenView: View {
                             ButtonView(title: "Continue with Google", 
                                        style: .secondary,
                                        action: {
-                                print("Secondary button tapped")
+                                
+                                Task {
+                                    do {
+                                        try await userViewModel.signInWithGoogle()
+                                        userViewModel.isSignedIn = true
+                                    } catch {
+                                        print("Error: \(error)")
+                                    }
+                                }
                             }, leadingIcon: ImageResource.google)
                             
                             Button {
