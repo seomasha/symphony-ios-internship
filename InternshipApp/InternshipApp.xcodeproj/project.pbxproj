@@ -23,6 +23,17 @@
 		6DB94C412C6E336D004F4C6E /* ReminderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C402C6E336D004F4C6E /* ReminderScreenView.swift */; };
 		6DB94C432C6E3382004F4C6E /* CreateReminderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C422C6E3382004F4C6E /* CreateReminderScreenView.swift */; };
 		6DC3394E2C6F5530004E991A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3394D2C6F5530004E991A /* NotificationManager.swift */; };
+		6DC339562C7341BA004E991A /* FlightsAppSplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DC339552C7341BA004E991A /* FlightsAppSplashScreen.storyboard */; };
+		6DC339582C73495A004E991A /* LoginScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339572C73495A004E991A /* LoginScreenView.swift */; };
+		6DC3395C2C7350A1004E991A /* TextFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3395B2C7350A1004E991A /* TextFieldInput.swift */; };
+		6DC3395E2C735487004E991A /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3395D2C735487004E991A /* CheckboxView.swift */; };
+		6DC339602C735517004E991A /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3395F2C735517004E991A /* ButtonView.swift */; };
+		6DC339622C73570F004E991A /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339612C73570F004E991A /* ButtonStyle.swift */; };
+		6DC339642C736E5A004E991A /* RegistrationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339632C736E5A004E991A /* RegistrationScreenView.swift */; };
+		6DC339662C73709D004E991A /* Break.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339652C73709D004E991A /* Break.swift */; };
+		6DC339682C73751E004E991A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339672C73751E004E991A /* User.swift */; };
+		6DC3396A2C737580004E991A /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC339692C737580004E991A /* UserViewModel.swift */; };
+		6DC3396E2C738245004E991A /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC3396D2C738245004E991A /* PasswordTextField.swift */; };
 		BFF14E1C2C6A002C007B9632 /* InternshipAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF14E1B2C6A002C007B9632 /* InternshipAppApp.swift */; };
 		BFF14E202C6A002E007B9632 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF14E1F2C6A002E007B9632 /* Assets.xcassets */; };
 		BFF14E232C6A002E007B9632 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFF14E222C6A002E007B9632 /* Preview Assets.xcassets */; };
@@ -65,6 +76,17 @@
 		6DB94C402C6E336D004F4C6E /* ReminderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScreenView.swift; sourceTree = "<group>"; };
 		6DB94C422C6E3382004F4C6E /* CreateReminderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateReminderScreenView.swift; sourceTree = "<group>"; };
 		6DC3394D2C6F5530004E991A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		6DC339552C7341BA004E991A /* FlightsAppSplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FlightsAppSplashScreen.storyboard; sourceTree = "<group>"; };
+		6DC339572C73495A004E991A /* LoginScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenView.swift; sourceTree = "<group>"; };
+		6DC3395B2C7350A1004E991A /* TextFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldInput.swift; sourceTree = "<group>"; };
+		6DC3395D2C735487004E991A /* CheckboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxView.swift; sourceTree = "<group>"; };
+		6DC3395F2C735517004E991A /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		6DC339612C73570F004E991A /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
+		6DC339632C736E5A004E991A /* RegistrationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationScreenView.swift; sourceTree = "<group>"; };
+		6DC339652C73709D004E991A /* Break.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Break.swift; sourceTree = "<group>"; };
+		6DC339672C73751E004E991A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		6DC339692C737580004E991A /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		6DC3396D2C738245004E991A /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		BFF14E182C6A002C007B9632 /* InternshipApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InternshipApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF14E1B2C6A002C007B9632 /* InternshipAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternshipAppApp.swift; sourceTree = "<group>"; };
 		BFF14E1F2C6A002E007B9632 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -159,6 +181,77 @@
 			path = NotificationManager;
 			sourceTree = "<group>";
 		};
+		6DC3394F2C733D2C004E991A /* TodoApp */ = {
+			isa = PBXGroup;
+			children = (
+				6DC3394C2C6F5520004E991A /* NotificationManager */,
+				6DB94C392C6E32E0004F4C6E /* ViewModel */,
+				6DB94C362C6E32B6004F4C6E /* Enums */,
+				6D62EA972C6B5A9100DDC95B /* Screens */,
+				6D62EA912C6B59EA00DDC95B /* View */,
+				6D62EA8F2C6B59D800DDC95B /* Model */,
+			);
+			path = TodoApp;
+			sourceTree = "<group>";
+		};
+		6DC339502C733D56004E991A /* FlightsApp */ = {
+			isa = PBXGroup;
+			children = (
+				6DC339542C733F9B004E991A /* ViewModel */,
+				6DC339532C733F92004E991A /* View */,
+				6DC339512C733F87004E991A /* Model */,
+				6DC339552C7341BA004E991A /* FlightsAppSplashScreen.storyboard */,
+			);
+			path = FlightsApp;
+			sourceTree = "<group>";
+		};
+		6DC339512C733F87004E991A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6DC339612C73570F004E991A /* ButtonStyle.swift */,
+				6DC339672C73751E004E991A /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6DC339532C733F92004E991A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6DC3395A2C735082004E991A /* Components */,
+				6DC339592C735075004E991A /* Screens */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6DC339542C733F9B004E991A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6DC339692C737580004E991A /* UserViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6DC339592C735075004E991A /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				6DC339572C73495A004E991A /* LoginScreenView.swift */,
+				6DC339632C736E5A004E991A /* RegistrationScreenView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		6DC3395A2C735082004E991A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				6DC3395B2C7350A1004E991A /* TextFieldInput.swift */,
+				6DC3395D2C735487004E991A /* CheckboxView.swift */,
+				6DC3395F2C735517004E991A /* ButtonView.swift */,
+				6DC339652C73709D004E991A /* Break.swift */,
+				6DC3396D2C738245004E991A /* PasswordTextField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		BFF14E0F2C6A002C007B9632 = {
 			isa = PBXGroup;
 			children = (
@@ -182,12 +275,8 @@
 		BFF14E1A2C6A002C007B9632 /* InternshipApp */ = {
 			isa = PBXGroup;
 			children = (
-				6DC3394C2C6F5520004E991A /* NotificationManager */,
-				6DB94C392C6E32E0004F4C6E /* ViewModel */,
-				6DB94C362C6E32B6004F4C6E /* Enums */,
-				6D62EA972C6B5A9100DDC95B /* Screens */,
-				6D62EA912C6B59EA00DDC95B /* View */,
-				6D62EA8F2C6B59D800DDC95B /* Model */,
+				6DC339502C733D56004E991A /* FlightsApp */,
+				6DC3394F2C733D2C004E991A /* TodoApp */,
 				BFF14E1B2C6A002C007B9632 /* InternshipAppApp.swift */,
 				BFF14E1F2C6A002E007B9632 /* Assets.xcassets */,
 				BFF14E212C6A002E007B9632 /* Preview Content */,
@@ -325,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFF14E232C6A002E007B9632 /* Preview Assets.xcassets in Resources */,
+				6DC339562C7341BA004E991A /* FlightsAppSplashScreen.storyboard in Resources */,
 				BFF14E202C6A002E007B9632 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,20 +443,30 @@
 				6DB94C3B2C6E32FC004F4C6E /* ReminderViewModel.swift in Sources */,
 				6DC3394E2C6F5530004E991A /* NotificationManager.swift in Sources */,
 				6D62EAA52C6B624300DDC95B /* EditProfileView.swift in Sources */,
+				6DC339682C73751E004E991A /* User.swift in Sources */,
+				6DC3395E2C735487004E991A /* CheckboxView.swift in Sources */,
 				6DB94C412C6E336D004F4C6E /* ReminderScreenView.swift in Sources */,
 				6D98A0422C6A2C8F000E3269 /* CreateTaskView.swift in Sources */,
 				6D62EAA72C6B6A3600DDC95B /* ProfileScreenViewModel.swift in Sources */,
 				6D62EA9F2C6B5EE400DDC95B /* TextFieldView.swift in Sources */,
+				6DC3396A2C737580004E991A /* UserViewModel.swift in Sources */,
 				6DB94C382C6E32CD004F4C6E /* Recurrence.swift in Sources */,
+				6DC3396E2C738245004E991A /* PasswordTextField.swift in Sources */,
+				6DC339622C73570F004E991A /* ButtonStyle.swift in Sources */,
 				6DB94C3D2C6E331D004F4C6E /* ReminderModel.swift in Sources */,
 				6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */,
 				BFF14E1C2C6A002C007B9632 /* InternshipAppApp.swift in Sources */,
 				6D98A0442C6A3CBA000E3269 /* TaskListView.swift in Sources */,
 				6DB94C3F2C6E333E004F4C6E /* ReminderView.swift in Sources */,
 				6D62EA992C6B5AB200DDC95B /* TaskView.swift in Sources */,
+				6DC3395C2C7350A1004E991A /* TextFieldInput.swift in Sources */,
 				6D62EAA32C6B612F00DDC95B /* ProfileScreenView.swift in Sources */,
 				6DB94C432C6E3382004F4C6E /* CreateReminderScreenView.swift in Sources */,
+				6DC339662C73709D004E991A /* Break.swift in Sources */,
+				6DC339582C73495A004E991A /* LoginScreenView.swift in Sources */,
 				6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */,
+				6DC339642C736E5A004E991A /* RegistrationScreenView.swift in Sources */,
+				6DC339602C735517004E991A /* ButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +636,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = FlightsAppSplashScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -566,6 +667,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = FlightsAppSplashScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
