@@ -56,7 +56,7 @@ struct LoginScreenView: View {
                             ButtonView(title: "Login", 
                                        style: .primary, 
                                        action: {
-                                userViewModel.signIn()
+                                
                             })
                             
                             Break(label: "or sign in with")

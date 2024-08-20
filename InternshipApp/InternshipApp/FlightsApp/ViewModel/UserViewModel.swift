@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 final class UserViewModel: ObservableObject {
-    var users: [UserModel] = []
     
     @Published var email: String = ""
     @Published var password: String = ""
@@ -21,14 +20,7 @@ final class UserViewModel: ObservableObject {
     private let digitPattern = "(?=.*[0-9])"
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
-    func addUser(user: UserModel) {
-        users.append(user)
-        
-        email = ""
-        password = ""
-    }
-    
-    func signIn() {
+    func signUp() {
         guard !email.isEmpty, !password.isEmpty else {
             isValid = false
             return

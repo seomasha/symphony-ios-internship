@@ -62,8 +62,7 @@ struct RegistrationScreenView: View {
                                        action: {
                                 
                                 if userViewModel.validate() {
-                                    userViewModel.addUser(user: UserModel(email: userViewModel.email,
-                                                                     password: userViewModel.password))
+                                    userViewModel.signUp()
                                     userViewModel.isValid = true
                                 } else {
                                     userViewModel.isValid = false
