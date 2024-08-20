@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoginScreenView: View {
     
-    @State var email: String = ""
     @ObservedObject var userViewModel: UserViewModel
     
     var body: some View {
@@ -36,7 +35,7 @@ struct LoginScreenView: View {
                         VStack {
                             TextFieldInput(label: "Email Address", 
                                            placeholder: "Enter your email",
-                                           text: $email, 
+                                           text: $userViewModel.email,
                                            iconName: "",
                                            password: false)
                         }
@@ -44,7 +43,7 @@ struct LoginScreenView: View {
                         VStack {
                             TextFieldInput(label: "Password", 
                                            placeholder: "Enter your password",
-                                           text: $email,
+                                           text: $userViewModel.password,
                                            iconName: "eye",
                                            secondaryText: "Forgot Password?", 
                                            password: true)
