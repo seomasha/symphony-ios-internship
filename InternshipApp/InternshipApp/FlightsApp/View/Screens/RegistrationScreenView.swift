@@ -62,8 +62,15 @@ struct RegistrationScreenView: View {
                                        action: {
                                 
                                 if userViewModel.validate() {
-                                    userViewModel.signUp()
-                                    userViewModel.isValid = true
+                                    Task {
+                                        do {
+                                            try await userViewModel.signUp()
+                                            userViewModel.isValid = true
+                                            print("Created account!")
+                                        } catch {
+                                            print("Error: \(error)")
+                                        }
+                                    }
                                 } else {
                                     userViewModel.isValid = false
                                 }

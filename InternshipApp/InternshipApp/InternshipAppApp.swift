@@ -34,7 +34,7 @@ struct InternshipAppApp: App {
             let authUser = try? AuthenticationManager.shared.getAuthenticateduser()
             
             if authUser != nil {
-                HomeScreenView()
+                HomeScreenView(userViewModel: UserViewModel())
             } else {
                 LoginScreenView(userViewModel: UserViewModel())
             }

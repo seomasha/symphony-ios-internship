@@ -8,17 +8,25 @@
 import SwiftUI
 
 struct HomeScreenView: View {
+    
+    @ObservedObject var userViewModel: UserViewModel
+    
     var body: some View {
         NavigationStack {
-            Text("Signed in!")
-            Button("Log out") {
-                Task {
-                    do {
-                        try AuthenticationManager.shared.signOut()
-                    } catch {
-                        print("Error: \(error)")
+            if userViewModel.isSignedIn {
+                VStack {
+                    Text("Welcome to the Home Screen!")
+                        .font(.largeTitle)
+                        .padding()
+                    
+                    Button("Log out") {
+                        userViewModel.signOut()
                     }
+                    .buttonStyle(.borderedProminent)
+                    .padding()
                 }
+            } else {
+                LoginScreenView(userViewModel: userViewModel)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -26,5 +34,5 @@ struct HomeScreenView: View {
 }
 
 #Preview {
-    HomeScreenView()
+    HomeScreenView(userViewModel: UserViewModel())
 }

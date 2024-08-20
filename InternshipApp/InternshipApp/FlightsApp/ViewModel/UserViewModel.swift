@@ -20,20 +20,35 @@ final class UserViewModel: ObservableObject {
     private let digitPattern = "(?=.*[0-9])"
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
-    func signUp() {
+    @Published var isSignedIn = false
+    
+    func signUp() async throws {
         guard !email.isEmpty, !password.isEmpty else {
             isValid = false
             return
         }
-        
-        Task {
-            do {
-                let returnedUserData = try await AuthenticationManager.shared.createUser(email: email, password: password)
-                print(returnedUserData)
-            } catch {
-                print("Error: \(error)")
-            }
+
+        try await AuthenticationManager.shared.createUser(email: email, password: password)
+        email = ""
+        password = ""
+    }
+    
+    func signIn() async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            isValid = false
+            isSignedIn = false
+            return
         }
+
+        try await AuthenticationManager.shared.signIn(email: email, password: password)
+        isSignedIn = true
+    }
+    
+    func signOut() {
+        try? AuthenticationManager.shared.signOut()
+        isSignedIn = false
+        email = ""
+        password = ""
     }
     
     func validatePassword() -> Bool {
