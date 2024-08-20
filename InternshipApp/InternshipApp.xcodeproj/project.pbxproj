@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D4CFDF32C749B760096D675 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4CFDF22C749B760096D675 /* GoogleService-Info.plist */; };
+		6D4CFDF62C749ED50096D675 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFDF52C749ED50096D675 /* FirebaseAnalytics */; };
 		6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA952C6B5A4500DDC95B /* TaskModel.swift */; };
 		6D62EA992C6B5AB200DDC95B /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA982C6B5AB200DDC95B /* TaskView.swift */; };
 		6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */; };
@@ -60,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D4CFDF22C749B760096D675 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D62EA952C6B5A4500DDC95B /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		6D62EA982C6B5AB200DDC95B /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
@@ -103,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D4CFDF62C749ED50096D675 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +201,7 @@
 		6DC339502C733D56004E991A /* FlightsApp */ = {
 			isa = PBXGroup;
 			children = (
+				6D4CFDF22C749B760096D675 /* GoogleService-Info.plist */,
 				6DC339542C733F9B004E991A /* ViewModel */,
 				6DC339532C733F92004E991A /* View */,
 				6DC339512C733F87004E991A /* Model */,
@@ -325,6 +330,9 @@
 			dependencies = (
 			);
 			name = InternshipApp;
+			packageProductDependencies = (
+				6D4CFDF52C749ED50096D675 /* FirebaseAnalytics */,
+			);
 			productName = InternshipApp;
 			productReference = BFF14E182C6A002C007B9632 /* InternshipApp.app */;
 			productType = "com.apple.product-type.application";
@@ -397,6 +405,9 @@
 				Base,
 			);
 			mainGroup = BFF14E0F2C6A002C007B9632;
+			packageReferences = (
+				6D4CFDF42C749ED50096D675 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = BFF14E192C6A002C007B9632 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -414,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFF14E232C6A002E007B9632 /* Preview Assets.xcassets in Resources */,
+				6D4CFDF32C749B760096D675 /* GoogleService-Info.plist in Resources */,
 				6DC339562C7341BA004E991A /* FlightsAppSplashScreen.storyboard in Resources */,
 				BFF14E202C6A002E007B9632 /* Assets.xcassets in Resources */,
 			);
@@ -800,6 +812,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6D4CFDF42C749ED50096D675 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6D4CFDF52C749ED50096D675 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D4CFDF42C749ED50096D675 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BFF14E102C6A002C007B9632 /* Project object */;
 }

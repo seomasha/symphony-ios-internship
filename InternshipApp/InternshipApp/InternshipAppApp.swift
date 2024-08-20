@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct InternshipAppApp: App {
@@ -15,6 +16,11 @@ struct InternshipAppApp: App {
         NotificationManager.shared.requestAuthorization()
     }
      */
+    
+    init() {
+        FirebaseApp.configure()
+        print("Configured Firebase!")
+    }
     
     var body: some Scene {
         WindowGroup {
