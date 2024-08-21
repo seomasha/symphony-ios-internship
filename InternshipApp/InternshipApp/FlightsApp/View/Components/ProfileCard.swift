@@ -20,24 +20,22 @@ struct ProfileCard: View {
             VStack {
                 CardRow(icon: "person",
                         title: "My account",
-                        subtitle: "Make changes to your account") {
-                    
-                }
+                        subtitle: "Make changes to your account")
+                
                 CardRow(icon: "lock.circle",
                         title: "Face ID",
-                        subtitle: "Secure your account") {
-                    
-                }
+                        subtitle: "Enable FaceID?",
+                        toggle: true)
+                
                 CardRow(icon: "pencil.circle",
                         title: "Change password",
-                        subtitle: "Make a new password") {
-                    
-                }
+                        subtitle: "Make a new password")
+                
                 CardRow(icon: "questionmark.circle",
                         title: "FAQ",
-                        subtitle: "Frequently asked questions") {
-                    
-                }
+                        subtitle: "Frequently asked questions",
+                        destination: AnyView(FAQScreenView()))
+                
                 CardRow(icon: "rectangle.portrait.and.arrow.right",
                         title: "Sign out",
                         subtitle: "Go back to sign in") {

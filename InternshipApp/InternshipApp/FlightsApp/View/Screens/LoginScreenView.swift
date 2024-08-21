@@ -98,9 +98,6 @@ struct LoginScreenView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $userViewModel.isSignedIn) {
-                HomeScreenView(userViewModel: userViewModel)
-            }
         }
     }
 }
