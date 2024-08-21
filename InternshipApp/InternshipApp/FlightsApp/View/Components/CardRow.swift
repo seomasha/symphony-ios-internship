@@ -15,8 +15,12 @@ struct CardRow: View {
     var warning: String = ""
     var action: () -> Void
     
+    @State private var isPressed = false
+    
     var body: some View {
-        Button(action: action) {
+        Button{
+            action()
+        } label: {
             HStack {
                 Image(systemName: icon)
                     .resizable()
@@ -46,8 +50,16 @@ struct CardRow: View {
                     .foregroundStyle(.gray)
             }
             .padding()
+            .background(isPressed ? Color.blue.opacity(0.1) : Color.clear)
+            .cornerRadius(10)
+            .scaleEffect(isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut, value: isPressed)
+            
         }
         .buttonStyle(PlainButtonStyle())
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.1)
+                    .onChanged { _ in isPressed = true }
+                    .onEnded { _ in isPressed = false })
     }
 }
 

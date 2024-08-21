@@ -49,7 +49,7 @@ struct MyProfileScreenView: View {
                     .ignoresSafeArea(edges: .top)
                     
                     ScrollView {
-                        Card(title: "Account", rows: CardViewModel().profileRows)
+                        ProfileCard(userViewModel: userViewModel)
                     }
                     
                     Spacer()
