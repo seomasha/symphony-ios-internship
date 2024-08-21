@@ -55,8 +55,8 @@ struct MyProfileScreenView: View {
                     Spacer()
                 }
             }
-            
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
