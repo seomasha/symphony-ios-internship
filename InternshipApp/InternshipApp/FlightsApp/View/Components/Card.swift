@@ -8,28 +8,24 @@
 import SwiftUI
 
 struct Card: View {
+    
+    var title: String
+    var rows: [CardRowModel]
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Account")
+            Text(title)
                 .font(.headline)
                 .padding(.horizontal)
             
             VStack {
-                CardRow(icon: "person",
-                        title: "My account",
-                        subtitle: "Make changes to your account")
-                CardRow(icon: "person",
-                        title: "My account",
-                        subtitle: "Make changes to your account")
-                CardRow(icon: "person",
-                        title: "My account",
-                        subtitle: "Make changes to your account")
-                CardRow(icon: "person",
-                        title: "My account",
-                        subtitle: "Make changes to your account")
-                CardRow(icon: "person",
-                        title: "My account",
-                        subtitle: "Make changes to your account")
+                ForEach(rows, id: \.id) {row in
+                    CardRow(icon: row.icon,
+                            title: row.title,
+                            subtitle: row.subtitle,
+                            warning: row.warning,
+                            action: row.action)
+                }
             }
             .background(.white)
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
@@ -41,5 +37,5 @@ struct Card: View {
 }
 
 #Preview {
-    Card()
+    Card(title: "Account", rows: CardViewModel().profileRows)
 }
