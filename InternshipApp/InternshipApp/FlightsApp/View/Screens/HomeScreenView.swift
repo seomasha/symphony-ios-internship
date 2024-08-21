@@ -14,16 +14,21 @@ struct HomeScreenView: View {
     var body: some View {
         NavigationStack {
             if userViewModel.isSignedIn {
-                VStack {
-                    Text("Welcome to the Home Screen!")
-                        .font(.largeTitle)
+                ZStack {
+                    ContainerRelativeShape()
+                        .fill(Color(.lightgray))
+                        .ignoresSafeArea()
+                    VStack {
+                        Text("Welcome to the Home Screen!")
+                            .font(.largeTitle)
+                            .padding()
+                        
+                        Button("Log out") {
+                            userViewModel.signOut()
+                        }
+                        .buttonStyle(.borderedProminent)
                         .padding()
-                    
-                    Button("Log out") {
-                        userViewModel.signOut()
                     }
-                    .buttonStyle(.borderedProminent)
-                    .padding()
                 }
             } else {
                 LoginScreenView(userViewModel: userViewModel)
