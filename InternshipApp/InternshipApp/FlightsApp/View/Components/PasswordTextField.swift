@@ -10,7 +10,7 @@ import SwiftUI
 struct PasswordTextField: View {
     
     @Binding var text: String
-    
+    var label: String = ""
     @State private var isSecure: Bool = true
     
     var body: some View {
@@ -18,6 +18,9 @@ struct PasswordTextField: View {
             Text("Your password")
                 .fontWeight(.semibold)
             Spacer()
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.blue)
         }
         HStack {
             if isSecure {
@@ -51,5 +54,5 @@ struct PasswordTextField: View {
 }
 
 #Preview {
-    PasswordTextField(text: .constant(""))
+    PasswordTextField(text: .constant(""), label: "Forgot password?")
 }

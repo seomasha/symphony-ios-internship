@@ -6,31 +6,71 @@
 //
 
 import Foundation
+import FirebaseAuth
+import GoogleSignIn
+import GoogleSignInSwift
 
+@MainActor
 final class UserViewModel: ObservableObject {
-    var users: [User] = []
     
-    @Published var name: String = ""
-    @Published var surname: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
     
     @Published var isValid: Bool = true
+    private let minLength = 8
     private let uppercasePattern = "(?=.*[A-Z])"
     private let lowercasePattern = "(?=.*[a-z])"
     private let digitPattern = "(?=.*[0-9])"
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
-    func addUser(user: User) {
-        users.append(user)
-        
-        name = ""
-        surname = ""
+    @Published var isSignedIn = false
+    
+    func signUp() async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            isValid = false
+            return
+        }
+
+        try await AuthenticationManager.shared.createUser(email: email, password: password)
         email = ""
         password = ""
     }
     
-    private let minLength = 8
+    func signIn() async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            isValid = false
+            isSignedIn = false
+            return
+        }
+
+        try await AuthenticationManager.shared.signIn(email: email, password: password)
+        isSignedIn = true
+    }
+    
+    func signInWithGoogle() async throws {
+
+        guard let topVC = Utilities.shared.topViewController() else {
+            throw URLError(.cannotFindHost)
+        }
+        
+        let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
+        
+        guard let idToken: String = gidSignInResult.user.idToken?.tokenString else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let accessToken = gidSignInResult.user.accessToken.tokenString
+        
+        let tokens = GoogleSignInResultModel(idToken: idToken, accesToken: accessToken)
+        try await AuthenticationManager.shared.signInWithGoogle(tokens: tokens)
+    }
+    
+    func signOut() {
+        try? AuthenticationManager.shared.signOut()
+        isSignedIn = false
+        email = ""
+        password = ""
+    }
     
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
@@ -50,12 +90,10 @@ final class UserViewModel: ObservableObject {
     }
     
     func validate() -> Bool {
-        let isNameValid = !name.isEmpty
-        let isSurnameValid = !surname.isEmpty
         let isEmailValid = validateEmail()
         let isPasswordValid = validatePassword()
         
-        return isNameValid && isSurnameValid && isEmailValid && isPasswordValid
+        return isEmailValid && isPasswordValid
     }
     
     func validateEmail() -> Bool {

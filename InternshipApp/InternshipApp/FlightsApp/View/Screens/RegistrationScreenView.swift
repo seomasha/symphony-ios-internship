@@ -33,34 +33,6 @@ struct RegistrationScreenView: View {
                     
                     VStack(alignment: .leading, spacing: 24) {
                         VStack(alignment: .leading) {
-                            TextFieldInput(label: "Your name",
-                                           placeholder: "Enter your name",
-                                           text: $userViewModel.name,
-                                           iconName: "",
-                                           password: false)
-                            
-                            if !userViewModel.isValid && userViewModel.name.isEmpty {
-                                Text("Name is invalid")
-                                    .foregroundStyle(.red)
-                                    .font(.footnote)
-                            }
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            TextFieldInput(label: "Your surname",
-                                           placeholder: "Enter your surname",
-                                           text: $userViewModel.surname,
-                                           iconName: "",
-                                           password: false)
-                            
-                            if !userViewModel.isValid && userViewModel.surname.isEmpty {
-                                Text("Surname is invalid")
-                                    .foregroundStyle(.red)
-                                    .font(.footnote)
-                            }
-                        }
-                        
-                        VStack(alignment: .leading) {
                             TextFieldInput(label: "Your email",
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
@@ -90,11 +62,15 @@ struct RegistrationScreenView: View {
                                        action: {
                                 
                                 if userViewModel.validate() {
-                                    userViewModel.addUser(user: User(name: userViewModel.name,
-                                                                     surname: userViewModel.surname,
-                                                                     email: userViewModel.email,
-                                                                     password: userViewModel.password))
-                                    userViewModel.isValid = true
+                                    Task {
+                                        do {
+                                            try await userViewModel.signUp()
+                                            userViewModel.isValid = true
+                                            print("Created account!")
+                                        } catch {
+                                            print("Error: \(error)")
+                                        }
+                                    }
                                 } else {
                                     userViewModel.isValid = false
                                 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct InternshipAppApp: App {
@@ -16,6 +17,11 @@ struct InternshipAppApp: App {
     }
      */
     
+    init() {
+        FirebaseApp.configure()
+        print("Configured Firebase!")
+    }
+    
     var body: some Scene {
         WindowGroup {
             /* Code for the TodoApp
@@ -25,7 +31,13 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            LoginScreenView(userViewModel: UserViewModel())
+            let authUser = try? AuthenticationManager.shared.getAuthenticateduser()
+            
+            if authUser != nil {
+                HomeScreenView(userViewModel: UserViewModel())
+            } else {
+                LoginScreenView(userViewModel: UserViewModel())
+            }
         }
     }
 }

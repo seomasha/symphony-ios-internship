@@ -41,12 +41,8 @@ struct LoginScreenView: View {
                         }
 
                         VStack {
-                            TextFieldInput(label: "Password", 
-                                           placeholder: "Enter your password",
-                                           text: $userViewModel.password,
-                                           iconName: "eye",
-                                           secondaryText: "Forgot Password?", 
-                                           password: true)
+                            PasswordTextField(text: $userViewModel.password,
+                                              label: "Forgot password?")
                         }
                         
                         
@@ -56,7 +52,14 @@ struct LoginScreenView: View {
                             ButtonView(title: "Login", 
                                        style: .primary, 
                                        action: {
-                                print("Primary button tapped")
+                                Task {
+                                    do {
+                                        try await userViewModel.signIn()
+                                        print("Signed in!")
+                                    } catch {
+                                        print("Error: \(error)")
+                                    }
+                                }
                             })
                             
                             Break(label: "or sign in with")
@@ -64,7 +67,15 @@ struct LoginScreenView: View {
                             ButtonView(title: "Continue with Google", 
                                        style: .secondary,
                                        action: {
-                                print("Secondary button tapped")
+                                
+                                Task {
+                                    do {
+                                        try await userViewModel.signInWithGoogle()
+                                        userViewModel.isSignedIn = true
+                                    } catch {
+                                        print("Error: \(error)")
+                                    }
+                                }
                             }, leadingIcon: ImageResource.google)
                             
                             Button {
@@ -87,6 +98,9 @@ struct LoginScreenView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
+            .navigationDestination(isPresented: $userViewModel.isSignedIn) {
+                HomeScreenView(userViewModel: userViewModel)
+            }
         }
     }
 }
