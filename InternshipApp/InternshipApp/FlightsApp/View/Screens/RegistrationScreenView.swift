@@ -24,20 +24,58 @@ struct RegistrationScreenView: View {
                             .font(.title)
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
-                            .padding()
+                            .padding(.horizontal)
                         
                         Text("Create your account")
                             .font(.callout)
                             .foregroundStyle(.white)
                     }
                     
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Your name",
+                                           placeholder: "Enter your name",
+                                           text: $userViewModel.name,
+                                           iconName: "")
+                            
+                            if !userViewModel.isValid {
+                                Text("Name is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            TextFieldInput(label: "Your surname",
+                                           placeholder: "Enter your surname",
+                                           text: $userViewModel.surname,
+                                           iconName: "")
+                            
+                            if !userViewModel.isValid {
+                                Text("Surname is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
+                        }
+                        
+                        VStack(alignment: .leading) {
+                            IntegerTextFieldInput(label: "Your age",
+                                                   placeholder: "Enter your age",
+                                                   value: $userViewModel.age,
+                                                   iconName: "")
+                            
+                            if !userViewModel.isValid {
+                                Text("Age is invalid")
+                                    .foregroundStyle(.red)
+                                    .font(.footnote)
+                            }
+                        }
+                        
                         VStack(alignment: .leading) {
                             TextFieldInput(label: "Your email",
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
-                                           iconName: "",
-                                           password: false)
+                                           iconName: "")
                             
                             if !userViewModel.isValid && !userViewModel.validateEmail() {
                                 Text("Email is invalid")

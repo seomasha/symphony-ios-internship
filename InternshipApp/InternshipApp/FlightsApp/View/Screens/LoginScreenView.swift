@@ -36,8 +36,7 @@ struct LoginScreenView: View {
                             TextFieldInput(label: "Email Address", 
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
-                                           iconName: "",
-                                           password: false)
+                                           iconName: "")
                         }
 
                         VStack {

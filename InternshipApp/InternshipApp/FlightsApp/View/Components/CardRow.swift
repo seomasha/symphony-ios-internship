@@ -11,7 +11,7 @@ struct CardRow: View {
     var destination: AnyView?
     
     @State private var isPressed = false
-    @State private var isOn = false
+    @ObservedObject var userViewModel = UserViewModel()
     
     var body: some View {
         if toggle {
@@ -38,7 +38,7 @@ struct CardRow: View {
                 
                 Spacer()
                 
-                Toggle(isOn: $isOn) {}
+                Toggle(isOn: $userViewModel.faceIDEnabled) {}
             }
             .padding()
         } else {

@@ -27,13 +27,17 @@ struct MyProfileScreenView: View {
                                 .resizable()
                                 .frame(width: 80, height: 80)
                             VStack(alignment: .leading) {
-                                Text("Jane Doe")
-                                    .font(.headline)
-                                    .foregroundStyle(.white)
                                 
-                                Text("24 years, female")
-                                    .font(.subheadline)
-                                    .foregroundStyle(Color(.lightgray))
+                                if let user = userViewModel.user {
+                                    Text(user.name + " " + user.surname)
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("\(user.age) years")
+                                        .font(.subheadline)
+                                        .foregroundStyle(Color(.lightgray))
+                                }
+                                
                             }
                             Spacer()
                             Image(systemName: "pencil")
@@ -57,6 +61,13 @@ struct MyProfileScreenView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            Task {
+                do {
+                    try? await userViewModel.loadCurrentUser()
+                }
+            }
+        }
     }
 }
 
