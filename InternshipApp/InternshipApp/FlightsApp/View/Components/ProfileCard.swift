@@ -29,7 +29,8 @@ struct ProfileCard: View {
                 
                 CardRow(icon: "pencil.circle",
                         title: "Change password",
-                        subtitle: "Make a new password")
+                        subtitle: "Make a new password",
+                        destination: AnyView(ChangePassView(userViewModel: userViewModel)))
                 
                 CardRow(icon: "questionmark.circle",
                         title: "FAQ",

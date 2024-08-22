@@ -16,6 +16,8 @@ final class UserViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     
+    @Published var newPassword = ""
+    
     @Published var isValid: Bool = true
     private let minLength = 8
     private let uppercasePattern = "(?=.*[A-Z])"
@@ -72,6 +74,16 @@ final class UserViewModel: ObservableObject {
         password = ""
     }
     
+    func changePassword(pass: String) async throws {
+        guard let user = Auth.auth().currentUser  else {
+            throw URLError(.badServerResponse)
+        }
+        
+        try await user.updatePassword(to: pass)
+        password = newPassword
+        newPassword = ""
+    }
+    
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
         let uppercaseValid = matchesPattern(password, pattern: uppercasePattern)
@@ -87,6 +99,10 @@ final class UserViewModel: ObservableObject {
         let range = NSRange(location: 0, length: string.utf16.count)
         let match = regex?.firstMatch(in: string, options: [], range: range)
         return match != nil
+    }
+    
+    func matchingPass() -> Bool {
+        return newPassword == password
     }
     
     func validate() -> Bool {
