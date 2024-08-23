@@ -8,19 +8,21 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseCore
+import GoogleSignIn
 
+@MainActor
 final class UserManager {
     
     static let shared = UserManager()
     
     private init() { }
     
-    func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel) async throws {
+    func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel, user: GIDSignInResult?) async throws {
         
-        let userData: [String: Any] = await [
+        let userData: [String: Any] = [
             "user_id": auth.uid,
-            "name": userViewModel.name,
-            "surname": userViewModel.surname,
+            "name": user?.user.profile?.givenName ?? userViewModel.name,
+            "surname": user?.user.profile?.familyName ?? userViewModel.surname,
             "age": userViewModel.age,
             "face_id_enabled": userViewModel.faceIDEnabled,
             "date_created": Timestamp(),
@@ -28,8 +30,8 @@ final class UserManager {
         ]
         
         try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
-        
     }
+
     
     func getUser(userID: String) async throws -> DBUser {
         let userData = try await Firestore.firestore().collection("users").document(userID).getDocument()

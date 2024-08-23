@@ -67,7 +67,7 @@ final class UserViewModel: ObservableObject {
         }
 
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
-        try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self)
+        try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
         name = ""
         surname = ""
         age = 0
@@ -109,6 +109,7 @@ final class UserViewModel: ObservableObject {
         isSignedIn = false
         email = ""
         password = ""
+        user = nil
     }
     
     func changePassword(pass: String) async throws {
