@@ -20,7 +20,8 @@ struct ProfileCard: View {
             VStack {
                 CardRow(icon: "person",
                         title: "My account",
-                        subtitle: "Make changes to your account")
+                        subtitle: "Make changes to your account",
+                        destination: AnyView(EditProfileScreenView(userViewModel: userViewModel)))
                 
                 CardRow(icon: "lock.circle",
                         title: "Face ID",

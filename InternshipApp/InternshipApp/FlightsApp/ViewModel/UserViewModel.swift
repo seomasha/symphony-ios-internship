@@ -13,7 +13,7 @@ import GoogleSignInSwift
 @MainActor
 final class UserViewModel: ObservableObject {
     
-    @Published private(set) var user: DBUser? = nil
+    @Published var user: DBUser? = nil
     
     @Published var name: String = ""
     @Published var surname: String = ""
@@ -32,9 +32,32 @@ final class UserViewModel: ObservableObject {
     
     @Published var isSignedIn = false
     
+    init() {
+        self.name = user?.name ?? ""
+        self.surname = user?.surname ?? ""
+        self.age = user?.age ?? 0
+        self.email = user?.email ?? ""
+        self.faceIDEnabled = user?.faceIDEnabled ?? false
+    }
+    
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
         self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
+    }
+    
+    func updateUser() async throws {
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let updates: [String: Any] = [
+            "name": name,
+            "surname": surname,
+            "age": age,
+            "face_id_enabled": faceIDEnabled
+        ]
+        
+        try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     
     func signUp() async throws {

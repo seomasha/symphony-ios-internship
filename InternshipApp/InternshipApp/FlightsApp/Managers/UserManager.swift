@@ -17,7 +17,7 @@ final class UserManager {
     
     func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel) async throws {
         
-        var userData: [String: Any] = await [
+        let userData: [String: Any] = await [
             "user_id": auth.uid,
             "name": userViewModel.name,
             "surname": userViewModel.surname,
@@ -52,5 +52,9 @@ final class UserManager {
                       email: email,
                       faceIDEnabled: faceIDEnabled!,
                       dateCreated: dateCreated)
+    }
+    
+    func updateUser(userID: String, updates: [String: Any]) async throws {
+        try await Firestore.firestore().collection("users").document(userID).updateData(updates)
     }
 }

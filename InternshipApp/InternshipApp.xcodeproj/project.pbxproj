@@ -28,6 +28,7 @@
 		6D4CFE2A2C777CFF0096D675 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFE292C777CFF0096D675 /* FirebaseFirestore */; };
 		6D4CFE2C2C7781BA0096D675 /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE2B2C7781BA0096D675 /* DBUser.swift */; };
 		6D4CFE2E2C7789040096D675 /* IntegerTextFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE2D2C7789040096D675 /* IntegerTextFieldInput.swift */; };
+		6D4CFE302C779A300096D675 /* EditProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */; };
 		6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA952C6B5A4500DDC95B /* TaskModel.swift */; };
 		6D62EA992C6B5AB200DDC95B /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA982C6B5AB200DDC95B /* TaskView.swift */; };
 		6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */; };
@@ -98,6 +99,7 @@
 		6D4CFE272C7779D40096D675 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		6D4CFE2B2C7781BA0096D675 /* DBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
 		6D4CFE2D2C7789040096D675 /* IntegerTextFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerTextFieldInput.swift; sourceTree = "<group>"; };
+		6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreenView.swift; sourceTree = "<group>"; };
 		6D62EA952C6B5A4500DDC95B /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		6D62EA982C6B5AB200DDC95B /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				6D4CFE102C75E7150096D675 /* MyProfileScreenView.swift */,
 				6D4CFE1E2C761D920096D675 /* FAQScreenView.swift */,
 				6D4CFE242C776D2D0096D675 /* ChangePassView.swift */,
+				6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				6DC3395C2C7350A1004E991A /* TextFieldInput.swift in Sources */,
 				6D62EAA32C6B612F00DDC95B /* ProfileScreenView.swift in Sources */,
 				6D4CFE212C7632FD0096D675 /* FAQ.swift in Sources */,
+				6D4CFE302C779A300096D675 /* EditProfileScreenView.swift in Sources */,
 				6DB94C432C6E3382004F4C6E /* CreateReminderScreenView.swift in Sources */,
 				6DC339662C73709D004E991A /* Break.swift in Sources */,
 				6DC339582C73495A004E991A /* LoginScreenView.swift in Sources */,
