@@ -122,6 +122,19 @@ final class UserViewModel: ObservableObject {
         newPassword = ""
     }
     
+    func toggleFaceID() {
+        faceIDEnabled.toggle()
+    }
+    
+    func saveFaceIDPreference() async throws {
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let updates: [String: Any] = ["face_id_enabled": faceIDEnabled]
+        try await UserManager.shared.updateUser(userID: userID, updates: updates)
+    }
+    
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
         let uppercaseValid = matchesPattern(password, pattern: uppercasePattern)

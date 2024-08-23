@@ -1,20 +1,18 @@
 import SwiftUI
 
 struct CardRow: View {
-    
+    @ObservedObject var viewModel: UserViewModel
     var icon: String
     var title: String
     var subtitle: String
     var warning: String = ""
-    var toggle: Bool = false
     var action: (() -> Void)?
     var destination: AnyView?
-    
+
     @State private var isPressed = false
-    @ObservedObject var userViewModel = UserViewModel()
-    
+
     var body: some View {
-        if toggle {
+        if title == "Face ID" {
             HStack {
                 Image(systemName: icon)
                     .resizable()
@@ -24,21 +22,32 @@ struct CardRow: View {
                     .background(.bar)
                     .foregroundColor(.blue)
                     .clipShape(Circle())
-                
+
                 VStack(alignment: .leading, spacing: 15) {
                     Text(title)
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
-                    
+
                     Text(subtitle)
                         .font(.system(size: 12))
                         .fontWeight(.light)
                 }
                 .padding(.horizontal)
-                
+
                 Spacer()
-                
-                Toggle(isOn: $userViewModel.faceIDEnabled) {}
+
+                Toggle(isOn: $viewModel.faceIDEnabled) {
+                    Text("")
+                }
+                .onChange(of: viewModel.faceIDEnabled) { _ in
+                    Task {
+                        do {
+                            try await viewModel.saveFaceIDPreference()
+                        } catch {
+                            print("Error saving Face ID preference: \(error)")
+                        }
+                    }
+                }
             }
             .padding()
         } else {
@@ -52,7 +61,7 @@ struct CardRow: View {
                     withAnimation {
                         isPressed = true
                         action?()
-                        
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             withAnimation {
                                 isPressed = false
@@ -70,7 +79,7 @@ struct CardRow: View {
             }
         }
     }
-    
+
     private var rowContent: some View {
         HStack {
             Image(systemName: icon)
@@ -81,23 +90,23 @@ struct CardRow: View {
                 .background(.bar)
                 .foregroundColor(.blue)
                 .clipShape(Circle())
-            
+
             VStack(alignment: .leading, spacing: 15) {
                 Text(title)
                     .font(.system(size: 14))
                     .fontWeight(.semibold)
-                
+
                 Text(subtitle)
                     .font(.system(size: 12))
                     .fontWeight(.light)
             }
             .padding(.horizontal)
-            
+
             Spacer()
-            
+
             Image(systemName: warning)
                 .foregroundStyle(.red)
-            
+
             Image(systemName: "greaterthan")
                 .foregroundStyle(.gray)
         }
@@ -106,7 +115,8 @@ struct CardRow: View {
 }
 
 #Preview {
-    CardRow(icon: "person",
+    CardRow(viewModel: UserViewModel(), 
+            icon: "person",
             title: "My account",
             subtitle: "Make changes to your account",
             destination: AnyView(EmptyView()))
