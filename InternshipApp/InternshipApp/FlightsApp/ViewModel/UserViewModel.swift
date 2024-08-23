@@ -11,6 +11,8 @@ import GoogleSignIn
 import GoogleSignInSwift
 import LocalAuthentication
 import FirebaseFirestore
+import FirebaseStorage
+import _PhotosUI_SwiftUI
 
 @MainActor
 final class UserViewModel: ObservableObject {
@@ -20,6 +22,7 @@ final class UserViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var surname: String = ""
     @Published var age: Int = 0
+    @Published var profileImageURL = ""
     @Published var faceIDEnabled: Bool = false
     @Published var email: String = ""
     @Published var password: String = ""
@@ -33,6 +36,9 @@ final class UserViewModel: ObservableObject {
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
     @Published var isSignedIn = false
+    
+    @Published var selectedImage: UIImage? = nil
+    @Published var selectedItem: PhotosPickerItem? = nil
     
     init() {
         self.name = user?.name ?? ""
@@ -58,10 +64,46 @@ final class UserViewModel: ObservableObject {
             "name": name,
             "surname": surname,
             "age": age,
-            "face_id_enabled": faceIDEnabled
+            "face_id_enabled": faceIDEnabled,
+            "profile_image_url": profileImageURL
         ]
         
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
+    }
+    
+    func uploadProfileImage() async throws {
+        guard let image = selectedImage else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        let imageName = "profile_images/\(userID).jpg"
+        let imageRef = storageRef.child(imageName)
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        try await imageRef.putData(imageData, metadata: metadata)
+        
+        let downloadURL = try await imageRef.downloadURL()
+        
+        self.profileImageURL = downloadURL.absoluteString
+        
+        let updates: [String: Any] = ["profile_image_url": profileImageURL]
+        try await UserManager.shared.updateUser(userID: userID, updates: updates)
+    }
+    
+    func updateImage(_ image: UIImage) {
+        self.selectedImage = image
     }
     
     func signUp() async throws {

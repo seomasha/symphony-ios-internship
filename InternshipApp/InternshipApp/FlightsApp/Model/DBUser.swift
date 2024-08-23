@@ -15,4 +15,5 @@ struct DBUser {
     let email: String?
     let faceIDEnabled: Bool
     let dateCreated: Date?
+    let profileImageURL: String?
 }

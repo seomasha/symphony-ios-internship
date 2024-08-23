@@ -25,11 +25,18 @@ final class UserManager {
             "surname": user?.user.profile?.familyName ?? userViewModel.surname,
             "age": userViewModel.age,
             "face_id_enabled": userViewModel.faceIDEnabled,
+            "profile_image_url": user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? userViewModel.profileImageURL,
             "date_created": Timestamp(),
             "email": auth.email!
         ]
         
         try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
+        
+        DispatchQueue.main.async {
+            userViewModel.name = user?.user.profile?.givenName ?? userViewModel.name
+            userViewModel.surname = user?.user.profile?.familyName ?? userViewModel.surname
+            userViewModel.profileImageURL = user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? userViewModel.profileImageURL
+        }
     }
 
     
@@ -46,6 +53,7 @@ final class UserManager {
         let surname = data["surname"] as? String
         let age = data["age"] as? Int
         let faceIDEnabled = data["face_id_enabled"] as? Bool
+        let profileImageURL = data["profile_image_url"] as? String
         
         return DBUser(userID: userID,
                       name: name!,
@@ -53,7 +61,8 @@ final class UserManager {
                       age: age!,
                       email: email,
                       faceIDEnabled: faceIDEnabled!,
-                      dateCreated: dateCreated)
+                      dateCreated: dateCreated,
+                      profileImageURL: profileImageURL!)
     }
     
     func updateUser(userID: String, updates: [String: Any]) async throws {

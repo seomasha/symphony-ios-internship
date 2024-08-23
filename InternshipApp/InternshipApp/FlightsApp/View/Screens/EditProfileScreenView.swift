@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditProfileScreenView: View {
     
@@ -53,6 +54,38 @@ struct EditProfileScreenView: View {
                     .ignoresSafeArea(edges: .top)
                     
                     VStack(spacing: 24) {
+                        
+                        PhotosPicker(selection: $userViewModel.selectedItem, matching: .images) {
+                            if let imageUrl = URL(string: userViewModel.profileImageURL) {
+                                AsyncImage(url: imageUrl) { image in
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(Circle())
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .frame(width: 100, height: 100)
+                            } else {
+                                Image(systemName: "person.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .frame(width: 100, height: 100)
+                            }
+                        }
+                        .onChange(of: userViewModel.selectedItem) { newItem in
+                            Task {
+                                if let selectedItem = newItem {
+                                    let data = try? await selectedItem.loadTransferable(type: Data.self)
+                                    
+                                    if let data, let uiImage = UIImage(data: data) {
+                                        userViewModel.updateImage(uiImage)
+                                    }
+                                }
+                            }
+                        }
+                        
                         if let user = userViewModel.user {
                             VStack {
                                 TextFieldInput(label: "Your name",
@@ -83,6 +116,7 @@ struct EditProfileScreenView: View {
                             Task {
                                 do {
                                     try await userViewModel.updateUser()
+                                    try await userViewModel.uploadProfileImage()
                                 } catch {
                                     print("Error: \(error)")
                                 }

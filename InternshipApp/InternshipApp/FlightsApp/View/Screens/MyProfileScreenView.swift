@@ -23,11 +23,39 @@ struct MyProfileScreenView: View {
                             .foregroundStyle(.white)
                             .font(.headline)
                         HStack {
-                            Image(ImageResource.airplaneIcon)
-                                .resizable()
-                                .frame(width: 80, height: 80)
+                            if let imageURL = userViewModel.user?.profileImageURL, !imageURL.isEmpty {
+                                AsyncImage(url: URL(string: imageURL)) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 50, height: 50)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
+                                            .scaledToFit()
+                                            .padding()
+                                    case .failure:
+                                        Image(ImageResource.airplaneIcon)
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .padding()
+                                    @unknown default:
+                                        Image(ImageResource.airplaneIcon)
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .padding()
+                                    }
+                                }
+                            } else {
+                                Image(ImageResource.airplaneIcon)
+                                    .resizable()
+                                    .frame(width: 80, height: 80)
+                            }
+                            
+                            
                             VStack(alignment: .leading) {
-                                
                                 if let user = userViewModel.user {
                                     Text(user.name + " " + user.surname)
                                         .font(.headline)
