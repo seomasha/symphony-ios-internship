@@ -53,8 +53,11 @@ struct LoginScreenView: View {
                                        action: {
                                 Task {
                                     do {
-                                        try await userViewModel.signIn()
-                                        print("Signed in!")
+                                        if userViewModel.faceIDEnabled {
+                                            try await userViewModel.authenticateWithFaceID()
+                                        } else {
+                                            try await userViewModel.signIn()
+                                        }
                                     } catch {
                                         print("Error: \(error)")
                                     }

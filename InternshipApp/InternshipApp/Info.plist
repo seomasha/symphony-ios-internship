@@ -15,6 +15,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We use Face ID to provide secure and convenient authentication for your account.
+We use Face ID to provide secure and convenient authentication for your account.
+</string>
 	<key>GIDClientID</key>
 	<string>802151610848-3obja80tjcsbhp1954qan3cgi5iklges.apps.googleusercontent.com</string>
 </dict>

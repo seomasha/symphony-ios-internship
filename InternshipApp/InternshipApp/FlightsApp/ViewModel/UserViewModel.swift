@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
+import LocalAuthentication
 
 @MainActor
 final class UserViewModel: ObservableObject {
@@ -43,6 +44,8 @@ final class UserViewModel: ObservableObject {
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
         self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
+        
+        self.faceIDEnabled = user?.faceIDEnabled ?? false
     }
     
     func updateUser() async throws {
@@ -81,8 +84,16 @@ final class UserViewModel: ObservableObject {
             isSignedIn = false
             return
         }
-
+        
         try await AuthenticationManager.shared.signIn(email: email, password: password)
+        
+        let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
+        user = try await UserManager.shared.getUser(userID: authDataResult.uid)
+        
+        if user?.faceIDEnabled == true {
+            try await authenticateWithFaceID()
+        }
+        
         isSignedIn = true
     }
     
@@ -168,4 +179,30 @@ final class UserViewModel: ObservableObject {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: self.email)
     }
+
+    func authenticateWithFaceID() async throws {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate using Face ID"
+
+            try await withCheckedThrowingContinuation { continuation in
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                    if success {
+                        continuation.resume()
+                    } else {
+                        continuation.resume(throwing: authenticationError ?? NSError(domain: "AuthenticationFailed", code: -1, userInfo: nil))
+                    }
+                }
+            }
+        } else {
+            if let error = error {
+                throw error
+            } else {
+                throw NSError(domain: "FaceIDNotAvailable", code: -1, userInfo: [NSLocalizedDescriptionKey: "Face ID is not available on this device."])
+            }
+        }
+    }
+
 }
