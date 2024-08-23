@@ -10,6 +10,7 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 import LocalAuthentication
+import FirebaseFirestore
 
 @MainActor
 final class UserViewModel: ObservableObject {
@@ -112,7 +113,20 @@ final class UserViewModel: ObservableObject {
         let accessToken = gidSignInResult.user.accessToken.tokenString
         
         let tokens = GoogleSignInResultModel(idToken: idToken, accesToken: accessToken)
-        try await AuthenticationManager.shared.signInWithGoogle(tokens: tokens)
+        let authDataResult = try await AuthenticationManager.shared.signInWithGoogle(tokens: tokens)
+       
+        let userID = authDataResult.uid
+        do {
+            let existingUser = try await UserManager.shared.getUser(userID: userID)
+            
+            if existingUser != nil {
+                self.user = existingUser
+            } else {
+                try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
+            }
+        } catch {
+            try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
+        }
     }
     
     func signOut() {
