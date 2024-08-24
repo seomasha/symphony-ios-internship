@@ -54,37 +54,64 @@ struct EditProfileScreenView: View {
                     .ignoresSafeArea(edges: .top)
                     
                     VStack(spacing: 24) {
-                        
                         PhotosPicker(selection: $userViewModel.selectedItem, matching: .images) {
-                            if let imageUrl = URL(string: userViewModel.profileImageURL) {
-                                AsyncImage(url: imageUrl) { image in
-                                    image
+                            VStack {
+                                if let selectedImage = userViewModel.selectedImage {
+                                    Image(uiImage: selectedImage)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .clipShape(Circle())
-                                } placeholder: {
-                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                } else if let imageURL = URL(string: userViewModel.profileImageURL) {
+                                    AsyncImage(url: imageURL) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(width: 100, height: 100)
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .clipShape(Circle())
+                                                .frame(width: 100, height: 100)
+                                        case .failure:
+                                            Image("airplaneIcon") // Your airplaneIcon name here
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .clipShape(Circle())
+                                                .frame(width: 100, height: 100)
+                                        @unknown default:
+                                            Image("airplaneIcon") // Your airplaneIcon name here
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .clipShape(Circle())
+                                                .frame(width: 100, height: 100)
+                                        }
+                                    }
+                                } else {
+                                    Image("airplaneIcon") // Default image if no URL is provided
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .clipShape(Circle())
+                                        .frame(width: 100, height: 100)
                                 }
-                                .frame(width: 100, height: 100)
-                            } else {
-                                Image(systemName: "person.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                                    .frame(width: 100, height: 100)
+                                
+                                Text("Select Profile Image")
+                                    .foregroundColor(.blue)
                             }
                         }
-                        .onChange(of: userViewModel.selectedItem) { newItem in
+                        .onChange(of: userViewModel.selectedItem) { _, newItem in
                             Task {
                                 if let selectedItem = newItem {
-                                    let data = try? await selectedItem.loadTransferable(type: Data.self)
-                                    
-                                    if let data, let uiImage = UIImage(data: data) {
-                                        userViewModel.updateImage(uiImage)
+                                    if let data = try? await selectedItem.loadTransferable(type: Data.self),
+                                       let uiImage = UIImage(data: data) {
+                                        userViewModel.selectedImage = uiImage
                                     }
                                 }
                             }
                         }
+                        .padding()
+                                    
                         
                         if let user = userViewModel.user {
                             VStack {
@@ -104,23 +131,28 @@ struct EditProfileScreenView: View {
                             }
                             
                             VStack {
-                                IntegerTextFieldInput(label: "Your name",
+                                IntegerTextFieldInput(label: "Your age",
                                                       placeholder: "\(user.age)",
-                                               value: $userViewModel.age,
-                                               iconName: "")
+                                                      value: $userViewModel.age,
+                                                      iconName: "")
                                 .padding(.horizontal)
                             }
                         }
                         
-                        ButtonView(title: "Edit", style: .primary) {
+                        ButtonView(title: "Save", style: .primary) {
                             Task {
                                 do {
-                                    try await userViewModel.updateUser()
                                     try await userViewModel.uploadProfileImage()
+                                    try await userViewModel.updateUser()
+                                    
                                 } catch {
                                     print("Error: \(error)")
                                 }
                             }
+                            userViewModel.user?.name = userViewModel.name
+                            userViewModel.user?.surname = userViewModel.surname
+                            userViewModel.user?.age = userViewModel.age
+                            userViewModel.user?.profileImageURL = userViewModel.profileImageURL
                         }
                         .padding()
                     }
@@ -133,6 +165,7 @@ struct EditProfileScreenView: View {
             userViewModel.name = userViewModel.user?.name ?? ""
             userViewModel.surname = userViewModel.user?.surname ?? ""
             userViewModel.age = userViewModel.user?.age ?? 0
+            userViewModel.profileImageURL = userViewModel.user?.profileImageURL ?? ""
         }
     }
 }

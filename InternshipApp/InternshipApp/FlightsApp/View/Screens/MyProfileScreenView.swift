@@ -23,7 +23,7 @@ struct MyProfileScreenView: View {
                             .foregroundStyle(.white)
                             .font(.headline)
                         HStack {
-                            if let imageURL = userViewModel.user?.profileImageURL, !imageURL.isEmpty {
+                            if let imageURL = userViewModel.user?.profileImageURL {
                                 AsyncImage(url: URL(string: imageURL)) { phase in
                                     switch phase {
                                     case .empty:

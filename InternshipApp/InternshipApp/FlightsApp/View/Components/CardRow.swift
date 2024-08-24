@@ -39,7 +39,7 @@ struct CardRow: View {
                 Toggle(isOn: $viewModel.faceIDEnabled) {
                     Text("")
                 }
-                .onChange(of: viewModel.faceIDEnabled) { _ in
+                .onChange(of: viewModel.faceIDEnabled) { _, _ in
                     Task {
                         do {
                             try await viewModel.saveFaceIDPreference()

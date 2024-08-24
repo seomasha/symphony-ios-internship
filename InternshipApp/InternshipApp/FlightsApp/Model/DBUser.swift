@@ -8,12 +8,12 @@
 import Foundation
 
 struct DBUser {
-    let userID: String
-    let name: String
-    let surname: String
-    let age: Int
-    let email: String?
-    let faceIDEnabled: Bool
-    let dateCreated: Date?
-    let profileImageURL: String?
+    var userID: String
+    var name: String
+    var surname: String
+    var age: Int
+    var email: String?
+    var faceIDEnabled: Bool
+    var dateCreated: Date?
+    var profileImageURL: String?
 }

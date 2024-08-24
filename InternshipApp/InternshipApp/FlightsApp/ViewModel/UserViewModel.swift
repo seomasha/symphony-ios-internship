@@ -65,7 +65,7 @@ final class UserViewModel: ObservableObject {
             "surname": surname,
             "age": age,
             "face_id_enabled": faceIDEnabled,
-            "profile_image_url": profileImageURL
+            "profile_image_url": profileImageURL 
         ]
         
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
@@ -92,14 +92,23 @@ final class UserViewModel: ObservableObject {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         
-        try await imageRef.putData(imageData, metadata: metadata)
+        imageRef.putData(imageData, metadata: metadata)
         
         let downloadURL = try await imageRef.downloadURL()
         
         self.profileImageURL = downloadURL.absoluteString
         
-        let updates: [String: Any] = ["profile_image_url": profileImageURL]
+        let updates: [String: Any] = ["profile_image_url": profileImageURL ]
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
+    }
+    
+    func fetchProfileImage() async throws {
+        guard let userID = user?.userID else { return }
+        
+        let storageRef = Storage.storage().reference().child("\(userID).jpg")
+        
+        let url = try await storageRef.downloadURL()
+        user?.profileImageURL = url.absoluteString
     }
     
     func updateImage(_ image: UIImage) {
