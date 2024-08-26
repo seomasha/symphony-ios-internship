@@ -30,7 +30,11 @@ final class UserManager {
             "email": auth.email!
         ]
         
-        try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
+        do {
+            try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
+        } catch {
+            print("\(error.localizedDescription)")
+        }
         
         DispatchQueue.main.async {
             userViewModel.name = user?.user.profile?.givenName ?? userViewModel.name
@@ -41,31 +45,39 @@ final class UserManager {
 
     
     func getUser(userID: String) async throws -> DBUser? {
-        let userData = try await Firestore.firestore().collection("users").document(userID).getDocument()
-        
-        guard let data = userData.data(), let userID = data["user_id"] as? String else {
-            throw URLError(.badServerResponse)
+        do {
+            let userData = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            
+            guard let data = userData.data(), let userID = data["user_id"] as? String else {
+                throw URLError(.badServerResponse)
+            }
+            
+            let dateCreated = data["date_created"] as? Date
+            let email = data["email"] as? String
+            let name = data["name"] as? String
+            let surname = data["surname"] as? String
+            let age = data["age"] as? Int
+            let faceIDEnabled = data["face_id_enabled"] as? Bool
+            let profileImageURL = data["profile_image_url"] as? String
+            
+            return DBUser(userID: userID,
+                          name: name!,
+                          surname: surname!,
+                          age: age!,
+                          email: email,
+                          faceIDEnabled: faceIDEnabled!,
+                          dateCreated: dateCreated,
+                          profileImageURL: profileImageURL!)
+        } catch {
+            throw error
         }
-        
-        let dateCreated = data["date_created"] as? Date
-        let email = data["email"] as? String
-        let name = data["name"] as? String
-        let surname = data["surname"] as? String
-        let age = data["age"] as? Int
-        let faceIDEnabled = data["face_id_enabled"] as? Bool
-        let profileImageURL = data["profile_image_url"] as? String
-        
-        return DBUser(userID: userID,
-                      name: name!,
-                      surname: surname!,
-                      age: age!,
-                      email: email,
-                      faceIDEnabled: faceIDEnabled!,
-                      dateCreated: dateCreated,
-                      profileImageURL: profileImageURL!)
     }
     
     func updateUser(userID: String, updates: [String: Any]) async throws {
-        try await Firestore.firestore().collection("users").document(userID).updateData(updates)
+        do {
+            try await Firestore.firestore().collection("users").document(userID).updateData(updates)
+        } catch {
+            print("\(error.localizedDescription)")
+        }
     }
 }
