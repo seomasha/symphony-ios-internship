@@ -131,11 +131,8 @@ struct EditProfileScreenView: View {
                             }
                             
                             VStack {
-                                IntegerTextFieldInput(label: "Your age",
-                                                      placeholder: "\(user.age)",
-                                                      value: $userViewModel.age,
-                                                      iconName: "")
-                                .padding(.horizontal)
+                                NumberPickerInput(label: "Choose your number",
+                                                  value: $userViewModel.age)
                             }
                         }
                         
@@ -143,16 +140,20 @@ struct EditProfileScreenView: View {
                             Task {
                                 do {
                                     try await userViewModel.uploadProfileImage()
+                                                
+
+                                    userViewModel.user?.name = userViewModel.name
+                                    userViewModel.user?.surname = userViewModel.surname
+                                    userViewModel.user?.age = userViewModel.age
+                                    
+                                    userViewModel.user?.profileImageURL = userViewModel.profileImageURL
+                                    
                                     try await userViewModel.updateUser()
                                     
                                 } catch {
                                     print("Error: \(error)")
                                 }
                             }
-                            userViewModel.user?.name = userViewModel.name
-                            userViewModel.user?.surname = userViewModel.surname
-                            userViewModel.user?.age = userViewModel.age
-                            userViewModel.user?.profileImageURL = userViewModel.profileImageURL
                         }
                         .padding()
                     }

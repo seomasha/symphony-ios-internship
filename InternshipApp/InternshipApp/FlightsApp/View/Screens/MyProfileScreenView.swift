@@ -23,12 +23,13 @@ struct MyProfileScreenView: View {
                             .foregroundStyle(.white)
                             .font(.headline)
                         HStack {
-                            if let imageURL = userViewModel.user?.profileImageURL {
-                                AsyncImage(url: URL(string: imageURL)) { phase in
+                            if let user = userViewModel.user {
+                                AsyncImage(url: URL(string: user.profileImageURL!)) { phase in
                                     switch phase {
                                     case .empty:
                                         ProgressView()
                                             .frame(width: 50, height: 50)
+                                            .padding()
                                     case .success(let image):
                                         image
                                             .resizable()
@@ -37,26 +38,18 @@ struct MyProfileScreenView: View {
                                             .scaledToFit()
                                             .padding()
                                     case .failure:
-                                        Image(ImageResource.airplaneIcon)
+                                        Image(systemName: "person.fill")
                                             .resizable()
                                             .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
+                                            .scaledToFit()
                                             .padding()
                                     @unknown default:
-                                        Image(ImageResource.airplaneIcon)
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .padding()
+                                        EmptyView()
                                     }
                                 }
-                            } else {
-                                Image(ImageResource.airplaneIcon)
-                                    .resizable()
-                                    .frame(width: 80, height: 80)
-                            }
-                            
-                            
-                            VStack(alignment: .leading) {
-                                if let user = userViewModel.user {
+                                
+                                VStack(alignment: .leading) {
                                     Text(user.name + " " + user.surname)
                                         .font(.headline)
                                         .foregroundStyle(.white)
@@ -65,7 +58,6 @@ struct MyProfileScreenView: View {
                                         .font(.subheadline)
                                         .foregroundStyle(Color(.lightgray))
                                 }
-                                
                             }
                             Spacer()
                             Image(systemName: "pencil")
@@ -92,7 +84,9 @@ struct MyProfileScreenView: View {
         .onAppear {
             Task {
                 do {
-                    try? await userViewModel.loadCurrentUser()
+                    try await userViewModel.loadCurrentUser()
+                } catch {
+                    print("Error loading user or profile image: \(error)")
                 }
             }
         }

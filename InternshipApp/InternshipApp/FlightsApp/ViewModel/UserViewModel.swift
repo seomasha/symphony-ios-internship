@@ -106,15 +106,6 @@ final class UserViewModel: ObservableObject {
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     
-    func fetchProfileImage() async throws {
-        guard let userID = user?.userID else { return }
-        
-        let storageRef = Storage.storage().reference().child("\(userID).jpg")
-        
-        let url = try await storageRef.downloadURL()
-        user?.profileImageURL = url.absoluteString
-    }
-    
     func updateImage(_ image: UIImage) {
         self.selectedImage = image
     }

@@ -60,10 +60,8 @@ struct RegistrationScreenView: View {
                             
 
                             VStack(alignment: .leading) {
-                                IntegerTextFieldInput(label: "Your age",
-                                                      placeholder: "Enter your age",
-                                                      value: $userViewModel.age,
-                                                      iconName: "")
+                                NumberPickerInput(label: "Enter your age",
+                                                  value: $userViewModel.age)
                                 if userViewModel.registrationAttempted && userViewModel.age <= 0 {
                                     Text("Age must be greater than 0")
                                         .foregroundStyle(.red)
