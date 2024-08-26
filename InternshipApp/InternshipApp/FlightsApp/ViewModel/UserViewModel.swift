@@ -28,7 +28,6 @@ final class UserViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var newPassword = ""
     
-    @Published var isValid: Bool = true
     private let minLength = 8
     private let uppercasePattern = "(?=.*[A-Z])"
     private let lowercasePattern = "(?=.*[a-z])"
@@ -39,6 +38,11 @@ final class UserViewModel: ObservableObject {
     
     @Published var selectedImage: UIImage? = nil
     @Published var selectedItem: PhotosPickerItem? = nil
+    
+    @Published var showAlert = false
+    @Published var alertMessage = ""
+    @Published var registrationAttempted: Bool = false
+    @Published var accountCreated: Bool = false
     
     init() {
         self.name = user?.name ?? ""
@@ -117,7 +121,6 @@ final class UserViewModel: ObservableObject {
     
     func signUp() async throws {
         guard !email.isEmpty, !password.isEmpty else {
-            isValid = false
             return
         }
 
@@ -128,11 +131,19 @@ final class UserViewModel: ObservableObject {
         age = 0
         email = ""
         password = ""
+        
+        accountCreated = true
+        resetAccountCreatedState()
+    }
+    
+    private func resetAccountCreatedState() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.accountCreated = false
+        }
     }
     
     func signIn() async throws {
         guard !email.isEmpty, !password.isEmpty else {
-            isValid = false
             isSignedIn = false
             return
         }
