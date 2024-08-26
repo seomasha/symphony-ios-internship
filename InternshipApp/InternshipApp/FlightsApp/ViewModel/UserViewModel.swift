@@ -102,7 +102,7 @@ final class UserViewModel: ObservableObject {
         
         self.profileImageURL = downloadURL.absoluteString
         
-        let updates: [String: Any] = ["profile_image_url": profileImageURL ]
+        let updates: [String: Any] = ["profile_image_url": profileImageURL]
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     

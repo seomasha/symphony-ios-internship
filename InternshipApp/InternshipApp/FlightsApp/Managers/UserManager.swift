@@ -25,7 +25,7 @@ final class UserManager {
             "surname": user?.user.profile?.familyName ?? userViewModel.surname,
             "age": userViewModel.age,
             "face_id_enabled": userViewModel.faceIDEnabled,
-            "profile_image_url": user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? userViewModel.profileImageURL,
+            "profile_image_url": user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/flights-app-643e1.appspot.com/o/airplane_icon.png?alt=media&token=f5269115-330a-471c-8609-4c82a44094b4",
             "date_created": Timestamp(),
             "email": auth.email!
         ]
@@ -40,7 +40,7 @@ final class UserManager {
     }
 
     
-    func getUser(userID: String) async throws -> DBUser {
+    func getUser(userID: String) async throws -> DBUser? {
         let userData = try await Firestore.firestore().collection("users").document(userID).getDocument()
         
         guard let data = userData.data(), let userID = data["user_id"] as? String else {

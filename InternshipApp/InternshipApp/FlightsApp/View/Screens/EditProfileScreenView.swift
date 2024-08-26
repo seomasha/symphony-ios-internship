@@ -75,13 +75,13 @@ struct EditProfileScreenView: View {
                                                 .clipShape(Circle())
                                                 .frame(width: 100, height: 100)
                                         case .failure:
-                                            Image("airplaneIcon") // Your airplaneIcon name here
+                                            Image("airplaneIcon")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .clipShape(Circle())
                                                 .frame(width: 100, height: 100)
                                         @unknown default:
-                                            Image("airplaneIcon") // Your airplaneIcon name here
+                                            Image("airplaneIcon")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .clipShape(Circle())
@@ -89,7 +89,7 @@ struct EditProfileScreenView: View {
                                         }
                                     }
                                 } else {
-                                    Image("airplaneIcon") // Default image if no URL is provided
+                                    Image("airplaneIcon")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .clipShape(Circle())
