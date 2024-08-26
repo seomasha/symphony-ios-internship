@@ -33,7 +33,7 @@ struct LoginScreenView: View {
                     
                     VStack(alignment: .leading, spacing: 24) {
                         VStack {
-                            TextFieldInput(label: "Email Address", 
+                            TextFieldInput(label: "Email Address",
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
                                            iconName: "")
@@ -44,12 +44,11 @@ struct LoginScreenView: View {
                                               label: "Forgot password?")
                         }
                         
-                        
                         CheckboxView(label: "Keep me signed in")
                         
                         VStack(spacing: 24) {
-                            ButtonView(title: "Login", 
-                                       style: .primary, 
+                            ButtonView(title: "Login",
+                                       style: .primary,
                                        action: {
                                 Task {
                                     do {
@@ -59,14 +58,15 @@ struct LoginScreenView: View {
                                             try await userViewModel.signIn()
                                         }
                                     } catch {
-                                        print("Error: \(error)")
+                                        userViewModel.alertMessage = "You have provided false credentials"
+                                        userViewModel.showAlert = true
                                     }
                                 }
                             })
                             
                             Break(label: "or sign in with")
 
-                            ButtonView(title: "Continue with Google", 
+                            ButtonView(title: "Continue with Google",
                                        style: .secondary,
                                        action: {
                                 
@@ -75,7 +75,8 @@ struct LoginScreenView: View {
                                         try await userViewModel.signInWithGoogle()
                                         userViewModel.isSignedIn = true
                                     } catch {
-                                        print("Error: \(error)")
+                                        userViewModel.alertMessage = "Google Sign-In failed: \(error.localizedDescription)"
+                                        userViewModel.showAlert = true
                                     }
                                 }
                             }, leadingIcon: ImageResource.google)
@@ -98,6 +99,11 @@ struct LoginScreenView: View {
                     .clipShape(RoundedRectangle(cornerSize: CGSize(width: 15, height: 10)))
                     .padding()
                 }
+            }
+            .alert(isPresented: $userViewModel.showAlert) {
+                Alert(title: Text("Login Error"),
+                      message: Text(userViewModel.alertMessage),
+                      dismissButton: .default(Text("OK")))
             }
             .navigationBarBackButtonHidden(true)
         }
