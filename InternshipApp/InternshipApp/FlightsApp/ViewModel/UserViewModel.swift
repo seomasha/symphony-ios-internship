@@ -53,69 +53,65 @@ final class UserViewModel: ObservableObject {
     }
     
     func loadCurrentUser() async throws {
+        let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
         do {
-            let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
             self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
-            
-            self.faceIDEnabled = user?.faceIDEnabled ?? false
         } catch {
-            print("\(error.localizedDescription)")
+            print("Came across some issues while fetching the current user.")
         }
+        
+        self.faceIDEnabled = user?.faceIDEnabled ?? false
     }
     
     func updateUser() async throws {
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let updates: [String: Any] = [
+            "name": name,
+            "surname": surname,
+            "age": age,
+            "face_id_enabled": faceIDEnabled,
+            "profile_image_url": profileImageURL
+        ]
+        
         do {
-            guard let userID = user?.userID else {
-                throw URLError(.badServerResponse)
-            }
-            
-            let updates: [String: Any] = [
-                "name": name,
-                "surname": surname,
-                "age": age,
-                "face_id_enabled": faceIDEnabled,
-                "profile_image_url": profileImageURL
-            ]
-            
             try await UserManager.shared.updateUser(userID: userID, updates: updates)
         } catch {
-            print("\(error.localizedDescription)")
+            print("\(error)")
         }
     }
     
     func uploadProfileImage() async throws {
-        do {
-            guard let image = selectedImage else {
-                throw URLError(.badServerResponse)
-            }
-            
-            let storage = Storage.storage()
-            let storageRef = storage.reference()
-            
-            guard let userID = user?.userID else {
-                throw URLError(.badServerResponse)
-            }
-            let imageName = "profile_images/\(userID).jpg"
-            let imageRef = storageRef.child(imageName)
-            
-            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-                throw URLError(.badServerResponse)
-            }
-            
-            let metadata = StorageMetadata()
-            metadata.contentType = "image/jpeg"
-            
-            imageRef.putData(imageData, metadata: metadata)
-            
-            let downloadURL = try await imageRef.downloadURL()
-            
-            self.profileImageURL = downloadURL.absoluteString
-            
-            let updates: [String: Any] = ["profile_image_url": profileImageURL]
-            try await UserManager.shared.updateUser(userID: userID, updates: updates)
-        } catch {
-            print("\(error.localizedDescription)")
+        guard let image = selectedImage else {
+            throw URLError(.badServerResponse)
         }
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        let imageName = "profile_images/\(userID).jpg"
+        let imageRef = storageRef.child(imageName)
+        
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        imageRef.putData(imageData, metadata: metadata)
+        
+        let downloadURL = try await imageRef.downloadURL()
+        
+        self.profileImageURL = downloadURL.absoluteString
+        
+        let updates: [String: Any] = ["profile_image_url": profileImageURL]
+        try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     
     func updateImage(_ image: UIImage) {
@@ -126,21 +122,19 @@ final class UserViewModel: ObservableObject {
         guard !email.isEmpty, !password.isEmpty else {
             return
         }
+
+        let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
+        self.user = try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
+        name = ""
+        surname = ""
+        age = 0
+        email = ""
+        password = ""
         
-        do {
-            let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
-            try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
-            name = ""
-            surname = ""
-            age = 0
-            email = ""
-            password = ""
-            
-            accountCreated = true
-            resetAccountCreatedState()
-        } catch {
-            print("\(error.localizedDescription)")
-        }
+        isSignedIn = false
+        
+        accountCreated = true
+        resetAccountCreatedState()
     }
     
     private func resetAccountCreatedState() {
@@ -150,13 +144,12 @@ final class UserViewModel: ObservableObject {
     }
     
     func signIn() async throws {
-        
-        guard !email.isEmpty, !password.isEmpty else {
-            isSignedIn = false
-            return
-        }
-        
         do {
+            guard !email.isEmpty, !password.isEmpty else {
+                isSignedIn = false
+                return
+            }
+            
             try await AuthenticationManager.shared.signIn(email: email, password: password)
             
             let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
@@ -168,7 +161,8 @@ final class UserViewModel: ObservableObject {
             
             isSignedIn = true
         } catch {
-            print("\(error.localizedDescription)")
+            self.showAlert = true
+            self.alertMessage = "Failed to sign in: \(error.localizedDescription)"
         }
     }
     
@@ -196,10 +190,10 @@ final class UserViewModel: ObservableObject {
             if existingUser != nil {
                 self.user = existingUser
             } else {
-                try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
+                self.user = try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
             }
         } catch {
-            try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
+            print("\(error.localizedDescription)")
         }
     }
     
@@ -216,13 +210,9 @@ final class UserViewModel: ObservableObject {
             throw URLError(.badServerResponse)
         }
         
-        do {
-            try await user.updatePassword(to: pass)
-            password = newPassword
-            newPassword = ""
-        } catch {
-            print("\(error.localizedDescription)")
-        }
+        try await user.updatePassword(to: pass)
+        password = newPassword
+        newPassword = ""
     }
     
     func toggleFaceID() {
@@ -235,12 +225,7 @@ final class UserViewModel: ObservableObject {
         }
         
         let updates: [String: Any] = ["face_id_enabled": faceIDEnabled]
-        
-        do {
-            try await UserManager.shared.updateUser(userID: userID, updates: updates)
-        } catch {
-            print("\(error.localizedDescription)")
-        }
+        try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     
     func validatePassword() -> Bool {
@@ -280,30 +265,26 @@ final class UserViewModel: ObservableObject {
     func authenticateWithFaceID() async throws {
         let context = LAContext()
         var error: NSError?
-        
-        do {
-            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-                let reason = "Authenticate using Face ID"
-                
-                try await withCheckedThrowingContinuation { continuation in
-                    context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
-                        if success {
-                            continuation.resume()
-                        } else {
-                            continuation.resume(throwing: authenticationError ?? NSError(domain: "AuthenticationFailed", code: -1, userInfo: nil))
-                        }
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate using Face ID"
+
+            try await withCheckedThrowingContinuation { continuation in
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                    if success {
+                        continuation.resume()
+                    } else {
+                        continuation.resume(throwing: authenticationError ?? NSError(domain: "AuthenticationFailed", code: -1, userInfo: nil))
                     }
                 }
-            } else {
-                if let error = error {
-                    throw error
-                } else {
-                    throw NSError(domain: "FaceIDNotAvailable", code: -1, userInfo: [NSLocalizedDescriptionKey: "Face ID is not available on this device."])
-                }
             }
-        } catch {
-            print("\(error.localizedDescription)")
+        } else {
+            if let error = error {
+                throw error
+            } else {
+                throw NSError(domain: "FaceIDNotAvailable", code: -1, userInfo: [NSLocalizedDescriptionKey: "Face ID is not available on this device."])
+            }
         }
-        
     }
+
 }
