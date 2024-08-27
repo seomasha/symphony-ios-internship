@@ -18,28 +18,28 @@ final class UserManager {
     private init() { }
 
     func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel, user: GIDSignInResult?) async throws {
-        let newUser = DBUser(
-            userID: auth.uid,
-            name: user?.user.profile?.givenName ?? userViewModel.name,
-            surname: user?.user.profile?.familyName ?? userViewModel.surname,
-            age: userViewModel.age,
-            email: auth.email ?? "no-email@example.com",
-            faceIDEnabled: userViewModel.faceIDEnabled,
-            profileImageURL: user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/flights-app-643e1.appspot.com/o/airplane_icon.png?alt=media&token=f5269115-330a-471c-8609-4c82a44094b4"
-        )
-
+        
+        let userData: [String: Any] = [
+            "user_id": auth.uid,
+            "name": user?.user.profile?.givenName ?? userViewModel.name,
+            "surname": user?.user.profile?.familyName ?? userViewModel.surname,
+            "age": userViewModel.age,
+            "face_id_enabled": userViewModel.faceIDEnabled,
+            "profile_image_url": user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/flights-app-643e1.appspot.com/o/airplane_icon.png?alt=media&token=f5269115-330a-471c-8609-4c82a44094b4",
+            "date_created": Timestamp(),
+            "email": auth.email!
+        ]
+        
         do {
-            try await Firestore.firestore().collection("users").document(auth.uid).setData(newUser.dictionary, merge: true)
+            try await Firestore.firestore().collection("users").document(auth.uid).setData(userData, merge: false)
+            print("Created user in the Database")
         } catch {
-            print("Failed to create new user: \(error.localizedDescription)")
-            throw error
+            print("\(error.localizedDescription)")
         }
-
-        DispatchQueue.main.async {
-            userViewModel.name = newUser.name
-            userViewModel.surname = newUser.surname
-            userViewModel.profileImageURL = newUser.profileImageURL!
-        }
+        
+        userViewModel.name = user?.user.profile?.givenName ?? userViewModel.name
+        userViewModel.surname = user?.user.profile?.familyName ?? userViewModel.surname
+        userViewModel.profileImageURL = user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? userViewModel.profileImageURL
     }
 
     func getUser(userID: String) async throws -> DBUser? {

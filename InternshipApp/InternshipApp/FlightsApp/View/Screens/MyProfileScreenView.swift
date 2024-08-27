@@ -72,7 +72,7 @@ struct MyProfileScreenView: View {
                             }
                             Spacer()
                             Button(action: {
-                                showingPhotoPicker.toggle() // Toggle PhotoPicker visibility
+                                showingPhotoPicker.toggle()
                             }) {
                                 Image(systemName: "pencil")
                                     .resizable()
@@ -112,7 +112,7 @@ struct MyProfileScreenView: View {
                     if let data = try? await selectedItem.loadTransferable(type: Data.self),
                        let uiImage = UIImage(data: data) {
                         userViewModel.selectedImage = uiImage
-                        try await userViewModel.uploadProfileImage(uiImage) // Upload the image
+                        try await userViewModel.uploadProfileImage(uiImage)
                     }
                 }
             }

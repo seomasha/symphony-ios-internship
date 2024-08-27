@@ -53,6 +53,15 @@ struct ProfileCard: View {
             .shadow(radius: 1)
             .padding()
         }
+        .background(
+            NavigationLink(destination: LoginScreenView(userViewModel: userViewModel), isActive: Binding<Bool>(
+                get: { !userViewModel.isSignedIn },
+                set: { _ in }
+            )) {
+                EmptyView()
+            }
+                .hidden()
+        )
     }
 }
 

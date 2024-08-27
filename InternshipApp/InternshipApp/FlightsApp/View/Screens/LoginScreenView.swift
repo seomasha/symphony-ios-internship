@@ -64,6 +64,10 @@ struct LoginScreenView: View {
                                 }
                             })
                             
+                            NavigationLink(destination: MyProfileScreenView(userViewModel: userViewModel), isActive: $userViewModel.isSignedIn) {
+                                EmptyView()
+                            }
+                            
                             Break(label: "or sign in with")
                             
                             ButtonView(title: "Continue with Google",

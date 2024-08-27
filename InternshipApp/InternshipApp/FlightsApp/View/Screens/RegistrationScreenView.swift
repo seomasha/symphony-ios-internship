@@ -141,35 +141,6 @@ struct RegistrationScreenView: View {
                         .padding()
                     }
                 }
-                
-                if userViewModel.accountCreated {
-                    Color.black.opacity(0.5)
-                        .ignoresSafeArea()
-                    
-                    VStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .foregroundStyle(.green)
-                            .scaleEffect(userViewModel.accountCreated ? 1 : 0.5)
-                            .opacity(userViewModel.accountCreated ? 1 : 0)
-                            .animation(.easeInOut(duration: 0.5), value: userViewModel.accountCreated)
-                        
-                        Text("Account Created!")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.green)
-                            .opacity(userViewModel.accountCreated ? 1 : 0)
-                            .animation(.easeInOut(duration: 0.5).delay(0.1), value: userViewModel.accountCreated)
-                    }
-                    .frame(maxWidth: 300, maxHeight: 300)
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .padding(40)
-                    .shadow(radius: 10)
-                    .transition(.opacity)
-                    .zIndex(1)
-                }
             }
         }
         .navigationBarBackButtonHidden(true)
