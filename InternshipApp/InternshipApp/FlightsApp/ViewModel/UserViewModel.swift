@@ -83,11 +83,11 @@ final class UserViewModel: ObservableObject {
         }
     }
     
-    func uploadProfileImage() async throws {
-        guard let image = selectedImage else {
+    func uploadProfileImage(_ image: UIImage) async throws {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             throw URLError(.badServerResponse)
         }
-        
+
         let storage = Storage.storage()
         let storageRef = storage.reference()
         
@@ -96,10 +96,6 @@ final class UserViewModel: ObservableObject {
         }
         let imageName = "profile_images/\(userID).jpg"
         let imageRef = storageRef.child(imageName)
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            throw URLError(.badServerResponse)
-        }
         
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
@@ -113,6 +109,7 @@ final class UserViewModel: ObservableObject {
         let updates: [String: Any] = ["profile_image_url": profileImageURL]
         try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
+
     
     func updateImage(_ image: UIImage) {
         self.selectedImage = image

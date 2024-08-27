@@ -54,65 +54,6 @@ struct EditProfileScreenView: View {
                     .ignoresSafeArea(edges: .top)
                     
                     VStack(spacing: 24) {
-                        PhotosPicker(selection: $userViewModel.selectedItem, matching: .images) {
-                            VStack {
-                                if let selectedImage = userViewModel.selectedImage {
-                                    Image(uiImage: selectedImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(Circle())
-                                        .frame(width: 100, height: 100)
-                                } else if let imageURL = URL(string: userViewModel.profileImageURL) {
-                                    AsyncImage(url: imageURL) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            ProgressView()
-                                                .frame(width: 100, height: 100)
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(Circle())
-                                                .frame(width: 100, height: 100)
-                                        case .failure:
-                                            Image("airplaneIcon")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(Circle())
-                                                .frame(width: 100, height: 100)
-                                        @unknown default:
-                                            Image("airplaneIcon")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .clipShape(Circle())
-                                                .frame(width: 100, height: 100)
-                                        }
-                                    }
-                                } else {
-                                    Image("airplaneIcon")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .clipShape(Circle())
-                                        .frame(width: 100, height: 100)
-                                }
-                                
-                                Text("Select Profile Image")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                        .onChange(of: userViewModel.selectedItem) { _, newItem in
-                            Task {
-                                if let selectedItem = newItem {
-                                    if let data = try? await selectedItem.loadTransferable(type: Data.self),
-                                       let uiImage = UIImage(data: data) {
-                                        userViewModel.selectedImage = uiImage
-                                    }
-                                }
-                            }
-                        }
-                        .padding()
-                                    
-                        
                         if let user = userViewModel.user {
                             VStack {
                                 TextFieldInput(label: "Your name",
@@ -133,15 +74,13 @@ struct EditProfileScreenView: View {
                             VStack {
                                 NumberPickerInput(label: "Choose your number",
                                                   value: $userViewModel.age)
+                                .padding(.horizontal)
                             }
                         }
                         
                         ButtonView(title: "Save", style: .primary) {
                             Task {
                                 do {
-                                    try await userViewModel.uploadProfileImage()
-                                                
-
                                     userViewModel.user?.name = userViewModel.name
                                     userViewModel.user?.surname = userViewModel.surname
                                     userViewModel.user?.age = userViewModel.age

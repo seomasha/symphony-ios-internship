@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct MyProfileScreenView: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @State private var showingPhotoPicker = false
     
     var body: some View {
         NavigationStack {
@@ -24,28 +26,37 @@ struct MyProfileScreenView: View {
                             .font(.headline)
                         HStack {
                             if let user = userViewModel.user {
-                                AsyncImage(url: URL(string: user.profileImageURL!)) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                            .frame(width: 50, height: 50)
-                                            .padding()
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
-                                            .scaledToFit()
-                                            .padding()
-                                    case .failure:
-                                        Image(systemName: "person.fill")
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
-                                            .scaledToFit()
-                                            .padding()
-                                    @unknown default:
-                                        EmptyView()
+                                if let selectedImage = userViewModel.selectedImage {
+                                    Image(uiImage: selectedImage)
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                        .scaledToFit()
+                                        .padding()
+                                } else {
+                                    AsyncImage(url: URL(string: user.profileImageURL!)) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(width: 50, height: 50)
+                                                .padding()
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                                .scaledToFit()
+                                                .padding()
+                                        case .failure:
+                                            Image(systemName: "person.fill")
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                                .scaledToFit()
+                                                .padding()
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
                                 }
                                 
@@ -60,11 +71,15 @@ struct MyProfileScreenView: View {
                                 }
                             }
                             Spacer()
-                            Image(systemName: "pencil")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .padding()
-                                .foregroundStyle(.white)
+                            Button(action: {
+                                showingPhotoPicker.toggle() // Toggle PhotoPicker visibility
+                            }) {
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .padding()
+                                    .foregroundStyle(.white)
+                            }
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: 180)
@@ -87,6 +102,18 @@ struct MyProfileScreenView: View {
                     try await userViewModel.loadCurrentUser()
                 } catch {
                     print("Error loading user or profile image: \(error)")
+                }
+            }
+        }
+        .photosPicker(isPresented: $showingPhotoPicker, selection: $userViewModel.selectedItem, matching: .images)
+        .onChange(of: userViewModel.selectedItem) { newItem in
+            Task {
+                if let selectedItem = newItem {
+                    if let data = try? await selectedItem.loadTransferable(type: Data.self),
+                       let uiImage = UIImage(data: data) {
+                        userViewModel.selectedImage = uiImage
+                        try await userViewModel.uploadProfileImage(uiImage) // Upload the image
+                    }
                 }
             }
         }
