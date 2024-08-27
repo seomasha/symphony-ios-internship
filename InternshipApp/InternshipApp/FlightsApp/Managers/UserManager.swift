@@ -17,7 +17,7 @@ final class UserManager {
 
     private init() { }
 
-    func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel, user: GIDSignInResult?) async throws -> DBUser {
+    func createNewUser(auth: AuthDataResultModel, userViewModel: UserViewModel, user: GIDSignInResult?) async throws {
         let newUser = DBUser(
             userID: auth.uid,
             name: user?.user.profile?.givenName ?? userViewModel.name,
@@ -40,8 +40,6 @@ final class UserManager {
             userViewModel.surname = newUser.surname
             userViewModel.profileImageURL = newUser.profileImageURL!
         }
-
-        return newUser
     }
 
     func getUser(userID: String) async throws -> DBUser? {

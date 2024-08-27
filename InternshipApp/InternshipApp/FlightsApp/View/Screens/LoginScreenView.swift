@@ -38,7 +38,7 @@ struct LoginScreenView: View {
                                            text: $userViewModel.email,
                                            iconName: "")
                         }
-
+                        
                         VStack {
                             PasswordTextField(text: $userViewModel.password,
                                               label: "Forgot password?")
@@ -65,7 +65,7 @@ struct LoginScreenView: View {
                             })
                             
                             Break(label: "or sign in with")
-
+                            
                             ButtonView(title: "Continue with Google",
                                        style: .secondary,
                                        action: {
@@ -82,7 +82,7 @@ struct LoginScreenView: View {
                             }, leadingIcon: ImageResource.google)
                             
                             Button {
-
+                                
                             } label: {
                                 NavigationLink(destination: RegistrationScreenView(userViewModel: userViewModel)) {
                                     Text("Create an account")

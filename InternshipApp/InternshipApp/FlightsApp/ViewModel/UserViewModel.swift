@@ -124,7 +124,8 @@ final class UserViewModel: ObservableObject {
         }
 
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
-        self.user = try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
+        try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
+        
         name = ""
         surname = ""
         age = 0
@@ -190,7 +191,7 @@ final class UserViewModel: ObservableObject {
             if existingUser != nil {
                 self.user = existingUser
             } else {
-                self.user = try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
+                try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
             }
         } catch {
             print("\(error.localizedDescription)")
