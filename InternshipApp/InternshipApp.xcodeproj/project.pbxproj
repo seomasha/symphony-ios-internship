@@ -11,12 +11,23 @@
 		6D4CFDF92C74A90D0096D675 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFDF82C74A90D0096D675 /* FirebaseAuth */; };
 		6D4CFDFC2C74A9C10096D675 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFDFB2C74A9C10096D675 /* AuthenticationManager.swift */; };
 		6D4CFDFE2C74AB8C0096D675 /* AuthDataResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFDFD2C74AB8C0096D675 /* AuthDataResultModel.swift */; };
-		6D4CFE002C74AE440096D675 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFDFF2C74AE440096D675 /* HomeScreenView.swift */; };
 		6D4CFE022C74C7130096D675 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D4CFE012C74C7130096D675 /* GoogleService-Info.plist */; };
 		6D4CFE052C74C76A0096D675 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFE042C74C76A0096D675 /* GoogleSignIn */; };
 		6D4CFE072C74C76A0096D675 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFE062C74C76A0096D675 /* GoogleSignInSwift */; };
 		6D4CFE0D2C74CA620096D675 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE0C2C74CA620096D675 /* Utilities.swift */; };
 		6D4CFE0F2C74CD870096D675 /* GoogleSignInResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE0E2C74CD870096D675 /* GoogleSignInResultModel.swift */; };
+		6D4CFE112C75E7150096D675 /* MyProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE102C75E7150096D675 /* MyProfileScreenView.swift */; };
+		6D4CFE132C75E90E0096D675 /* BottomBarNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE122C75E90E0096D675 /* BottomBarNavigation.swift */; };
+		6D4CFE152C75F5CE0096D675 /* ProfileCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE142C75F5CE0096D675 /* ProfileCard.swift */; };
+		6D4CFE172C75F62A0096D675 /* CardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE162C75F62A0096D675 /* CardRow.swift */; };
+		6D4CFE1F2C761D920096D675 /* FAQScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE1E2C761D920096D675 /* FAQScreenView.swift */; };
+		6D4CFE212C7632FD0096D675 /* FAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE202C7632FC0096D675 /* FAQ.swift */; };
+		6D4CFE232C76335D0096D675 /* FAQList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE222C76335D0096D675 /* FAQList.swift */; };
+		6D4CFE252C776D2D0096D675 /* ChangePassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE242C776D2D0096D675 /* ChangePassView.swift */; };
+		6D4CFE282C7779D40096D675 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE272C7779D40096D675 /* UserManager.swift */; };
+		6D4CFE2A2C777CFF0096D675 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6D4CFE292C777CFF0096D675 /* FirebaseFirestore */; };
+		6D4CFE2C2C7781BA0096D675 /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE2B2C7781BA0096D675 /* DBUser.swift */; };
+		6D4CFE302C779A300096D675 /* EditProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */; };
 		6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA952C6B5A4500DDC95B /* TaskModel.swift */; };
 		6D62EA992C6B5AB200DDC95B /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA982C6B5AB200DDC95B /* TaskView.swift */; };
 		6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */; };
@@ -26,6 +37,8 @@
 		6D62EAA72C6B6A3600DDC95B /* ProfileScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D62EAA62C6B6A3600DDC95B /* ProfileScreenViewModel.swift */; };
 		6D98A0422C6A2C8F000E3269 /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98A0412C6A2C8F000E3269 /* CreateTaskView.swift */; };
 		6D98A0442C6A3CBA000E3269 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D98A0432C6A3CBA000E3269 /* TaskListView.swift */; };
+		6DA1C96D2C78C03400252E1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6DA1C96C2C78C03400252E1D /* FirebaseStorage */; };
+		6DA1C96F2C7CADDA00252E1D /* NumberPickerInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA1C96E2C7CADDA00252E1D /* NumberPickerInput.swift */; };
 		6DB94C382C6E32CD004F4C6E /* Recurrence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C372C6E32CD004F4C6E /* Recurrence.swift */; };
 		6DB94C3B2C6E32FC004F4C6E /* ReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C3A2C6E32FC004F4C6E /* ReminderViewModel.swift */; };
 		6DB94C3D2C6E331D004F4C6E /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C3C2C6E331D004F4C6E /* ReminderModel.swift */; };
@@ -72,11 +85,21 @@
 /* Begin PBXFileReference section */
 		6D4CFDFB2C74A9C10096D675 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		6D4CFDFD2C74AB8C0096D675 /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
-		6D4CFDFF2C74AE440096D675 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		6D4CFE012C74C7130096D675 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6D4CFE082C74C7FB0096D675 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		6D4CFE0C2C74CA620096D675 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		6D4CFE0E2C74CD870096D675 /* GoogleSignInResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInResultModel.swift; sourceTree = "<group>"; };
+		6D4CFE102C75E7150096D675 /* MyProfileScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileScreenView.swift; sourceTree = "<group>"; };
+		6D4CFE122C75E90E0096D675 /* BottomBarNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarNavigation.swift; sourceTree = "<group>"; };
+		6D4CFE142C75F5CE0096D675 /* ProfileCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCard.swift; sourceTree = "<group>"; };
+		6D4CFE162C75F62A0096D675 /* CardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRow.swift; sourceTree = "<group>"; };
+		6D4CFE1E2C761D920096D675 /* FAQScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQScreenView.swift; sourceTree = "<group>"; };
+		6D4CFE202C7632FC0096D675 /* FAQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQ.swift; sourceTree = "<group>"; };
+		6D4CFE222C76335D0096D675 /* FAQList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQList.swift; sourceTree = "<group>"; };
+		6D4CFE242C776D2D0096D675 /* ChangePassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassView.swift; sourceTree = "<group>"; };
+		6D4CFE272C7779D40096D675 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		6D4CFE2B2C7781BA0096D675 /* DBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
+		6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileScreenView.swift; sourceTree = "<group>"; };
 		6D62EA952C6B5A4500DDC95B /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
 		6D62EA982C6B5AB200DDC95B /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		6D62EA9A2C6B5AF500DDC95B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
@@ -86,6 +109,7 @@
 		6D62EAA62C6B6A3600DDC95B /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
 		6D98A0412C6A2C8F000E3269 /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		6D98A0432C6A3CBA000E3269 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		6DA1C96E2C7CADDA00252E1D /* NumberPickerInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPickerInput.swift; sourceTree = "<group>"; };
 		6DB94C372C6E32CD004F4C6E /* Recurrence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recurrence.swift; sourceTree = "<group>"; };
 		6DB94C3A2C6E32FC004F4C6E /* ReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewModel.swift; sourceTree = "<group>"; };
 		6DB94C3C2C6E331D004F4C6E /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
@@ -123,7 +147,9 @@
 				6D4CFDF62C749ED50096D675 /* FirebaseAnalytics in Frameworks */,
 				6D4CFDF92C74A90D0096D675 /* FirebaseAuth in Frameworks */,
 				6D4CFE052C74C76A0096D675 /* GoogleSignIn in Frameworks */,
+				6D4CFE2A2C777CFF0096D675 /* FirebaseFirestore in Frameworks */,
 				6D4CFE072C74C76A0096D675 /* GoogleSignInSwift in Frameworks */,
+				6DA1C96D2C78C03400252E1D /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,20 +177,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6D4CFDFA2C74A9B20096D675 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				6D4CFDFB2C74A9C10096D675 /* AuthenticationManager.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
 		6D4CFE0B2C74CA570096D675 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				6D4CFE0C2C74CA620096D675 /* Utilities.swift */,
+				6D4CFE222C76335D0096D675 /* FAQList.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		6D4CFE262C77799E0096D675 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				6D4CFDFB2C74A9C10096D675 /* AuthenticationManager.swift */,
+				6D4CFE272C7779D40096D675 /* UserManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		6D62EA8F2C6B59D800DDC95B /* Model */ = {
@@ -241,9 +269,9 @@
 		6DC339502C733D56004E991A /* FlightsApp */ = {
 			isa = PBXGroup;
 			children = (
-				6D4CFE0B2C74CA570096D675 /* Utilities */,
 				6D4CFE012C74C7130096D675 /* GoogleService-Info.plist */,
-				6D4CFDFA2C74A9B20096D675 /* Authentication */,
+				6D4CFE0B2C74CA570096D675 /* Utilities */,
+				6D4CFE262C77799E0096D675 /* Managers */,
 				6DC339542C733F9B004E991A /* ViewModel */,
 				6DC339532C733F92004E991A /* View */,
 				6DC339512C733F87004E991A /* Model */,
@@ -259,6 +287,8 @@
 				6DC339672C73751E004E991A /* UserModel.swift */,
 				6D4CFDFD2C74AB8C0096D675 /* AuthDataResultModel.swift */,
 				6D4CFE0E2C74CD870096D675 /* GoogleSignInResultModel.swift */,
+				6D4CFE202C7632FC0096D675 /* FAQ.swift */,
+				6D4CFE2B2C7781BA0096D675 /* DBUser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,7 +315,10 @@
 			children = (
 				6DC339572C73495A004E991A /* LoginScreenView.swift */,
 				6DC339632C736E5A004E991A /* RegistrationScreenView.swift */,
-				6D4CFDFF2C74AE440096D675 /* HomeScreenView.swift */,
+				6D4CFE102C75E7150096D675 /* MyProfileScreenView.swift */,
+				6D4CFE1E2C761D920096D675 /* FAQScreenView.swift */,
+				6D4CFE242C776D2D0096D675 /* ChangePassView.swift */,
+				6D4CFE2F2C779A300096D675 /* EditProfileScreenView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -298,6 +331,10 @@
 				6DC3395F2C735517004E991A /* ButtonView.swift */,
 				6DC339652C73709D004E991A /* Break.swift */,
 				6DC3396D2C738245004E991A /* PasswordTextField.swift */,
+				6D4CFE122C75E90E0096D675 /* BottomBarNavigation.swift */,
+				6D4CFE142C75F5CE0096D675 /* ProfileCard.swift */,
+				6D4CFE162C75F62A0096D675 /* CardRow.swift */,
+				6DA1C96E2C7CADDA00252E1D /* NumberPickerInput.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -382,6 +419,8 @@
 				6D4CFDF82C74A90D0096D675 /* FirebaseAuth */,
 				6D4CFE042C74C76A0096D675 /* GoogleSignIn */,
 				6D4CFE062C74C76A0096D675 /* GoogleSignInSwift */,
+				6D4CFE292C777CFF0096D675 /* FirebaseFirestore */,
+				6DA1C96C2C78C03400252E1D /* FirebaseStorage */,
 			);
 			productName = InternshipApp;
 			productReference = BFF14E182C6A002C007B9632 /* InternshipApp.app */;
@@ -505,6 +544,7 @@
 			files = (
 				6D4CFDFE2C74AB8C0096D675 /* AuthDataResultModel.swift in Sources */,
 				6DB94C3B2C6E32FC004F4C6E /* ReminderViewModel.swift in Sources */,
+				6D4CFE152C75F5CE0096D675 /* ProfileCard.swift in Sources */,
 				6DC3394E2C6F5530004E991A /* NotificationManager.swift in Sources */,
 				6D62EAA52C6B624300DDC95B /* EditProfileView.swift in Sources */,
 				6DC339682C73751E004E991A /* UserModel.swift in Sources */,
@@ -512,9 +552,11 @@
 				6D4CFE0D2C74CA620096D675 /* Utilities.swift in Sources */,
 				6D4CFE0F2C74CD870096D675 /* GoogleSignInResultModel.swift in Sources */,
 				6DB94C412C6E336D004F4C6E /* ReminderScreenView.swift in Sources */,
+				6D4CFE1F2C761D920096D675 /* FAQScreenView.swift in Sources */,
 				6D98A0422C6A2C8F000E3269 /* CreateTaskView.swift in Sources */,
 				6D62EAA72C6B6A3600DDC95B /* ProfileScreenViewModel.swift in Sources */,
 				6D62EA9F2C6B5EE400DDC95B /* TextFieldView.swift in Sources */,
+				6D4CFE132C75E90E0096D675 /* BottomBarNavigation.swift in Sources */,
 				6D4CFDFC2C74A9C10096D675 /* AuthenticationManager.swift in Sources */,
 				6DC3396A2C737580004E991A /* UserViewModel.swift in Sources */,
 				6DB94C382C6E32CD004F4C6E /* Recurrence.swift in Sources */,
@@ -522,18 +564,26 @@
 				6DC339622C73570F004E991A /* ButtonStyle.swift in Sources */,
 				6DB94C3D2C6E331D004F4C6E /* ReminderModel.swift in Sources */,
 				6D62EA9B2C6B5AF500DDC95B /* TaskViewModel.swift in Sources */,
+				6D4CFE252C776D2D0096D675 /* ChangePassView.swift in Sources */,
 				BFF14E1C2C6A002C007B9632 /* InternshipAppApp.swift in Sources */,
 				6D98A0442C6A3CBA000E3269 /* TaskListView.swift in Sources */,
 				6DB94C3F2C6E333E004F4C6E /* ReminderView.swift in Sources */,
+				6D4CFE2C2C7781BA0096D675 /* DBUser.swift in Sources */,
 				6D62EA992C6B5AB200DDC95B /* TaskView.swift in Sources */,
 				6DC3395C2C7350A1004E991A /* TextFieldInput.swift in Sources */,
 				6D62EAA32C6B612F00DDC95B /* ProfileScreenView.swift in Sources */,
+				6D4CFE212C7632FD0096D675 /* FAQ.swift in Sources */,
+				6D4CFE302C779A300096D675 /* EditProfileScreenView.swift in Sources */,
 				6DB94C432C6E3382004F4C6E /* CreateReminderScreenView.swift in Sources */,
 				6DC339662C73709D004E991A /* Break.swift in Sources */,
+				6DA1C96F2C7CADDA00252E1D /* NumberPickerInput.swift in Sources */,
 				6DC339582C73495A004E991A /* LoginScreenView.swift in Sources */,
 				6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */,
-				6D4CFE002C74AE440096D675 /* HomeScreenView.swift in Sources */,
 				6DC339642C736E5A004E991A /* RegistrationScreenView.swift in Sources */,
+				6D4CFE232C76335D0096D675 /* FAQList.swift in Sources */,
+				6D4CFE112C75E7150096D675 /* MyProfileScreenView.swift in Sources */,
+				6D4CFE172C75F62A0096D675 /* CardRow.swift in Sources */,
+				6D4CFE282C7779D40096D675 /* UserManager.swift in Sources */,
 				6DC339602C735517004E991A /* ButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,6 +752,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = InternshipApp/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We use Face ID to provide secure and convenient authentication for your account.\nWe use Face ID to provide secure and convenient authentication for your account.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -734,6 +785,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = InternshipApp/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We use Face ID to provide secure and convenient authentication for your account.\nWe use Face ID to provide secure and convenient authentication for your account.\n";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -910,6 +962,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6D4CFE032C74C76A0096D675 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		6D4CFE292C777CFF0096D675 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D4CFDF42C749ED50096D675 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6DA1C96C2C78C03400252E1D /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6D4CFDF42C749ED50096D675 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

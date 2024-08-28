@@ -17,9 +17,13 @@ struct InternshipAppApp: App {
     }
      */
     
+    @ObservedObject var userViewModel: UserViewModel
+    
     init() {
         FirebaseApp.configure()
         print("Configured Firebase!")
+        
+        self.userViewModel = UserViewModel()
     }
     
     var body: some Scene {
@@ -31,12 +35,10 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            let authUser = try? AuthenticationManager.shared.getAuthenticateduser()
-            
-            if authUser != nil {
-                HomeScreenView(userViewModel: UserViewModel())
+            if (try? AuthenticationManager.shared.getAuthenticateduser()) != nil {
+                BottomBarNavigation(userViewModel: userViewModel)
             } else {
-                LoginScreenView(userViewModel: UserViewModel())
+                LoginScreenView(userViewModel: userViewModel)
             }
         }
     }

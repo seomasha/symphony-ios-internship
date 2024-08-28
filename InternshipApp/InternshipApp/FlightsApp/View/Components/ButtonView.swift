@@ -28,7 +28,7 @@ struct ButtonView: View {
                     .padding()
             }
             .frame(maxWidth: .infinity)
-            .background(style == .primary ? Color.blue : Color(.lightgray))
+            .background(style == .primary ? Color.blue : Color(.googlegray))
             .cornerRadius(8)
 
         }

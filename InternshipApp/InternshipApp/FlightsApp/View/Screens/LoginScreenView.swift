@@ -33,38 +33,44 @@ struct LoginScreenView: View {
                     
                     VStack(alignment: .leading, spacing: 24) {
                         VStack {
-                            TextFieldInput(label: "Email Address", 
+                            TextFieldInput(label: "Email Address",
                                            placeholder: "Enter your email",
                                            text: $userViewModel.email,
-                                           iconName: "",
-                                           password: false)
+                                           iconName: "")
                         }
-
+                        
                         VStack {
                             PasswordTextField(text: $userViewModel.password,
                                               label: "Forgot password?")
                         }
                         
-                        
                         CheckboxView(label: "Keep me signed in")
                         
                         VStack(spacing: 24) {
-                            ButtonView(title: "Login", 
-                                       style: .primary, 
+                            ButtonView(title: "Login",
+                                       style: .primary,
                                        action: {
                                 Task {
                                     do {
-                                        try await userViewModel.signIn()
-                                        print("Signed in!")
+                                        if userViewModel.faceIDEnabled {
+                                            try await userViewModel.authenticateWithFaceID()
+                                        } else {
+                                            try await userViewModel.signIn()
+                                        }
                                     } catch {
-                                        print("Error: \(error)")
+                                        userViewModel.alertMessage = "You have provided false credentials"
+                                        userViewModel.showAlert = true
                                     }
                                 }
                             })
                             
+                            NavigationLink(destination: MyProfileScreenView(userViewModel: userViewModel), isActive: $userViewModel.isSignedIn) {
+                                EmptyView()
+                            }
+                            
                             Break(label: "or sign in with")
-
-                            ButtonView(title: "Continue with Google", 
+                            
+                            ButtonView(title: "Continue with Google",
                                        style: .secondary,
                                        action: {
                                 
@@ -73,13 +79,14 @@ struct LoginScreenView: View {
                                         try await userViewModel.signInWithGoogle()
                                         userViewModel.isSignedIn = true
                                     } catch {
-                                        print("Error: \(error)")
+                                        userViewModel.alertMessage = "Google Sign-In failed: \(error.localizedDescription)"
+                                        userViewModel.showAlert = true
                                     }
                                 }
                             }, leadingIcon: ImageResource.google)
                             
                             Button {
-
+                                
                             } label: {
                                 NavigationLink(destination: RegistrationScreenView(userViewModel: userViewModel)) {
                                     Text("Create an account")
@@ -97,10 +104,12 @@ struct LoginScreenView: View {
                     .padding()
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $userViewModel.isSignedIn) {
-                HomeScreenView(userViewModel: userViewModel)
+            .alert(isPresented: $userViewModel.showAlert) {
+                Alert(title: Text("Login Error"),
+                      message: Text(userViewModel.alertMessage),
+                      dismissButton: .default(Text("OK")))
             }
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
