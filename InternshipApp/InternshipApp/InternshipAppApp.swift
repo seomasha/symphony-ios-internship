@@ -35,11 +35,7 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            if (try? AuthenticationManager.shared.getAuthenticateduser()) != nil {
-                BottomBarNavigation(userViewModel: userViewModel)
-            } else {
-                LoginScreenView(userViewModel: userViewModel)
-            }
+            LoginScreenView(userViewModel: userViewModel)
         }
     }
 }

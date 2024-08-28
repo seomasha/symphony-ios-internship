@@ -15,18 +15,26 @@ struct BottomBarNavigation: View {
         NavigationStack {
             if userViewModel.isSignedIn {
                 TabView {
+                    HomeScreenView()
+                        .tabItem {
+                            Image(systemName: "house")
+                            Text("Home")
+                        }
+                        .tag(0)
+                    
                     MyProfileScreenView(userViewModel: userViewModel)
                         .tabItem {
                             Image(systemName: "person")
                             Text("My profile")
                         }
-                        .tag(0)
+                        .tag(1)
                 }
                 .toolbarBackground(.white, for: .tabBar)
             } else {
                 LoginScreenView(userViewModel: userViewModel)
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
