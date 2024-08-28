@@ -179,16 +179,18 @@ final class UserViewModel: ObservableObject {
             let authDataResult = try await AuthenticationManager.shared.signInWithGoogle(tokens: tokens)
 
             let userID = authDataResult.uid
-            let existingUser = try await UserManager.shared.getUser(userID: userID)
+            print("Attempting to fetch user with userID: \(userID)")
 
-            if let user = existingUser {
-                self.user = user
-                print("User fetched successfully: \(user)")
-            } else {
-                print("User does not exist, creating new user.")
+            do {
+                let existingUser = try await UserManager.shared.getUser(userID: userID)
+                self.user = existingUser
+                print("User fetched successfully: \(String(describing: existingUser))")
+            } catch {
+                print("Failed to fetch user: \(error.localizedDescription). Creating a new user.")
                 try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
                 print("New user created successfully.")
             }
+
         } catch let error as URLError {
             print("URLError occurred: \(error.code.rawValue) - \(error.localizedDescription)")
             throw error
@@ -200,8 +202,6 @@ final class UserViewModel: ObservableObject {
             throw error
         }
     }
-
-
     
     func signOut() {
         try? AuthenticationManager.shared.signOut()
