@@ -17,35 +17,37 @@ struct HomeScreenView: View {
         NavigationStack {
             ZStack {
                 Color(.lightgray).ignoresSafeArea()
-                
                 VStack(spacing: 20) {
                     VStack {
-                        Text("FLY MOSTAR")
-                            .foregroundStyle(.white)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .padding()
-
+                        HStack(spacing: -16) {
+                            Image(ImageResource.airplaneIcon)
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                            Text("FLY MOSTAR")
+                                .foregroundStyle(.white)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                        }
+                        
                     }
                     .frame(maxWidth: .infinity, maxHeight: 60)
                     .background(.blue)
-
+                    
                     VStack {
-                        VStack {
-                            Text("Welcome back Denis.")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            
-                            Text("Select a destination to fly to")
-                                .fontWeight(.light)
-                                .foregroundStyle(.gray)
-                            
-                            Picker("Travel options", selection: $selectedOption) {
-                                Text("One way")
-                                Text("Round")
-                                Text("Multicity")
+                        VStack(spacing: 24) {
+                            VStack {
+                                Text("Welcome back Denis.")
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Select a destination to fly to")
+                                    .fontWeight(.light)
+                                    .foregroundStyle(.gray)
                             }
-                            .pickerStyle(.segmented)
+                            
+                            FlightOptionPicker(selectedOption: $selectedOption,
+                                               options: ["One way", "Round", "Multicity"])
                             
                             Picker("Travel options", selection: $selectedOption) {
                                 Text("Mostar")
@@ -72,28 +74,28 @@ struct HomeScreenView: View {
                             ButtonView(title: "Search", style: .primary) {
                                 
                             }
-                            
-                            Spacer()
                         }
-                        .padding()
                     }
                     .padding()
                     .background(.white)
                     .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
                     .shadow(radius: 4)
                     .padding(.horizontal)
-                    .ignoresSafeArea(edges: .top)
                     
-                    HStack {
-                        Text("Personal offers")
-                        Spacer()
-                        Text("See all")
+                    VStack {
+                        HStack {
+                            Text("Personal offers")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                            Spacer()
+                            Text("See all")
+                                .foregroundStyle(.red)
+                        }
+                        .padding()
+                        
+                        CarouselView()
                     }
-                    .padding()
                     
-                    CarouselView()
-                    
-                    Spacer()
                 }
             }
         }
