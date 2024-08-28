@@ -15,7 +15,7 @@ struct BottomBarNavigation: View {
         NavigationStack {
             if userViewModel.isSignedIn {
                 TabView {
-                    HomeScreenView()
+                    HomeScreenView(userViewModel: userViewModel)
                         .tabItem {
                             Image(systemName: "house")
                             Text("Home")
