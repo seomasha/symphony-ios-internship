@@ -53,9 +53,9 @@ struct FAQScreenView: View {
                             .ignoresSafeArea(edges: .top)
                         
                         ScrollView {
-                            ForEach(FAQList().faqs.indices, id: \.self) { index in
-                                DisclosureGroup(FAQList().faqs[index].question) {
-                                    Text(FAQList().faqs[index].answer)
+                            ForEach(FAQList().faqs) { faq in
+                                DisclosureGroup(faq.question) {
+                                    Text(faq.answer)
                                         .padding(.vertical)
                                 }
                                 .padding()
@@ -65,10 +65,10 @@ struct FAQScreenView: View {
                                 .padding()
                                 .onTapGesture {
                                     withAnimation {
-                                        scrollView.scrollTo(index, anchor: .center)
+                                        scrollView.scrollTo(faq.id, anchor: .center)
                                     }
                                 }
-                                .id(index)
+                                .id(faq.id)
                                 Spacer()
                             }
                         }
