@@ -53,10 +53,14 @@ final class UserViewModel: ObservableObject {
     }
     
     func loadCurrentUser() async throws {
-        let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
-        self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
-        
-        self.faceIDEnabled = user?.faceIDEnabled ?? false
+        do {
+            let authDataResult = try AuthenticationManager.shared.getAuthenticateduser()
+            self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
+            
+            self.faceIDEnabled = user?.faceIDEnabled ?? false
+        } catch {
+            print("\(error.localizedDescription)")
+        }
     }
     
     func updateUser() async throws {
@@ -80,30 +84,34 @@ final class UserViewModel: ObservableObject {
     }
     
     func uploadProfileImage(_ image: UIImage) async throws {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            throw URLError(.badServerResponse)
-        }
+        do {
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                throw URLError(.badServerResponse)
+            }
 
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        
-        guard let userID = user?.userID else {
-            throw URLError(.badServerResponse)
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+            
+            guard let userID = user?.userID else {
+                throw URLError(.badServerResponse)
+            }
+            let imageName = "profile_images/\(userID).jpg"
+            let imageRef = storageRef.child(imageName)
+            
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            
+            imageRef.putData(imageData, metadata: metadata)
+            
+            let downloadURL = try await imageRef.downloadURL()
+            
+            self.profileImageURL = downloadURL.absoluteString
+            
+            let updates: [String: Any] = ["profile_image_url": profileImageURL]
+            try await UserManager.shared.updateUser(userID: userID, updates: updates)
+        } catch {
+            print("\(error.localizedDescription)")
         }
-        let imageName = "profile_images/\(userID).jpg"
-        let imageRef = storageRef.child(imageName)
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        
-        imageRef.putData(imageData, metadata: metadata)
-        
-        let downloadURL = try await imageRef.downloadURL()
-        
-        self.profileImageURL = downloadURL.absoluteString
-        
-        let updates: [String: Any] = ["profile_image_url": profileImageURL]
-        try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
 
     
@@ -112,23 +120,27 @@ final class UserViewModel: ObservableObject {
     }
     
     func signUp() async throws {
-        guard !email.isEmpty, !password.isEmpty else {
-            return
-        }
+        do {
+            guard !email.isEmpty, !password.isEmpty else {
+                return
+            }
 
-        let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
-        try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
-        
-        self.name = ""
-        self.surname = ""
-        self.age = 0
-        self.email = ""
-        self.password = ""
-        
-        self.isSignedIn = false
-        
-        self.accountCreated = true
-        resetAccountCreatedState()
+            let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
+            try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
+            
+            self.name = ""
+            self.surname = ""
+            self.age = 0
+            self.email = ""
+            self.password = ""
+            
+            self.isSignedIn = false
+            
+            self.accountCreated = true
+            resetAccountCreatedState()
+        } catch {
+            print("\(error.localizedDescription)")
+        }
     }
     
     private func resetAccountCreatedState() {
@@ -212,13 +224,17 @@ final class UserViewModel: ObservableObject {
     }
     
     func changePassword(pass: String) async throws {
-        guard let user = Auth.auth().currentUser  else {
-            throw URLError(.badServerResponse)
+        do {
+            guard let user = Auth.auth().currentUser  else {
+                throw URLError(.badServerResponse)
+            }
+            
+            try await user.updatePassword(to: pass)
+            password = newPassword
+            newPassword = ""
+        } catch {
+            print("\(error.localizedDescription)")
         }
-        
-        try await user.updatePassword(to: pass)
-        password = newPassword
-        newPassword = ""
     }
     
     func toggleFaceID() {
@@ -226,12 +242,16 @@ final class UserViewModel: ObservableObject {
     }
     
     func saveFaceIDPreference() async throws {
-        guard let userID = user?.userID else {
-            throw URLError(.badServerResponse)
+        do {
+            guard let userID = user?.userID else {
+                throw URLError(.badServerResponse)
+            }
+            
+            let updates: [String: Any] = ["face_id_enabled": faceIDEnabled]
+            try await UserManager.shared.updateUser(userID: userID, updates: updates)
+        } catch {
+            print("\(error.localizedDescription)")
         }
-        
-        let updates: [String: Any] = ["face_id_enabled": faceIDEnabled]
-        try await UserManager.shared.updateUser(userID: userID, updates: updates)
     }
     
     func validatePassword() -> Bool {
