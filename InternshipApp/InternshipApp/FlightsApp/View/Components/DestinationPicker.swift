@@ -12,6 +12,7 @@ struct DestinationPicker: View {
     @ObservedObject var flightViewModel: FlightViewModel
     var flight: FlightModel?
     var flightOption: FlightOption
+    @State private var showPopover: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -52,10 +53,10 @@ struct DestinationPicker: View {
         )
         .padding(.horizontal)
         .onTapGesture {
-            flightViewModel.showPopover = true
+            showPopover = true
             flightViewModel.selectedFlightOption = flightOption
         }
-        .sheet(isPresented: $flightViewModel.showPopover) {
+        .popover(isPresented: $showPopover) {
             VStack {
                 Text("Select a flight")
                     .font(.headline)
@@ -68,7 +69,13 @@ struct DestinationPicker: View {
                             flightViewModel.selectedFlight = flight
                             flightViewModel.showPopover = false
                         }) {
-                            Text("\(flight.town) - \(flight.airportCode)")
+                            HStack {
+                                Image(systemName: "airplane")
+                                Text("\(flight.town) - \(flight.airportCode)")
+                                    .font(.title2)
+                                    .foregroundStyle(.black)
+                            }
+                            .padding()
                         }
                     }
                 case .departure:
@@ -77,11 +84,18 @@ struct DestinationPicker: View {
                             flightViewModel.selectedDepartureFlight = flight
                             flightViewModel.showPopover = false
                         }) {
-                            Text("\(flight.town) - \(flight.airportCode)")
+                            HStack {
+                                Image(systemName: "airplane")
+                                Text("\(flight.town) - \(flight.airportCode)")
+                                    .font(.title2)
+                                    .foregroundStyle(.black)
+                            }
+                            .padding()
                         }
                     }
                 }
             }
+            .presentationCompactAdaptation(.popover)
         }
     }
 }

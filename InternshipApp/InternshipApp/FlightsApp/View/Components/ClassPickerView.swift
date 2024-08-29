@@ -5,13 +5,6 @@
 //  Created by Sead Mašetić on 29. 8. 2024..
 //
 
-//
-//  ClassPickerView.swift
-//  InternshipApp
-//
-//  Created by Sead Mašetić on 29. 8. 2024..
-//
-
 import SwiftUI
 
 struct ClassPickerView: View {
@@ -44,7 +37,7 @@ struct ClassPickerView: View {
         .onTapGesture {
             showPicker = true
         }
-        .popover(isPresented: $showPicker) {
+        .popover(isPresented: $showPicker, attachmentAnchor: .point(.bottom), arrowEdge: .bottom) {
             VStack {
                 Picker(title, selection: $selectedOption) {
                     Text("Economy").tag("Economy")
@@ -53,11 +46,8 @@ struct ClassPickerView: View {
                 }
                 .pickerStyle(.inline)
                 
-                Button("Done") {
-                    showPicker = false
-                }
                 .padding()
-            }
+            }.presentationCompactAdaptation(.popover)
         }
     }
 }

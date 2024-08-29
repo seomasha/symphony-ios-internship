@@ -48,7 +48,7 @@ struct TravellersPickerView: View {
         .onTapGesture {
             showPicker = true
         }
-        .sheet(isPresented: $showPicker) {
+        .popover(isPresented: $showPicker, attachmentAnchor: .point(.bottom), arrowEdge: .top) {
             VStack {
                 HStack {
                     VStack {
@@ -71,11 +71,9 @@ struct TravellersPickerView: View {
                         .pickerStyle(.menu)
                     }
                 }
-                Button("Done") {
-                    showPicker = false
-                }
-                .padding()
             }
+            .padding()
+            .presentationCompactAdaptation(.popover)
         }
     }
 }

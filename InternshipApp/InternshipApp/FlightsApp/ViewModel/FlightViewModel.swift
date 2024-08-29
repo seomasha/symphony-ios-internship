@@ -38,6 +38,6 @@ final class FlightViewModel: ObservableObject {
     }
 
     func validateReturnDate() -> Bool {
-        return selectedOption == "One way" || selectedFlight == nil
+        return selectedOption == "One way"
     }
 }

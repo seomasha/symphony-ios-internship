@@ -43,20 +43,18 @@ struct DatePickerView: View {
         .onTapGesture {
             showDatePicker = true
         }
-        .popover(isPresented: $showDatePicker, arrowEdge: .top) {
+        .popover(isPresented: $showDatePicker, attachmentAnchor: .point(.bottom), arrowEdge: .top) {
             VStack {
                 DatePicker(
                     "",
                     selection: $selectedDate,
                     displayedComponents: .date
                 )
-                .datePickerStyle(.graphical)
+                .datePickerStyle(.wheel)
                 .labelsHidden()
-                Button("Done") {
-                    showDatePicker = false
-                }
-                .padding()
             }
+            .padding()
+            .presentationCompactAdaptation(.popover)
         }
     }
     
