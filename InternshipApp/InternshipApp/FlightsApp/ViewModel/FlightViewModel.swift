@@ -24,7 +24,6 @@ final class FlightViewModel: ObservableObject {
         FlightModel(town: "Istanbul", airportCode: "IST", airportFullName: "Istanbul Airport", possibleAirports: ["SJJ", "MST"])
     ]
     
-    @Published var showPopover: Bool = false
     @Published var selectedFlight: FlightModel?
     @Published var selectedDepartureFlight: FlightModel?
     
@@ -35,6 +34,12 @@ final class FlightViewModel: ObservableObject {
         return flights.filter { flight in
             arrivalFlight.possibleAirports.contains(flight.airportCode)
         }
+    }
+    
+    func changeFlights() {
+        let temp = selectedFlight
+        selectedFlight = selectedDepartureFlight
+        selectedDepartureFlight = temp
     }
 
     func validateReturnDate() -> Bool {

@@ -62,35 +62,43 @@ struct DestinationPicker: View {
                     .font(.headline)
                     .padding()
                 
+                Divider()
+                
                 switch flightViewModel.selectedFlightOption {
                 case .arrival:
                     ForEach(flightViewModel.flights, id: \.airportCode) { flight in
                         Button(action: {
                             flightViewModel.selectedFlight = flight
-                            flightViewModel.showPopover = false
+                            showPopover = false
                         }) {
-                            HStack {
-                                Image(systemName: "airplane")
-                                Text("\(flight.town) - \(flight.airportCode)")
-                                    .font(.title2)
-                                    .foregroundStyle(.black)
+                            VStack {
+                                HStack {
+                                    Image(systemName: "airplane")
+                                    Text("\(flight.town) - \(flight.airportCode)")
+                                        .font(.title2)
+                                        .foregroundStyle(.black)
+                                }
+                                .padding()
+                                Divider()
                             }
-                            .padding()
                         }
                     }
                 case .departure:
                     ForEach(flightViewModel.availableDepartureFlights, id: \.airportCode) { flight in
                         Button(action: {
                             flightViewModel.selectedDepartureFlight = flight
-                            flightViewModel.showPopover = false
+                            showPopover = false
                         }) {
-                            HStack {
-                                Image(systemName: "airplane")
-                                Text("\(flight.town) - \(flight.airportCode)")
-                                    .font(.title2)
-                                    .foregroundStyle(.black)
+                            VStack {
+                                HStack {
+                                    Image(systemName: "airplane")
+                                    Text("\(flight.town) - \(flight.airportCode)")
+                                        .font(.title2)
+                                        .foregroundStyle(.black)
+                                }
+                                .padding()
+                                Divider()
                             }
-                            .padding()
                         }
                     }
                 }

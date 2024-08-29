@@ -59,7 +59,7 @@ struct HomeScreenView: View {
                                     }
                                     
                                     Button {
-
+                                        flightViewModel.changeFlights()
                                     } label: {
                                         Image(systemName: "arrow.up.arrow.down")
                                             .padding(.all, 8)
