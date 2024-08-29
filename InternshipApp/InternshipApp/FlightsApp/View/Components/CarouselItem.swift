@@ -12,6 +12,7 @@ struct CarouselItem: View {
     var name: String
     var image: ImageResource
     var color: Color
+    var onItemTap: () -> Void // Closure to handle item tap
 
     @State private var showSheet = false
 
@@ -37,23 +38,23 @@ struct CarouselItem: View {
                 Text("Lorem ipsum dolor sit amet et et dip")
                     .foregroundStyle(.gray)
             }
-            .frame(height: 100)
         }
         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 32)
+        .frame(maxWidth: 280)
         .background(Color.white)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color(.systemGray4), lineWidth: 1)
-                .padding(.horizontal, 34)
-        )
         .onTapGesture {
-            showSheet = true
+            onItemTap()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                showSheet = true
+            }
         }
         .sheet(isPresented: $showSheet) {
             ItemDetailView(percentage: percentage, name: name, image: image, color: color)
         }
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color(.systemGray4), lineWidth: 1)
+        )
     }
 }
 
@@ -61,5 +62,6 @@ struct CarouselItem: View {
     CarouselItem(percentage: 20,
                  name: "Mastercard",
                  image: ImageResource.mastercard,
-                 color: .red)
+                 color: .red,
+                 onItemTap: { /* Empty closure for preview */ })
 }

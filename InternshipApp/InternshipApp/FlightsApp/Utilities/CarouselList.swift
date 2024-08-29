@@ -10,6 +10,7 @@ import Foundation
 struct CarouselList {
     let items = [
         Carousel(percentage: 15, name: "Mastercard", image: .mastercard, color: .red),
-        Carousel(percentage: 20, name: "VISA", image: .visa, color: .blue)
+        Carousel(percentage: 20, name: "VISA", image: .visa, color: .blue),
+        Carousel(percentage: 10, name: "Amazon", image: .amazon, color: .orange)
     ]
 }

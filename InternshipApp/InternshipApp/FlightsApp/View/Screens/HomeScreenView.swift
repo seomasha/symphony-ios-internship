@@ -116,9 +116,10 @@ struct HomeScreenView: View {
                                     .foregroundStyle(.red)
                             }
                             .padding()
-
+                            
                             CarouselView()
                                 .frame(height: 200)
+                                .padding(.horizontal)
                         }
                     }
                     .padding(.vertical)

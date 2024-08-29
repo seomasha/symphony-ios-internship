@@ -8,19 +8,30 @@
 import SwiftUI
 
 struct CarouselView: View {
-    
+    @State private var selectedItemID: UUID? = nil
+
     var body: some View {
-        GeometryReader { geometry in
-            TabView {
-                ForEach(CarouselList().items, id: \.id) { item in
-                    CarouselItem(percentage: item.percentage,
-                                 name: item.name,
-                                 image: item.image,
-                                 color: item.color)
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(CarouselList().items, id: \.id) { item in
+                        CarouselItem(
+                            percentage: item.percentage,
+                            name: item.name,
+                            image: item.image,
+                            color: item.color,
+                            onItemTap: {
+                                withAnimation {
+                                    selectedItemID = item.id
+                                    proxy.scrollTo(item.id, anchor: .center)
+                                }
+                            }
+                        )
+                        .padding(.horizontal, 4)
+                        .id(item.id)
+                    }
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
