@@ -64,7 +64,7 @@ struct TravellersPickerView: View {
                     VStack {
                         Text("Children")
                         Picker("Children", selection: $selectedChildren) {
-                            ForEach(1...10, id: \.self) { i in
+                            ForEach(0...10, id: \.self) { i in
                                 Text("\(i)").tag("\(i)")
                             }
                         }
