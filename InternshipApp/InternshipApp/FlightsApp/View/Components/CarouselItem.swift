@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct CarouselItem: View {
-    
     var percentage: Int
     var name: String
     var image: ImageResource
     var color: Color
-    
+
+    @State private var showSheet = false
+
     var body: some View {
         HStack {
             VStack {
@@ -44,15 +45,21 @@ struct CarouselItem: View {
         .background(Color.white)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
-                .stroke(Color(.googlegray), lineWidth: 1)
+                .stroke(Color(.systemGray4), lineWidth: 1)
                 .padding(.horizontal, 34)
         )
+        .onTapGesture {
+            showSheet = true
+        }
+        .sheet(isPresented: $showSheet) {
+            ItemDetailView(percentage: percentage, name: name, image: image, color: color)
+        }
     }
 }
 
 #Preview {
     CarouselItem(percentage: 20,
                  name: "Mastercard",
-                 image: ImageResource.mastercard, 
+                 image: ImageResource.mastercard,
                  color: .red)
 }

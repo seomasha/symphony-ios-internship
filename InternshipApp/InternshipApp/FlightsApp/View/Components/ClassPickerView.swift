@@ -5,22 +5,26 @@
 //  Created by Sead Mašetić on 29. 8. 2024..
 //
 
-import SwiftUI
+//
+//  ClassPickerView.swift
+//  InternshipApp
+//
+//  Created by Sead Mašetić on 29. 8. 2024..
+//
 
 import SwiftUI
 
-struct PickerView: View {
+struct ClassPickerView: View {
     @Binding var selectedOption: String
     var title: String
-    var options: [String]
     @State private var showPicker = false
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
                 .font(.caption)
                 .foregroundStyle(.gray)
-            HStack {                
+            HStack {
                 VStack(alignment: .leading) {
                     Text(selectedOption)
                         .font(.caption)
@@ -40,12 +44,12 @@ struct PickerView: View {
         .onTapGesture {
             showPicker = true
         }
-        .sheet(isPresented: $showPicker) {
+        .popover(isPresented: $showPicker) {
             VStack {
                 Picker(title, selection: $selectedOption) {
-                    ForEach(options, id: \.self) { option in
-                        Text(option).tag(option)
-                    }
+                    Text("Economy").tag("Economy")
+                    Text("First Class").tag("First Class")
+                    Text("Business").tag("Business")
                 }
                 .pickerStyle(.inline)
                 
@@ -59,15 +63,5 @@ struct PickerView: View {
 }
 
 #Preview {
-    VStack {
-        Spacer()
-        PickerView(selectedOption: .constant("Option 1"),
-                          title: "Select Option",
-                          options: ["Option 1", "Option 2", "Option 3"])
-        Spacer()
-        PickerView(selectedOption: .constant("Option 2"),
-                          title: "Select Option",
-                          options: ["Option 1", "Option 2", "Option 3"])
-        Spacer()
-    }
+    ClassPickerView(selectedOption: .constant("Economy"), title: "Select Class")
 }

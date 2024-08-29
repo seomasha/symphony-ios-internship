@@ -11,7 +11,8 @@ struct DatePickerView: View {
     @Binding var selectedDate: Date
     var title: String
     @State private var showDatePicker = false
-
+    @ObservedObject var flightViewModel: FlightViewModel
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(title)
@@ -24,7 +25,7 @@ struct DatePickerView: View {
                     .foregroundStyle(.gray)
                 
                 VStack(alignment: .leading) {
-                    Text(formatDate(selectedDate))
+                    Text((flightViewModel.validateReturnDate() && title == "Return") ? "No return" : formatDate(selectedDate))
                         .font(.caption)
                         .fontWeight(.bold)
                 }
@@ -42,7 +43,7 @@ struct DatePickerView: View {
         .onTapGesture {
             showDatePicker = true
         }
-        .sheet(isPresented: $showDatePicker) {
+        .popover(isPresented: $showDatePicker, arrowEdge: .top) {
             VStack {
                 DatePicker(
                     "",
@@ -69,9 +70,9 @@ struct DatePickerView: View {
 #Preview {
     VStack {
         Spacer()
-        DatePickerView(selectedDate: .constant(Date()), title: "Departure Date")
+        DatePickerView(selectedDate: .constant(Date()), title: "Departure Date", flightViewModel: FlightViewModel())
         Spacer()
-        DatePickerView(selectedDate: .constant(Date()), title: "Return Date")
+        DatePickerView(selectedDate: .constant(Date()), title: "Return Date", flightViewModel: FlightViewModel())
         Spacer()
     }
 }

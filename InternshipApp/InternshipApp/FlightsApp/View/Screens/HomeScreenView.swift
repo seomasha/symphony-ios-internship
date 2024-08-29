@@ -10,8 +10,7 @@ import SwiftUI
 struct HomeScreenView: View {
 
     @ObservedObject var userViewModel: UserViewModel
-    @State private var selectedOption: String = "One way"
-    @State private var selectedDate: Date = Date()
+    @ObservedObject var flightViewModel: FlightViewModel
 
     var body: some View {
         NavigationStack {
@@ -33,30 +32,30 @@ struct HomeScreenView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             VStack {
-                                Text("Welcome back Denis.")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
+                                if let user = userViewModel.user {
+                                    Text("Welcome back \(user.name).")
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                }
 
                                 Text("Select a destination to fly to")
                                     .fontWeight(.light)
                                     .foregroundStyle(.gray)
                             }
 
-                            FlightOptionPicker(selectedOption: $selectedOption,
+                            FlightOptionPicker(selectedOption: $flightViewModel.selectedOption,
                                                options: ["One way", "Round", "Multicity"])
 
                             VStack(spacing: 0) {
                                 ZStack(alignment: .trailing) {
                                     VStack(spacing: 12) {
-                                        DestinationPicker(flightOption: .arrival,
-                                                          town: "Mostar",
-                                                          airportCode: "MST",
-                                                          airportFullName: "Mostar International Airport")
+                                        DestinationPicker(flightViewModel: flightViewModel, 
+                                                          flight: flightViewModel.selectedFlight,
+                                                          flightOption: .arrival)
                                         
-                                        DestinationPicker(flightOption: .departure,
-                                                          town: "New York",
-                                                          airportCode: "LGA",
-                                                          airportFullName: "Subhash Chandra International Airport")
+                                        DestinationPicker(flightViewModel: flightViewModel, 
+                                                          flight: flightViewModel.selectedDepartureFlight,
+                                                          flightOption: .departure)
                                     }
                                     
                                     Button {
@@ -78,21 +77,23 @@ struct HomeScreenView: View {
 
 
                             HStack(spacing: -8) {
-                                DatePickerView(selectedDate: .constant(Date()),
-                                               title: "Departure")
+                                DatePickerView(selectedDate: $flightViewModel.departureDate,
+                                               title: "Departure", 
+                                               flightViewModel: flightViewModel)
                                 
-                                DatePickerView(selectedDate: .constant(Date()),
-                                               title: "Return")
+                                DatePickerView(selectedDate: $flightViewModel.arrivalDate,
+                                               title: "Return",
+                                               flightViewModel: flightViewModel)
+                                .disabled(flightViewModel.validateReturnDate())
                             }
 
                             HStack(spacing: -8) {
-                                PickerView(selectedOption: .constant("1 Adult"),
-                                                  title: "Traveller",
-                                                  options: ["Option 1", "Option 2", "Option 3"])
+                                TravellersPickerView(selectedAdults: $flightViewModel.selectedAdults, 
+                                                     selectedChildren: $flightViewModel.selectedChildren,
+                                                     title: "Travellers")
                                 
-                                PickerView(selectedOption: .constant("Economy"),
-                                                  title: "Class",
-                                                  options: ["Option 1", "Option 2", "Option 3"])
+                                ClassPickerView(selectedOption: $flightViewModel.selectedClass,
+                                                title: "Class")
                             }
 
                             ButtonView(title: "Search", style: .primary) {
@@ -125,10 +126,19 @@ struct HomeScreenView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            Task {
+                do {
+                    try await userViewModel.loadCurrentUser()
+                } catch {
+                    print("\(error.localizedDescription)")
+                }
+            }
+        }
     }
 }
 
 
 #Preview {
-    HomeScreenView(userViewModel: UserViewModel())
+    HomeScreenView(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }
