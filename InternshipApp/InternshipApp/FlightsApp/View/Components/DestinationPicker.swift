@@ -66,38 +66,42 @@ struct DestinationPicker: View {
                 
                 switch flightViewModel.selectedFlightOption {
                 case .arrival:
-                    ForEach(flightViewModel.flights, id: \.airportCode) { flight in
-                        Button(action: {
-                            flightViewModel.selectedFlight = flight
-                            showPopover = false
-                        }) {
-                            VStack {
-                                HStack {
-                                    Image(systemName: "airplane")
-                                    Text("\(flight.town) - \(flight.airportCode)")
-                                        .font(.title2)
-                                        .foregroundStyle(.black)
+                    ScrollView {
+                        ForEach(flightViewModel.flights, id: \.airportCode) { flight in
+                            Button(action: {
+                                flightViewModel.selectedFlight = flight
+                                showPopover = false
+                            }) {
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "airplane")
+                                        Text("\(flight.town) - \(flight.airportCode)")
+                                            .font(.title2)
+                                            .foregroundStyle(.black)
+                                    }
+                                    .padding()
+                                    Divider()
                                 }
-                                .padding()
-                                Divider()
                             }
                         }
                     }
                 case .departure:
-                    ForEach(flightViewModel.availableDepartureFlights, id: \.airportCode) { flight in
-                        Button(action: {
-                            flightViewModel.selectedDepartureFlight = flight
-                            showPopover = false
-                        }) {
-                            VStack {
-                                HStack {
-                                    Image(systemName: "airplane")
-                                    Text("\(flight.town) - \(flight.airportCode)")
-                                        .font(.title2)
-                                        .foregroundStyle(.black)
+                    ScrollView {
+                        ForEach(flightViewModel.availableDepartureFlights, id: \.airportCode) { flight in
+                            Button(action: {
+                                flightViewModel.selectedDepartureFlight = flight
+                                showPopover = false
+                            }) {
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "airplane")
+                                        Text("\(flight.town) - \(flight.airportCode)")
+                                            .font(.title2)
+                                            .foregroundStyle(.black)
+                                    }
+                                    .padding()
+                                    Divider()
                                 }
-                                .padding()
-                                Divider()
                             }
                         }
                     }
