@@ -64,7 +64,7 @@ struct LoginScreenView: View {
                                 }
                             })
                             
-                            NavigationLink(destination: MyProfileScreenView(userViewModel: userViewModel), isActive: $userViewModel.isSignedIn) {
+                            NavigationLink(destination: BottomBarNavigation(userViewModel: userViewModel), isActive: $userViewModel.isSignedIn) {
                                 EmptyView()
                             }
                             
