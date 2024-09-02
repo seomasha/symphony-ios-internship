@@ -10,13 +10,25 @@ import SwiftUI
 struct FlightOffersScreen: View {
     
     @ObservedObject var flightViewModel: FlightViewModel
-    @Environment(\.dismiss) private var dismiss
+    @ObservedObject var userViewModel: UserViewModel
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack(spacing: 0) {
                     HStack(spacing: -16) {
+                        
+                        Button(action: {
+                            flightViewModel.navigateToHome = true
+                            flightViewModel.navigateToOffers = false
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .foregroundStyle(.white)
+                                .padding(.horizontal)
+                        }
+                        
+                        Spacer()
+                        
                         Image(ImageResource.airplaneIcon)
                             .resizable()
                             .frame(width: 50, height: 50)
@@ -25,8 +37,14 @@ struct FlightOffersScreen: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding()
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.clear)
+                            .padding(.horizontal)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 60)
+                    .frame(maxWidth: .infinity, maxHeight: 40)
                     .background(Color.blue)
                     
                     HStack {
@@ -34,9 +52,9 @@ struct FlightOffersScreen: View {
                             Text("Showing")
                                 .font(.caption2)
                                 .foregroundStyle(.blue)
-                            Text("12")
+                            Text("\(flightViewModel.getFlightOffers().count)")
                                 .foregroundStyle(.blue)
-                            Text("Results")
+                            Text(flightViewModel.getFlightOffers().count == 1 ? "Result" : "Results")
                                 .font(.caption2)
                                 .foregroundStyle(.blue)
                         }
@@ -57,23 +75,36 @@ struct FlightOffersScreen: View {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundStyle(.gray)
                         }
-
+                        
                     }
                     .padding()
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
                     .shadow(radius: 4)
                     .padding()
-
+                    
                     ScrollView {
+                        let offers = flightViewModel.getFlightOffers()
                         
+                        if offers.isEmpty {
+                            Text("No flight offers for the selected flight!")
+                                .foregroundStyle(.gray)
+                        } else {
+                            ForEach(offers, id: \.id) { offer in
+                                FlightOffer(flightOffer: offer)
+                            }
+                        }
                     }
                     .padding(.vertical)
                 }
             }
         }
+        .navigationDestination(isPresented: $flightViewModel.navigateToHome) {
+            HomeScreenView(userViewModel: userViewModel,
+                           flightViewModel: flightViewModel)
+        }
     }
 }
 #Preview {
-    FlightOffersScreen(flightViewModel: FlightViewModel())
+    FlightOffersScreen(flightViewModel: FlightViewModel(), userViewModel: UserViewModel())
 }

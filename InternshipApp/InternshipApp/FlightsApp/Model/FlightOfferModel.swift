@@ -7,7 +7,10 @@
 
 import Foundation
 
-struct FlightOfferModel {
+struct FlightOfferModel: Identifiable {
+    
+    let id = UUID()
+    
     var departureCode: String
     var departureTown: String
     
@@ -15,6 +18,9 @@ struct FlightOfferModel {
     var arrivalTown: String
     
     var flightDuration: String
+    
+    var time: String
+    var date: Date
     
     var airCompany: String
     var price: Int

@@ -9,19 +9,7 @@ import SwiftUI
 
 struct FlightOffer: View {
     
-    var departureCode: String
-    var departureTown: String
-    
-    var arrivalCode: String
-    var arrivalTown: String
-    
-    var flightDuration: String
-    
-    var departureTime: String
-    var date: Date
-    
-    var airCompany: String
-    var price: Int
+    var flightOffer: FlightOfferModel
     
     @State private var focused: Bool = false
     
@@ -29,11 +17,11 @@ struct FlightOffer: View {
         VStack {
             HStack {
                 VStack {
-                    Text(departureCode)
+                    Text(flightOffer.departureCode)
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text(departureTown)
+                    Text(flightOffer.departureTown)
                         .foregroundStyle(.gray)
                         .fontWeight(.light)
                 }
@@ -47,16 +35,16 @@ struct FlightOffer: View {
                 Spacer()
                 
                 VStack {
-                    Text(arrivalCode)
+                    Text(flightOffer.arrivalCode)
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text(arrivalTown)
+                    Text(flightOffer.arrivalTown)
                         .foregroundStyle(.gray)
                         .fontWeight(.light)
                 }
             }
-            Text("\(flightDuration) hours")
+            Text("\(flightOffer.flightDuration) hours")
             Divider()
             HStack {
                 VStack(alignment: .leading) {
@@ -70,7 +58,7 @@ struct FlightOffer: View {
                             .foregroundStyle(.gray)
                         
                         VStack(alignment: .leading) {
-                            Text(departureTime)
+                            Text(flightOffer.time)
                                 .font(.caption)
                         }
                         Spacer()
@@ -98,7 +86,7 @@ struct FlightOffer: View {
                             .foregroundStyle(.gray)
                         
                         VStack(alignment: .leading) {
-                            Text(formatDate(date))
+                            Text(formatDate(flightOffer.date))
                                 .font(.caption)
                         }
                         Spacer()
@@ -117,13 +105,13 @@ struct FlightOffer: View {
             Divider()
             HStack {
                 Image(systemName: "airplane.departure")
-                Text(airCompany)
+                Text(flightOffer.airCompany)
                     .font(.title2)
                     .fontWeight(.light)
                 
                 Spacer()
                 
-                Text("$\(price)")
+                Text("$\(flightOffer.price)")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundStyle(Color(.lightblue))
@@ -137,7 +125,7 @@ struct FlightOffer: View {
         )
         .padding()
         .onTapGesture {
-            focused = true
+            focused.toggle()
         }
     }
     
@@ -146,9 +134,4 @@ struct FlightOffer: View {
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: date)
     }
-}
-
-
-#Preview {
-    FlightOffer(departureCode: "MST", departureTown: "Mostar", arrivalCode: "LGA", arrivalTown: "New York", flightDuration: "12:45", departureTime: "09:30", date: Date(), airCompany: "Qatar Airways", price: 235)
 }
