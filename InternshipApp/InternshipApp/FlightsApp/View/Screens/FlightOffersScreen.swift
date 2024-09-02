@@ -70,12 +70,44 @@ struct FlightOffersScreen: View {
                         Spacer()
                         
                         Button {
-                            
+                            flightViewModel.showFilterPopover = true
                         } label: {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundStyle(.gray)
                         }
-                        
+                        .popover(isPresented: $flightViewModel.showFilterPopover,
+                                 attachmentAnchor: .point(.bottom),
+                                 content: {
+                            
+                            VStack {
+                                Text("Filter by:")
+                                    .font(.headline)
+                                    .padding(.bottom, 10)
+                                
+                                Grid {
+                                    GridRow {
+                                        Text("Price:")
+                                        Slider(value: $flightViewModel.minPrice,
+                                               in: 0...1000,
+                                               label: { Text("Min Price") })
+                                        Text("\(Int(flightViewModel.minPrice))$")
+                                    }
+                                    GridRow {
+                                        Text("Date:")
+                                        DatePicker("", selection: $flightViewModel.minDate, displayedComponents: .date)
+                                    }
+                                    GridRow {
+                                        Text("Duration:")
+                                        Slider(value: $flightViewModel.minDuration, in: 0...24, label: { Text("Min Duration") })
+                                        Text("\(Int(flightViewModel.minDuration))h")
+                                    }
+                                }
+                                .padding()
+                            }
+                            .padding()
+                            .presentationCompactAdaptation(.popover)
+                        }
+                        )
                     }
                     .padding()
                     .background(Color.white)

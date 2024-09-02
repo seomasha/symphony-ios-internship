@@ -23,8 +23,17 @@ final class FlightViewModel: ObservableObject {
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
+    @Published var showFilterPopover: Bool = false
+    
+    @Published var minPrice: Double = 0
+    @Published var maxPrice: Double = 1000
+    @Published var minDate: Date = Date()
+    @Published var maxDate: Date = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
+    @Published var minDuration: Double = 0
+    @Published var maxDuration: Double = 24
+    
     @Published var flights: [FlightModel] = [
-        FlightModel(town: "Mostar", 
+        FlightModel(town: "Mostar",
                     airportCode: "MST",
                     airportFullName: "Mostar International Airport",
                     possibleAirports: ["MUC", "IST"]),
@@ -34,22 +43,22 @@ final class FlightViewModel: ObservableObject {
                     airportFullName: "Sarajevo International Airport",
                     possibleAirports: ["LGA", "IST"]),
         
-        FlightModel(town: "New York", 
+        FlightModel(town: "New York",
                     airportCode: "LGA",
                     airportFullName: "LaGuardia Airport",
                     possibleAirports: ["SJJ", "MST", "ZRH", "LOS", "FCO", "MUC"]),
         
-        FlightModel(town: "Istanbul", 
+        FlightModel(town: "Istanbul",
                     airportCode: "IST",
                     airportFullName: "Istanbul Airport",
                     possibleAirports: ["SJJ", "MST"]),
         
-        FlightModel(town: "Munchen", 
+        FlightModel(town: "Munchen",
                     airportCode: "MUC",
                     airportFullName: "Munich International Airport",
                     possibleAirports: ["LGA", "IST", "SJJ", "MST"]),
         
-        FlightModel(town: "Zurich", 
+        FlightModel(town: "Zurich",
                     airportCode: "ZRH",
                     airportFullName: "Zurich Airport",
                     possibleAirports: ["SJJ", "LGA", "MUC"]),
@@ -59,7 +68,7 @@ final class FlightViewModel: ObservableObject {
                     airportFullName: "Murtala Muhammed International Airport",
                     possibleAirports: ["ZRH"]),
         
-        FlightModel(town: "Rome", 
+        FlightModel(town: "Rome",
                     airportCode: "FCO",
                     airportFullName: "Leonardo da Vinci–Fiumicino Airport",
                     possibleAirports: ["MUC", "LGA", "ZRH", "SJJ"])
@@ -77,15 +86,15 @@ final class FlightViewModel: ObservableObject {
                          price: 250),
         
         FlightOfferModel(departureCode: "SJJ",
-                             departureTown: "Sarajevo",
-                             arrivalCode: "IST",
-                             arrivalTown: "Istanbul",
-                             flightDuration: "2:15",
-                             time: "01:20 PM",
-                             date: Date(),
-                             airCompany: "Turkish Airlines",
-                             price: 190),
-            
+                         departureTown: "Sarajevo",
+                         arrivalCode: "IST",
+                         arrivalTown: "Istanbul",
+                         flightDuration: "2:15",
+                         time: "01:20 PM",
+                         date: Date(),
+                         airCompany: "Turkish Airlines",
+                         price: 190),
+        
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
                          arrivalCode: "SJJ",
@@ -95,7 +104,7 @@ final class FlightViewModel: ObservableObject {
                          date: Date(),
                          airCompany: "Lufthansa",
                          price: 220),
-                         
+        
         FlightOfferModel(departureCode: "LGA",
                          departureTown: "New York",
                          arrivalCode: "ZRH",
@@ -115,7 +124,7 @@ final class FlightViewModel: ObservableObject {
                          date: Date(),
                          airCompany: "Swiss Air",
                          price: 450),
-                         
+        
         FlightOfferModel(departureCode: "FCO",
                          departureTown: "Rome",
                          arrivalCode: "LGA",
@@ -125,7 +134,7 @@ final class FlightViewModel: ObservableObject {
                          date: Date(),
                          airCompany: "Alitalia",
                          price: 380),
-
+        
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
                          arrivalCode: "IST",
@@ -236,7 +245,7 @@ final class FlightViewModel: ObservableObject {
                          airCompany: "Ryanair",
                          price: 470)
     ]
-
+    
     
     @Published var selectedFlight: FlightModel? {
         didSet {
@@ -261,11 +270,22 @@ final class FlightViewModel: ObservableObject {
         }
         
         return flightOffers.filter { offer in
-            (offer.departureCode == selectedDepartureFlight.airportCode &&
-             offer.arrivalCode == selectedFlight.airportCode) ||
-            (offer.departureCode == selectedFlight.airportCode &&
-             offer.arrivalCode == selectedDepartureFlight.airportCode)
+            let priceMatch = offer.price >= Int(minPrice) && offer.price <= Int(maxPrice)
+            let dateMatch = offer.date >= minDate && offer.date <= maxDate
+            let durationMatch = convertDurationToHours(offer.flightDuration) >= minDuration &&
+            convertDurationToHours(offer.flightDuration) <= maxDuration
+            
+            return priceMatch && dateMatch && durationMatch &&
+            ((offer.departureCode == selectedDepartureFlight.airportCode &&
+              offer.arrivalCode == selectedFlight.airportCode) ||
+             (offer.departureCode == selectedFlight.airportCode &&
+              offer.arrivalCode == selectedDepartureFlight.airportCode))
         }
+    }
+    
+    private func convertDurationToHours(_ duration: String) -> Double {
+        let components = duration.split(separator: ":").map { Double($0) ?? 0 }
+        return components[0] + components[1] / 60
     }
     
     func changeFlights() {
@@ -275,7 +295,7 @@ final class FlightViewModel: ObservableObject {
             selectedDepartureFlight = temp
         }
     }
-
+    
     func validateReturnDate() -> Bool {
         return selectedOption == "One way"
     }
