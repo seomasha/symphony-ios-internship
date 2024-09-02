@@ -97,7 +97,7 @@ struct HomeScreenView: View {
                             }
 
                             ButtonView(title: "Search", style: .primary) {
-
+                                flightViewModel.navigateToOffers = true
                             }
                         }
                         .padding()
@@ -136,6 +136,10 @@ struct HomeScreenView: View {
                 }
             }
         }
+        .navigationDestination(isPresented: $flightViewModel.navigateToOffers) {
+            FlightOffersScreen(flightViewModel: flightViewModel)
+        }
+
     }
 }
 

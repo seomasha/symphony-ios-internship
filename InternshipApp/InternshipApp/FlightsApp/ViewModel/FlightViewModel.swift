@@ -18,6 +18,8 @@ final class FlightViewModel: ObservableObject {
     @Published var selectedFlightOption: FlightOption = .arrival
     @Published var showPopover: Bool = false
     
+    @Published var navigateToOffers: Bool = false
+    
     @Published var flights: [FlightModel] = [
         FlightModel(town: "Mostar", airportCode: "MST", airportFullName: "Mostar International Airport", possibleAirports: ["MUC", "IST"]),
         FlightModel(town: "Sarajevo", airportCode: "SJJ", airportFullName: "Sarajevo International Airport", possibleAirports: ["LGA", "IST"]),
@@ -27,6 +29,10 @@ final class FlightViewModel: ObservableObject {
         FlightModel(town: "Zurich", airportCode: "ZRH", airportFullName: "Zurich Airport", possibleAirports: ["SJJ", "LGA", "MUC"]),
         FlightModel(town: "Lagos", airportCode: "LOS", airportFullName: "Murtala Muhammed International Airport", possibleAirports: ["ZRH"]),
         FlightModel(town: "Rome", airportCode: "FCO", airportFullName: "Leonardo da Vinci–Fiumicino Airport", possibleAirports: ["MUC", "LGA", "ZRH", "SJJ"])
+    ]
+    
+    @Published var flightOffers: [FlightOfferModel] = [
+    
     ]
     
     @Published var selectedFlight: FlightModel? {
