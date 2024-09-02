@@ -12,6 +12,8 @@ struct FlightOffersScreen: View {
     @ObservedObject var flightViewModel: FlightViewModel
     @ObservedObject var userViewModel: UserViewModel
     
+    @State var showPopover: Bool = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -70,12 +72,12 @@ struct FlightOffersScreen: View {
                         Spacer()
                         
                         Button {
-                            flightViewModel.showFilterPopover = true
+                            showPopover = true
                         } label: {
                             Image(systemName: "slider.horizontal.3")
                                 .foregroundStyle(.gray)
                         }
-                        .popover(isPresented: $flightViewModel.showFilterPopover,
+                        .popover(isPresented: $showPopover,
                                  attachmentAnchor: .point(.bottom),
                                  content: {
                             
@@ -132,6 +134,7 @@ struct FlightOffersScreen: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $flightViewModel.navigateToHome) {
             HomeScreenView(userViewModel: userViewModel,
                            flightViewModel: flightViewModel)

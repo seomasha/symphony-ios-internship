@@ -32,6 +32,9 @@ final class FlightViewModel: ObservableObject {
     @Published var minDuration: Double = 0
     @Published var maxDuration: Double = 24
     
+    @Published var showAlert = false
+    @Published var alertMessage = ""
+    
     @Published var flights: [FlightModel] = [
         FlightModel(town: "Mostar",
                     airportCode: "MST",
@@ -274,8 +277,9 @@ final class FlightViewModel: ObservableObject {
             let dateMatch = offer.date >= minDate && offer.date <= maxDate
             let durationMatch = convertDurationToHours(offer.flightDuration) >= minDuration &&
             convertDurationToHours(offer.flightDuration) <= maxDuration
+            let departureDateMatch = Calendar.current.isDate(offer.date, inSameDayAs: departureDate)
             
-            return priceMatch && dateMatch && durationMatch &&
+            return priceMatch && dateMatch && durationMatch && departureDateMatch &&
             ((offer.departureCode == selectedDepartureFlight.airportCode &&
               offer.arrivalCode == selectedFlight.airportCode) ||
              (offer.departureCode == selectedFlight.airportCode &&
@@ -298,5 +302,14 @@ final class FlightViewModel: ObservableObject {
     
     func validateReturnDate() -> Bool {
         return selectedOption == "One way"
+    }
+    
+    func validateFlightSelection() -> Bool {
+        if selectedFlight == nil || selectedDepartureFlight == nil {
+            alertMessage = "Please select both a departure and arrival flight."
+            showAlert = true
+            return false
+        }
+        return true
     }
 }

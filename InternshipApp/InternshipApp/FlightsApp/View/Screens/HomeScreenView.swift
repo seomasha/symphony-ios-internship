@@ -95,10 +95,19 @@ struct HomeScreenView: View {
                                 ClassPickerView(selectedOption: $flightViewModel.selectedClass,
                                                 title: "Class")
                             }
-
+                            
                             ButtonView(title: "Search", style: .primary) {
-                                flightViewModel.navigateToOffers = true
-                                flightViewModel.navigateToHome = false
+                                if flightViewModel.validateFlightSelection() {
+                                    flightViewModel.navigateToOffers = true
+                                    flightViewModel.navigateToHome = false
+                                } else {
+                                    flightViewModel.showAlert = true
+                                }
+                            }
+                            .alert(isPresented: $flightViewModel.showAlert) {
+                                Alert(title: Text("Missing Information"),
+                                      message: Text(flightViewModel.alertMessage),
+                                      dismissButton: .default(Text("OK")))
                             }
                         }
                         .padding()
