@@ -10,8 +10,7 @@ import SwiftUI
 struct FlightOffer: View {
     
     var flightOffer: FlightOfferModel
-    
-    @State private var focused: Bool = false
+    @Binding var selectedFlightOffer: FlightOfferModel?
     
     var body: some View {
         VStack {
@@ -121,11 +120,11 @@ struct FlightOffer: View {
         .frame(maxWidth: .infinity)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
-                .stroke(focused ? .blue : Color(.systemGray4), lineWidth: focused ? 4 : 1)
+                .stroke(flightOffer == selectedFlightOffer ? .blue : Color(.systemGray4), lineWidth: flightOffer == selectedFlightOffer ? 4 : 1)
         )
         .padding()
         .onTapGesture {
-            focused.toggle()
+            selectedFlightOffer = flightOffer
         }
     }
     
