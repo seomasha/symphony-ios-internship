@@ -67,7 +67,7 @@ struct DestinationPicker: View {
                 switch flightViewModel.selectedFlightOption {
                 case .arrival:
                     ScrollView {
-                        ForEach(flightViewModel.flights, id: \.airportCode) { flight in
+                        ForEach(FlightList().flights, id: \.airportCode) { flight in
                             Button(action: {
                                 flightViewModel.selectedFlight = flight
                                 showPopover = false

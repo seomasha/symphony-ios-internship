@@ -56,6 +56,7 @@
 		6DA6549E2C85CA8A00484D3D /* FlightOffersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6549D2C85CA8A00484D3D /* FlightOffersScreen.swift */; };
 		6DA654A02C85D8FE00484D3D /* FlightOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA6549F2C85D8FE00484D3D /* FlightOffer.swift */; };
 		6DA654A22C85DB8E00484D3D /* FlightOfferModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA654A12C85DB8E00484D3D /* FlightOfferModel.swift */; };
+		6DA654A42C87187300484D3D /* FlightList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA654A32C87187300484D3D /* FlightList.swift */; };
 		6DB94C382C6E32CD004F4C6E /* Recurrence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C372C6E32CD004F4C6E /* Recurrence.swift */; };
 		6DB94C3B2C6E32FC004F4C6E /* ReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C3A2C6E32FC004F4C6E /* ReminderViewModel.swift */; };
 		6DB94C3D2C6E331D004F4C6E /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB94C3C2C6E331D004F4C6E /* ReminderModel.swift */; };
@@ -144,6 +145,7 @@
 		6DA6549D2C85CA8A00484D3D /* FlightOffersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOffersScreen.swift; sourceTree = "<group>"; };
 		6DA6549F2C85D8FE00484D3D /* FlightOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOffer.swift; sourceTree = "<group>"; };
 		6DA654A12C85DB8E00484D3D /* FlightOfferModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOfferModel.swift; sourceTree = "<group>"; };
+		6DA654A32C87187300484D3D /* FlightList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightList.swift; sourceTree = "<group>"; };
 		6DB94C372C6E32CD004F4C6E /* Recurrence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recurrence.swift; sourceTree = "<group>"; };
 		6DB94C3A2C6E32FC004F4C6E /* ReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewModel.swift; sourceTree = "<group>"; };
 		6DB94C3C2C6E331D004F4C6E /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				6D4CFE0C2C74CA620096D675 /* Utilities.swift */,
 				6D4CFE222C76335D0096D675 /* FAQList.swift */,
 				6D66CB562C7F5BA200908A4D /* CarouselList.swift */,
+				6DA654A32C87187300484D3D /* FlightList.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -640,6 +643,7 @@
 				6DC339662C73709D004E991A /* Break.swift in Sources */,
 				6DA1C96F2C7CADDA00252E1D /* NumberPickerInput.swift in Sources */,
 				6DC339582C73495A004E991A /* LoginScreenView.swift in Sources */,
+				6DA654A42C87187300484D3D /* FlightList.swift in Sources */,
 				6D66CB5B2C804D5900908A4D /* FlightOption.swift in Sources */,
 				6D62EA962C6B5A4500DDC95B /* TaskModel.swift in Sources */,
 				6D66CB5F2C8059F000908A4D /* ClassPickerView.swift in Sources */,
