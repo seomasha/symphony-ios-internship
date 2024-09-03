@@ -125,7 +125,9 @@ struct FlightOffersScreen: View {
                                 .foregroundStyle(.gray)
                         } else {
                             ForEach(offers, id: \.id) { offer in
-                                FlightOffer(flightOffer: offer,
+                                FlightOffer(flightViewModel: flightViewModel,
+                                            userViewModel: userViewModel,
+                                            flightOffer: offer,
                                             selectedFlightOffer: $flightViewModel.selectedFlightOffer)
                             }
                         }

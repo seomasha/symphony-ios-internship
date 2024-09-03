@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FlightOffer: View {
     
+    @ObservedObject var flightViewModel: FlightViewModel
+    @ObservedObject var userViewModel: UserViewModel
     var flightOffer: FlightOfferModel
     @Binding var selectedFlightOffer: FlightOfferModel?
     
@@ -125,6 +127,11 @@ struct FlightOffer: View {
         .padding()
         .onTapGesture {
             selectedFlightOffer = flightOffer
+            flightViewModel.navigateToSelection = true
+            flightViewModel.navigateToOffers = false
+        }
+        .navigationDestination(isPresented: $flightViewModel.navigateToSelection) {
+            FlightSelectionScreen(flightViewModel: flightViewModel, userViewModel: userViewModel)
         }
     }
     

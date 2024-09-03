@@ -20,6 +20,7 @@ final class FlightViewModel: ObservableObject {
     
     @Published var navigateToOffers = false
     @Published var navigateToHome = false
+    @Published var navigateToSelection = false
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
