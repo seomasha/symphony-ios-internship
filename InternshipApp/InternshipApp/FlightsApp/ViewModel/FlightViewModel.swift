@@ -18,16 +18,23 @@ final class FlightViewModel: ObservableObject {
     @Published var selectedFlightOption: FlightOption = .arrival
     @Published var showPopover: Bool = false
     
-    @Published var flights: [FlightModel] = [
-        FlightModel(town: "Mostar", airportCode: "MST", airportFullName: "Mostar International Airport", possibleAirports: ["MUC", "IST"]),
-        FlightModel(town: "Sarajevo", airportCode: "SJJ", airportFullName: "Sarajevo International Airport", possibleAirports: ["LGA", "IST"]),
-        FlightModel(town: "New York", airportCode: "LGA", airportFullName: "LaGuardia Airport", possibleAirports: ["SJJ", "MST", "ZRH", "LOS", "FCO", "MUC"]),
-        FlightModel(town: "Istanbul", airportCode: "IST", airportFullName: "Istanbul Airport", possibleAirports: ["SJJ", "MST"]),
-        FlightModel(town: "Munchen", airportCode: "MUC", airportFullName: "Munich International Airport", possibleAirports: ["LGA", "IST", "SJJ", "MST"]),
-        FlightModel(town: "Zurich", airportCode: "ZRH", airportFullName: "Zurich Airport", possibleAirports: ["SJJ", "LGA", "MUC"]),
-        FlightModel(town: "Lagos", airportCode: "LOS", airportFullName: "Murtala Muhammed International Airport", possibleAirports: ["ZRH"]),
-        FlightModel(town: "Rome", airportCode: "FCO", airportFullName: "Leonardo da Vinci–Fiumicino Airport", possibleAirports: ["MUC", "LGA", "ZRH", "SJJ"])
-    ]
+    @Published var navigateToOffers = false
+    @Published var navigateToHome = false
+    
+    @Published var selectedFlightOffer: FlightOfferModel?
+    
+    @Published var showFilterPopover: Bool = false
+    
+    @Published var minPrice: Double = 0
+    @Published var maxPrice: Double = 1000
+    @Published var minDate: Date = Date()
+    @Published var maxDate: Date = Calendar.current.date(byAdding: .year, value: 1, to: Date())!
+    @Published var minDuration: Double = 0
+    @Published var maxDuration: Double = 24
+    
+    @Published var showAlert = false
+    @Published var alertMessage = ""
+    
     
     @Published var selectedFlight: FlightModel? {
         didSet {
@@ -40,9 +47,35 @@ final class FlightViewModel: ObservableObject {
         guard let arrivalFlight = selectedFlight else {
             return []
         }
-        return flights.filter { flight in
+        return FlightList().flights.filter { flight in
             arrivalFlight.possibleAirports.contains(flight.airportCode)
         }
+    }
+    
+    func getFlightOffers() -> [FlightOfferModel] {
+        guard let selectedFlight = selectedFlight,
+              let selectedDepartureFlight = selectedDepartureFlight else {
+            return []
+        }
+        
+        return FlightList().flightOffers.filter { offer in
+            let priceMatch = offer.price >= Int(minPrice) && offer.price <= Int(maxPrice)
+            let dateMatch = offer.date >= minDate && offer.date <= maxDate
+            let durationMatch = convertDurationToHours(offer.flightDuration) >= minDuration &&
+            convertDurationToHours(offer.flightDuration) <= maxDuration
+            let departureDateMatch = Calendar.current.isDate(offer.date, inSameDayAs: departureDate)
+            
+            return priceMatch && dateMatch && durationMatch && departureDateMatch &&
+            ((offer.departureCode == selectedDepartureFlight.airportCode &&
+              offer.arrivalCode == selectedFlight.airportCode) ||
+             (offer.departureCode == selectedFlight.airportCode &&
+              offer.arrivalCode == selectedDepartureFlight.airportCode))
+        }
+    }
+    
+    private func convertDurationToHours(_ duration: String) -> Double {
+        let components = duration.split(separator: ":").map { Double($0) ?? 0 }
+        return components[0] + components[1] / 60
     }
     
     func changeFlights() {
@@ -52,8 +85,17 @@ final class FlightViewModel: ObservableObject {
             selectedDepartureFlight = temp
         }
     }
-
+    
     func validateReturnDate() -> Bool {
         return selectedOption == "One way"
+    }
+    
+    func validateFlightSelection() -> Bool {
+        if selectedFlight == nil || selectedDepartureFlight == nil {
+            alertMessage = "Please select both a departure and arrival flight."
+            showAlert = true
+            return false
+        }
+        return true
     }
 }

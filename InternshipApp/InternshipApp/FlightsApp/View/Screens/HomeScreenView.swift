@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-
+    
     @ObservedObject var userViewModel: UserViewModel
     @ObservedObject var flightViewModel: FlightViewModel
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -28,7 +28,7 @@ struct HomeScreenView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: 60)
                     .background(Color.blue)
-
+                    
                     ScrollView {
                         VStack(spacing: 20) {
                             VStack {
@@ -37,23 +37,23 @@ struct HomeScreenView: View {
                                         .font(.title2)
                                         .fontWeight(.semibold)
                                 }
-
+                                
                                 Text("Select a destination to fly to")
                                     .fontWeight(.light)
                                     .foregroundStyle(.gray)
                             }
-
+                            
                             FlightOptionPicker(selectedOption: $flightViewModel.selectedOption,
                                                options: ["One way", "Round", "Multicity"])
-
+                            
                             VStack(spacing: 0) {
                                 ZStack(alignment: .trailing) {
                                     VStack(spacing: 12) {
-                                        DestinationPicker(flightViewModel: flightViewModel, 
+                                        DestinationPicker(flightViewModel: flightViewModel,
                                                           flight: flightViewModel.selectedFlight,
                                                           flightOption: .arrival)
                                         
-                                        DestinationPicker(flightViewModel: flightViewModel, 
+                                        DestinationPicker(flightViewModel: flightViewModel,
                                                           flight: flightViewModel.selectedDepartureFlight,
                                                           flightOption: .departure)
                                     }
@@ -74,11 +74,11 @@ struct HomeScreenView: View {
                                     .offset(y: -2)
                                 }
                             }
-
-
+                            
+                            
                             HStack(spacing: -8) {
                                 DatePickerView(selectedDate: $flightViewModel.departureDate,
-                                               title: "Departure", 
+                                               title: "Departure",
                                                flightViewModel: flightViewModel)
                                 
                                 DatePickerView(selectedDate: $flightViewModel.arrivalDate,
@@ -86,18 +86,28 @@ struct HomeScreenView: View {
                                                flightViewModel: flightViewModel)
                                 .disabled(flightViewModel.validateReturnDate())
                             }
-
+                            
                             HStack(spacing: -8) {
-                                TravellersPickerView(selectedAdults: $flightViewModel.selectedAdults, 
+                                TravellersPickerView(selectedAdults: $flightViewModel.selectedAdults,
                                                      selectedChildren: $flightViewModel.selectedChildren,
                                                      title: "Travellers")
                                 
                                 ClassPickerView(selectedOption: $flightViewModel.selectedClass,
                                                 title: "Class")
                             }
-
+                            
                             ButtonView(title: "Search", style: .primary) {
-
+                                if flightViewModel.validateFlightSelection() {
+                                    flightViewModel.navigateToOffers = true
+                                    flightViewModel.navigateToHome = false
+                                } else {
+                                    flightViewModel.showAlert = true
+                                }
+                            }
+                            .alert(isPresented: $flightViewModel.showAlert) {
+                                Alert(title: Text("Missing Information"),
+                                      message: Text(flightViewModel.alertMessage),
+                                      dismissButton: .default(Text("OK")))
                             }
                         }
                         .padding()
@@ -105,7 +115,7 @@ struct HomeScreenView: View {
                         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
                         .shadow(radius: 4)
                         .padding(.horizontal)
-
+                        
                         VStack(spacing: -36) {
                             HStack {
                                 Text("Personal offers")
@@ -135,6 +145,10 @@ struct HomeScreenView: View {
                     print("\(error.localizedDescription)")
                 }
             }
+        }
+        .navigationDestination(isPresented: $flightViewModel.navigateToOffers) {
+            FlightOffersScreen(flightViewModel: flightViewModel,
+                               userViewModel: userViewModel)
         }
     }
 }
