@@ -189,27 +189,36 @@ struct FlightSelectionScreen: View {
                 VStack(spacing: 24) {
                     SelectionOption(icon: "person.text.rectangle",
                                     title: "Personal details",
-                                    subtitle: "Update your passenger details")
+                                    subtitle: "Update your passenger details",
+                                    incomplete: false,
+                                    screen: AnyView(PersonalDetailsScreen()))
                     
                     SelectionOption(icon: "person.crop.square",
                                     title: "Check in",
-                                    subtitle: "You can check in now")
+                                    subtitle: "You can check in now",
+                                    incomplete: false,
+                                    screen: AnyView(OnlineCheckInScreen()))
                     
                     SelectionOption(icon: "airplane",
                                     title: "Upgrade flight",
-                                    subtitle: "Upgrade your flight seat")
+                                    subtitle: "Upgrade your flight seat",
+                                    incomplete: false)
                     
                     SelectionOption(icon: "chair",
                                     title: "Choose seat",
-                                    subtitle: "Choose your seat")
+                                    subtitle: "Choose your seat",
+                                    incomplete: false,
+                                    screen: AnyView(ChooseSeatScreen()))
                     
                     SelectionOption(icon: "suitcase",
                                     title: "Baggage allowance",
-                                    subtitle: "40kg checked baggage")
+                                    subtitle: "40kg checked baggage",
+                                    incomplete: false)
                     
                     SelectionOption(icon: "plus.rectangle.on.rectangle",
                                     title: "Purchase additional baggage",
-                                    subtitle: "Upgrade your baggage")
+                                    subtitle: "Upgrade your baggage",
+                                    incomplete: false)
                     
                     ButtonView(title: "Book Flight", style: .primary) {
                         
