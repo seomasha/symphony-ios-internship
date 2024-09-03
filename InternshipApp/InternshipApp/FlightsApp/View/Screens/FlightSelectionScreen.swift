@@ -38,7 +38,7 @@ struct FlightSelectionScreen: View {
                             }
                             
                             Spacer()
-
+                            
                             VStack {
                                 Image(systemName: "airplane.departure")
                                     .padding()
@@ -183,6 +183,38 @@ struct FlightSelectionScreen: View {
                                 .foregroundStyle(.white)
                         }
                     }
+                }
+            }
+            ScrollView {
+                VStack(spacing: 24) {
+                    SelectionOption(icon: "person.text.rectangle",
+                                    title: "Personal details",
+                                    subtitle: "Update your passenger details")
+                    
+                    SelectionOption(icon: "person.crop.square",
+                                    title: "Check in",
+                                    subtitle: "You can check in now")
+                    
+                    SelectionOption(icon: "airplane",
+                                    title: "Upgrade flight",
+                                    subtitle: "Upgrade your flight seat")
+                    
+                    SelectionOption(icon: "chair",
+                                    title: "Choose seat",
+                                    subtitle: "Choose your seat")
+                    
+                    SelectionOption(icon: "suitcase",
+                                    title: "Baggage allowance",
+                                    subtitle: "40kg checked baggage")
+                    
+                    SelectionOption(icon: "plus.rectangle.on.rectangle",
+                                    title: "Purchase additional baggage",
+                                    subtitle: "Upgrade your baggage")
+                    
+                    ButtonView(title: "Book Flight", style: .primary) {
+                        
+                    }
+                    .padding(.horizontal, 32)
                 }
             }
             Spacer()
