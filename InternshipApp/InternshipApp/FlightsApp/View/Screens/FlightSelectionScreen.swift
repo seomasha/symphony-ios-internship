@@ -159,7 +159,31 @@ struct FlightSelectionScreen: View {
                                 .padding(.horizontal)
                                 
                                 ButtonView(title: "Book flight", style: .primary) {
-                                    
+                                    if flightViewModel.validateFlightBooking() {
+                                        flightViewModel.navigateToOffers = true
+                                        flightViewModel.navigateToSelection = false
+                                        
+                                        flightViewModel.navigateToOffers = true
+                                        flightViewModel.navigateToSelection = false
+                                        
+                                        flightViewModel.tempFullName = ""
+                                        flightViewModel.tempEmail = ""
+                                        flightViewModel.tempPhoneNo = ""
+                                        flightViewModel.tempHomeAddress = ""
+                                        
+                                        flightViewModel.fullName = ""
+                                        flightViewModel.email = ""
+                                        flightViewModel.phoneNo = ""
+                                        flightViewModel.homeAddress = ""
+                                        
+                                        flightViewModel.tempSelectedSeat = ""
+                                        
+                                        flightViewModel.selectedSeat = ""
+                                        
+                                        flightViewModel.passportImage = nil
+                                    } else {
+                                        flightViewModel.showAlert = true
+                                    }
                                 }
                             }
                         }
@@ -237,7 +261,31 @@ struct FlightSelectionScreen: View {
                                     incomplete: false)
                     
                     ButtonView(title: "Book Flight", style: .primary) {
-                        
+                        if flightViewModel.validateFlightBooking() {
+                            flightViewModel.navigateToOffers = true
+                            flightViewModel.navigateToSelection = false
+                            
+                            flightViewModel.navigateToOffers = true
+                            flightViewModel.navigateToSelection = false
+                            
+                            flightViewModel.tempFullName = ""
+                            flightViewModel.tempEmail = ""
+                            flightViewModel.tempPhoneNo = ""
+                            flightViewModel.tempHomeAddress = ""
+                            
+                            flightViewModel.fullName = ""
+                            flightViewModel.email = ""
+                            flightViewModel.phoneNo = ""
+                            flightViewModel.homeAddress = ""
+                            
+                            flightViewModel.tempSelectedSeat = ""
+                            
+                            flightViewModel.selectedSeat = ""
+                            
+                            flightViewModel.passportImage = nil
+                        } else {
+                            flightViewModel.showAlert = true
+                        }
                     }
                     .padding(.horizontal, 32)
                 }
@@ -248,6 +296,11 @@ struct FlightSelectionScreen: View {
         .navigationDestination(isPresented: $flightViewModel.navigateToOffers) {
             FlightOffersScreen(flightViewModel: flightViewModel,
                                userViewModel: userViewModel)
+        }
+        .alert(isPresented: $flightViewModel.showAlert) {
+            Alert(title: Text("Missing Information"),
+                  message: Text(flightViewModel.alertMessage),
+                  dismissButton: .default(Text("OK")))
         }
     }
 }

@@ -126,6 +126,15 @@ final class FlightViewModel: ObservableObject {
         return selectedOption == "One way"
     }
     
+    func validateFlightBooking() -> Bool {
+        if validatePersonalDetails() && selectedSeat == "" {
+            alertMessage = "Please fill in the missing information."
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
     func validateFlightSelection() -> Bool {
         if selectedFlight == nil || selectedDepartureFlight == nil {
             alertMessage = "Please select both a departure and arrival flight."
