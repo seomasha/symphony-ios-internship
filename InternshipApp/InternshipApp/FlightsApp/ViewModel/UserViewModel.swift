@@ -44,6 +44,8 @@ final class UserViewModel: ObservableObject {
     @Published var registrationAttempted: Bool = false
     @Published var accountCreated: Bool = false
     
+    @Published var navigateToLogin = false
+    
     init() {
         self.name = user?.name ?? ""
         self.surname = user?.surname ?? ""
@@ -166,9 +168,12 @@ final class UserViewModel: ObservableObject {
             }
             
             isSignedIn = true
+            
+            print(isSignedIn)
         } catch {
             self.showAlert = true
             self.alertMessage = "Failed to sign in: \(error.localizedDescription)"
+            isSignedIn = false
         }
     }
     
@@ -218,6 +223,7 @@ final class UserViewModel: ObservableObject {
     func signOut() {
         try? AuthenticationManager.shared.signOut()
         isSignedIn = false
+        navigateToLogin = true
         email = ""
         password = ""
         user = nil
