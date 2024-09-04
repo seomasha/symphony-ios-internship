@@ -87,7 +87,7 @@ struct FlightOffer: View {
                             .foregroundStyle(.gray)
                         
                         VStack(alignment: .leading) {
-                            Text(formatDate(flightOffer.date))
+                            Text(flightViewModel.formatDate(flightOffer.date))
                                 .font(.caption)
                         }
                         Spacer()
@@ -133,11 +133,5 @@ struct FlightOffer: View {
         .navigationDestination(isPresented: $flightViewModel.navigateToSelection) {
             FlightSelectionScreen(flightViewModel: flightViewModel, userViewModel: userViewModel)
         }
-    }
-    
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        return formatter.string(from: date)
     }
 }

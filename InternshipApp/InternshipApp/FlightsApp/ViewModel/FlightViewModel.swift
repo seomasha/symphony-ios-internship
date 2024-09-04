@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import _PhotosUI_SwiftUI
 
 @MainActor
 final class FlightViewModel: ObservableObject {
@@ -36,6 +37,40 @@ final class FlightViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var alertMessage = ""
     
+    @Published var rows = ["A", "B", "C", "D", "E", "F"]
+    @Published var seatNumbers = 1...10
+    
+    //Personal details
+    @Published var fullName = ""
+    @Published var email = ""
+    @Published var phoneNo = ""
+    @Published var homeAddress = ""
+    
+    @Published var tempFullName = ""
+    @Published var tempEmail = ""
+    @Published var tempPhoneNo = ""
+    @Published var tempHomeAddress = ""
+    
+    //Seat selection
+    @Published var selectedSeat = ""
+    
+    @Published var tempSelectedSeat = ""
+    
+    //Online check in
+    @Published var passportNumber = ""
+    @Published var nationality = ""
+    @Published var expiryDate = ""
+    @Published var placeOfBirth = ""
+    
+    @Published var tempPassportNumber = ""
+    @Published var tempNationality = ""
+    @Published var tempExpiryDate = ""
+    @Published var tempPlaceOfBirth = ""
+    
+    @Published var selectedItem: PhotosPickerItem? = nil
+    @Published var selectedImageData: Data? = nil
+    
+    @Published var passportImage: Data? = nil
     
     @Published var selectedFlight: FlightModel? {
         didSet {
@@ -98,5 +133,23 @@ final class FlightViewModel: ObservableObject {
             return false
         }
         return true
+    }
+    
+    func validatePersonalDetails() -> Bool {
+        return fullName.isEmpty || email.isEmpty || phoneNo.isEmpty || homeAddress.isEmpty
+    }
+    
+    func validateOnlineCheckIn() -> Bool {
+        if passportImage != nil {
+            return false
+        }
+        
+        return passportNumber.isEmpty || nationality.isEmpty || expiryDate.isEmpty || placeOfBirth.isEmpty
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
     }
 }

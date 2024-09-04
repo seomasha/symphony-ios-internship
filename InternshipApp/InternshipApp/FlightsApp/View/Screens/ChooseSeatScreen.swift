@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ChooseSeatScreen: View {
-    @State private var selectedSeat: String? = nil
-    let rows = ["A", "B", "C", "D", "E", "F"]
-    let seatNumbers = 1...10
+    @ObservedObject var flightViewModel: FlightViewModel
 
     var body: some View {
         NavigationStack {
@@ -22,10 +20,11 @@ struct ChooseSeatScreen: View {
 
                 ScrollView {
                     VStack(spacing: 16) {
-                        ForEach(seatNumbers, id: \.self) { seat in
+                        ForEach(flightViewModel.seatNumbers, id: \.self) { seat in
                             HStack {
-                                ForEach(rows, id: \.self) { row in
-                                    SeatView(seat: "\(seat)\(row)", selectedSeat: $selectedSeat)
+                                ForEach(flightViewModel.rows, id: \.self) { row in
+                                    SeatView(seat: "\(seat)\(row)",
+                                             selectedSeat: $flightViewModel.tempSelectedSeat)
                                 }
                             }
                         }
@@ -33,14 +32,14 @@ struct ChooseSeatScreen: View {
                 }
                 .padding(.horizontal)
 
-                if let selectedSeat = selectedSeat {
-                    Text("Selected Seat: \(selectedSeat)")
+                if flightViewModel.tempSelectedSeat != "" {
+                    Text("Selected Seat: \(flightViewModel.tempSelectedSeat)")
                         .font(.headline)
                         .padding(.top)
                 }
 
                 Button(action: {
-                    // Handle seat confirmation
+                    flightViewModel.selectedSeat = flightViewModel.tempSelectedSeat
                 }) {
                     Text("Confirm Selection")
                         .font(.headline)
@@ -52,32 +51,12 @@ struct ChooseSeatScreen: View {
                         .padding(.horizontal)
                         .padding(.bottom)
                 }
-                .disabled(selectedSeat == nil) // Disable button if no seat selected
+                .disabled(flightViewModel.tempSelectedSeat == "")
             }
         }
     }
 }
 
-struct SeatView: View {
-    let seat: String
-    @Binding var selectedSeat: String?
-    
-    var body: some View {
-        Button(action: {
-            selectedSeat = seat
-        }) {
-            Text(seat)
-                .font(.subheadline)
-                .fontWeight(.bold)
-                .frame(width: 50, height: 50)
-                .background(selectedSeat == seat ? Color.blue : Color.gray.opacity(0.2))
-                .foregroundColor(selectedSeat == seat ? .white : .black)
-                .cornerRadius(10)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
 #Preview {
-    ChooseSeatScreen()
+    ChooseSeatScreen(flightViewModel: FlightViewModel())
 }

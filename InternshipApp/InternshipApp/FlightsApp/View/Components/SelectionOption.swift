@@ -37,8 +37,14 @@ struct SelectionOption: View {
             Spacer()
             
             if incomplete {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.red)
+                if title != "Check in" {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.red)
+                } else {
+                    Image(systemName: "questionmark.circle.fill")
+                        .foregroundStyle(.blue)
+                }
+
             }
         }
         .padding(.vertical)

@@ -29,11 +29,11 @@ struct FlightSelectionScreen: View {
                         HStack {
                             Spacer()
                             VStack {
-                                Text("MST")
+                                Text(flightViewModel.selectedFlightOffer?.arrivalCode ?? "")
                                     .foregroundStyle(.white)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                Text("Mostar")
+                                Text(flightViewModel.selectedFlightOffer?.arrivalTown ?? "")
                                     .foregroundStyle(.white)
                             }
                             
@@ -48,18 +48,18 @@ struct FlightSelectionScreen: View {
                                     )
                                     .clipShape(Circle())
                                     .padding()
-                                Text("12:45 hours")
+                                Text("\(flightViewModel.selectedFlightOffer?.flightDuration ?? "N/A") hours")
                                     .foregroundStyle(.white)
                             }
                             
                             Spacer()
                             
                             VStack {
-                                Text("MST")
+                                Text(flightViewModel.selectedFlightOffer?.departureCode ?? "")
                                     .foregroundStyle(.white)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                Text("Mostar")
+                                Text(flightViewModel.selectedFlightOffer?.departureTown ?? "")
                                     .foregroundStyle(.white)
                             }
                             Spacer()
@@ -78,7 +78,7 @@ struct FlightSelectionScreen: View {
                                             .foregroundStyle(.gray)
                                         
                                         VStack(alignment: .leading) {
-                                            Text("09:30 AM")
+                                            Text(flightViewModel.selectedFlightOffer?.time ?? "")
                                                 .font(.caption)
                                         }
                                         Spacer()
@@ -94,7 +94,7 @@ struct FlightSelectionScreen: View {
                                 .padding(.horizontal)
                                 
                                 VStack(alignment: .leading) {
-                                    Text("Time")
+                                    Text("Date")
                                         .font(.caption)
                                         .foregroundStyle(.gray)
                                     HStack {
@@ -104,7 +104,7 @@ struct FlightSelectionScreen: View {
                                             .foregroundStyle(.gray)
                                         
                                         VStack(alignment: .leading) {
-                                            Text("15/07/2024")
+                                            Text(flightViewModel.formatDate(flightViewModel.selectedFlightOffer?.date ?? Date()))
                                                 .font(.caption)
                                         }
                                         Spacer()
@@ -122,13 +122,13 @@ struct FlightSelectionScreen: View {
                             Divider()
                             HStack {
                                 Image(systemName: "airplane.departure")
-                                Text("Qatar Airways")
+                                Text(flightViewModel.selectedFlightOffer?.airCompany ?? "")
                                     .font(.title2)
                                     .fontWeight(.light)
                                 
                                 Spacer()
                                 
-                                Text("$235")
+                                Text("$\(flightViewModel.selectedFlightOffer?.price ?? 0)")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundStyle(Color(.lightblue))
@@ -178,6 +178,22 @@ struct FlightSelectionScreen: View {
                         Button {
                             flightViewModel.navigateToOffers = true
                             flightViewModel.navigateToSelection = false
+                            
+                            flightViewModel.tempFullName = ""
+                            flightViewModel.tempEmail = ""
+                            flightViewModel.tempPhoneNo = ""
+                            flightViewModel.tempHomeAddress = ""
+                            
+                            flightViewModel.fullName = ""
+                            flightViewModel.email = ""
+                            flightViewModel.phoneNo = ""
+                            flightViewModel.homeAddress = ""
+                            
+                            flightViewModel.tempSelectedSeat = ""
+                            
+                            flightViewModel.selectedSeat = ""
+                            
+                            flightViewModel.passportImage = nil
                         } label: {
                             Image(systemName: "chevron.left")
                                 .foregroundStyle(.white)
@@ -190,14 +206,14 @@ struct FlightSelectionScreen: View {
                     SelectionOption(icon: "person.text.rectangle",
                                     title: "Personal details",
                                     subtitle: "Update your passenger details",
-                                    incomplete: false,
-                                    screen: AnyView(PersonalDetailsScreen()))
+                                    incomplete: flightViewModel.validatePersonalDetails(),
+                                    screen: AnyView(PersonalDetailsScreen(flightViewModel: flightViewModel)))
                     
                     SelectionOption(icon: "person.crop.square",
                                     title: "Check in",
                                     subtitle: "You can check in now",
-                                    incomplete: false,
-                                    screen: AnyView(OnlineCheckInScreen()))
+                                    incomplete: flightViewModel.validateOnlineCheckIn(),
+                                    screen: AnyView(OnlineCheckInScreen(flightViewModel: flightViewModel)))
                     
                     SelectionOption(icon: "airplane",
                                     title: "Upgrade flight",
@@ -207,8 +223,8 @@ struct FlightSelectionScreen: View {
                     SelectionOption(icon: "chair",
                                     title: "Choose seat",
                                     subtitle: "Choose your seat",
-                                    incomplete: false,
-                                    screen: AnyView(ChooseSeatScreen()))
+                                    incomplete: flightViewModel.selectedSeat == "",
+                                    screen: AnyView(ChooseSeatScreen(flightViewModel: flightViewModel)))
                     
                     SelectionOption(icon: "suitcase",
                                     title: "Baggage allowance",
