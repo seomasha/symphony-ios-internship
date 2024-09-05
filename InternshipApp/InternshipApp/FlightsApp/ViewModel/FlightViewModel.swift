@@ -7,6 +7,7 @@
 
 import Foundation
 import _PhotosUI_SwiftUI
+import SwiftUI
 
 @MainActor
 final class FlightViewModel: ObservableObject {
@@ -40,6 +41,24 @@ final class FlightViewModel: ObservableObject {
     @Published var rows = ["A", "B", "C", "D", "E", "F"]
     @Published var seatNumbers = 1...10
     
+    @Published var seatColumns: [GridItem] = [GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible())]
+    
+    var seats: [Seat] {
+            var seatList: [Seat] = []
+            for seat in seatNumbers {
+                for row in rows {
+                    let seatNo = "\(seat)\(row)"
+                    seatList.append(Seat(seatNo: seatNo))
+                }
+            }
+            return seatList
+        }
+    
     //Personal details
     @Published var fullName = ""
     @Published var email = ""
@@ -52,9 +71,9 @@ final class FlightViewModel: ObservableObject {
     @Published var tempHomeAddress = ""
     
     //Seat selection
-    @Published var selectedSeat = ""
+    @Published var selectedSeat: Seat?
     
-    @Published var tempSelectedSeat = ""
+    @Published var tempSelectedSeat: Seat?
     
     //Online check in
     @Published var passportNumber = ""
@@ -127,7 +146,7 @@ final class FlightViewModel: ObservableObject {
     }
     
     func validateFlightBooking() -> Bool {
-        if validatePersonalDetails() && selectedSeat == "" {
+        if validatePersonalDetails() && selectedSeat == nil {
             alertMessage = "Please fill in the missing information."
             showAlert = true
             return false
@@ -160,5 +179,33 @@ final class FlightViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: date)
+    }
+    
+    func resetInfo() {
+        navigateToOffers = true
+        navigateToSelection = false
+        
+        tempFullName = ""
+        tempEmail = ""
+        tempPhoneNo = ""
+        tempHomeAddress = ""
+        
+        fullName = ""
+        email = ""
+        phoneNo = ""
+        homeAddress = ""
+        
+        tempSelectedSeat = nil
+        
+        selectedSeat = nil
+        
+        passportImage = nil
+    }
+    
+    func savePersonalDetails() {
+        fullName = tempFullName
+        email = tempEmail
+        phoneNo = tempPhoneNo
+        homeAddress = tempHomeAddress
     }
 }

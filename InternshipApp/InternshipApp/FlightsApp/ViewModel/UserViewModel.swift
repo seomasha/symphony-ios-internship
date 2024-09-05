@@ -168,8 +168,6 @@ final class UserViewModel: ObservableObject {
             }
             
             isSignedIn = true
-            
-            print(isSignedIn)
         } catch {
             self.showAlert = true
             self.alertMessage = "Failed to sign in: \(error.localizedDescription)"

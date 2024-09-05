@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChooseSeatScreen: View {
     @ObservedObject var flightViewModel: FlightViewModel
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -17,27 +17,23 @@ struct ChooseSeatScreen: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.top)
-
+                
                 ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach(flightViewModel.seatNumbers, id: \.self) { seat in
-                            HStack {
-                                ForEach(flightViewModel.rows, id: \.self) { row in
-                                    SeatView(seat: "\(seat)\(row)",
-                                             selectedSeat: $flightViewModel.tempSelectedSeat)
-                                }
-                            }
+                    LazyVGrid(columns: flightViewModel.seatColumns, spacing: 16) {
+                        ForEach(flightViewModel.seats) { seat in
+                            SeatView(seat: seat, selectedSeat: $flightViewModel.tempSelectedSeat)
                         }
                     }
+                    .padding(.horizontal)
                 }
                 .padding(.horizontal)
-
-                if flightViewModel.tempSelectedSeat != "" {
-                    Text("Selected Seat: \(flightViewModel.tempSelectedSeat)")
+                
+                if flightViewModel.tempSelectedSeat != nil {
+                    Text("Selected Seat: \(flightViewModel.tempSelectedSeat?.seatNo ?? "")")
                         .font(.headline)
                         .padding(.top)
                 }
-
+                
                 Button(action: {
                     flightViewModel.selectedSeat = flightViewModel.tempSelectedSeat
                 }) {
@@ -51,7 +47,7 @@ struct ChooseSeatScreen: View {
                         .padding(.horizontal)
                         .padding(.bottom)
                 }
-                .disabled(flightViewModel.tempSelectedSeat == "")
+                .disabled(flightViewModel.tempSelectedSeat == nil)
             }
         }
     }

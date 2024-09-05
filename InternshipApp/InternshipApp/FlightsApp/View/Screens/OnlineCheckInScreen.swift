@@ -81,8 +81,12 @@ struct OnlineCheckInScreen: View {
                         }
                         .onChange(of: flightViewModel.selectedItem) { _, newItem in
                             Task {
-                                if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                    flightViewModel.selectedImageData = data
+                                do {
+                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                        flightViewModel.selectedImageData = data
+                                    }
+                                } catch {
+                                    print("\(error)")
                                 }
                             }
                         }

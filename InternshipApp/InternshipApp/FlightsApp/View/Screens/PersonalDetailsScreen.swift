@@ -48,10 +48,7 @@ struct PersonalDetailsScreen: View {
                 }
                 
                 ButtonView(title: "Confirm", style: .primary) {
-                    flightViewModel.fullName = flightViewModel.tempFullName
-                    flightViewModel.email = flightViewModel.tempEmail
-                    flightViewModel.phoneNo = flightViewModel.tempPhoneNo
-                    flightViewModel.homeAddress = flightViewModel.tempHomeAddress
+                    flightViewModel.savePersonalDetails()
                 }
             }
             .padding()

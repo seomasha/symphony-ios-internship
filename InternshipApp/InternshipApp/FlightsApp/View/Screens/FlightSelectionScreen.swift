@@ -160,27 +160,7 @@ struct FlightSelectionScreen: View {
                                 
                                 ButtonView(title: "Book flight", style: .primary) {
                                     if flightViewModel.validateFlightBooking() {
-                                        flightViewModel.navigateToOffers = true
-                                        flightViewModel.navigateToSelection = false
-                                        
-                                        flightViewModel.navigateToOffers = true
-                                        flightViewModel.navigateToSelection = false
-                                        
-                                        flightViewModel.tempFullName = ""
-                                        flightViewModel.tempEmail = ""
-                                        flightViewModel.tempPhoneNo = ""
-                                        flightViewModel.tempHomeAddress = ""
-                                        
-                                        flightViewModel.fullName = ""
-                                        flightViewModel.email = ""
-                                        flightViewModel.phoneNo = ""
-                                        flightViewModel.homeAddress = ""
-                                        
-                                        flightViewModel.tempSelectedSeat = ""
-                                        
-                                        flightViewModel.selectedSeat = ""
-                                        
-                                        flightViewModel.passportImage = nil
+                                        flightViewModel.resetInfo()
                                     } else {
                                         flightViewModel.showAlert = true
                                     }
@@ -200,24 +180,7 @@ struct FlightSelectionScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            flightViewModel.navigateToOffers = true
-                            flightViewModel.navigateToSelection = false
-                            
-                            flightViewModel.tempFullName = ""
-                            flightViewModel.tempEmail = ""
-                            flightViewModel.tempPhoneNo = ""
-                            flightViewModel.tempHomeAddress = ""
-                            
-                            flightViewModel.fullName = ""
-                            flightViewModel.email = ""
-                            flightViewModel.phoneNo = ""
-                            flightViewModel.homeAddress = ""
-                            
-                            flightViewModel.tempSelectedSeat = ""
-                            
-                            flightViewModel.selectedSeat = ""
-                            
-                            flightViewModel.passportImage = nil
+                            flightViewModel.resetInfo()
                         } label: {
                             Image(systemName: "chevron.left")
                                 .foregroundStyle(.white)
@@ -237,7 +200,8 @@ struct FlightSelectionScreen: View {
                                     title: "Check in",
                                     subtitle: "You can check in now",
                                     incomplete: flightViewModel.validateOnlineCheckIn(),
-                                    screen: AnyView(OnlineCheckInScreen(flightViewModel: flightViewModel)))
+                                    screen: AnyView(OnlineCheckInScreen(flightViewModel: flightViewModel)),
+                                    option: Selection.checkIn)
                     
                     SelectionOption(icon: "airplane",
                                     title: "Upgrade flight",
@@ -247,7 +211,7 @@ struct FlightSelectionScreen: View {
                     SelectionOption(icon: "chair",
                                     title: "Choose seat",
                                     subtitle: "Choose your seat",
-                                    incomplete: flightViewModel.selectedSeat == "",
+                                    incomplete: flightViewModel.selectedSeat == nil,
                                     screen: AnyView(ChooseSeatScreen(flightViewModel: flightViewModel)))
                     
                     SelectionOption(icon: "suitcase",
@@ -262,27 +226,7 @@ struct FlightSelectionScreen: View {
                     
                     ButtonView(title: "Book Flight", style: .primary) {
                         if flightViewModel.validateFlightBooking() {
-                            flightViewModel.navigateToOffers = true
-                            flightViewModel.navigateToSelection = false
-                            
-                            flightViewModel.navigateToOffers = true
-                            flightViewModel.navigateToSelection = false
-                            
-                            flightViewModel.tempFullName = ""
-                            flightViewModel.tempEmail = ""
-                            flightViewModel.tempPhoneNo = ""
-                            flightViewModel.tempHomeAddress = ""
-                            
-                            flightViewModel.fullName = ""
-                            flightViewModel.email = ""
-                            flightViewModel.phoneNo = ""
-                            flightViewModel.homeAddress = ""
-                            
-                            flightViewModel.tempSelectedSeat = ""
-                            
-                            flightViewModel.selectedSeat = ""
-                            
-                            flightViewModel.passportImage = nil
+                            flightViewModel.resetInfo()
                         } else {
                             flightViewModel.showAlert = true
                         }

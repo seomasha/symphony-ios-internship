@@ -14,6 +14,7 @@ struct SelectionOption: View {
     var subtitle: String
     var incomplete: Bool
     var screen: AnyView?
+    var option: Selection?
     
     @State private var navigate = false
     
@@ -37,7 +38,7 @@ struct SelectionOption: View {
             Spacer()
             
             if incomplete {
-                if title != "Check in" {
+                if option != Selection.checkIn {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .foregroundStyle(.red)
                 } else {
@@ -56,9 +57,7 @@ struct SelectionOption: View {
         )
         .padding(.horizontal)
         .onTapGesture {
-            if screen != nil {
-                navigate = true
-            }
+            navigate = screen != nil
         }
         .background(
             NavigationLink(
@@ -66,7 +65,7 @@ struct SelectionOption: View {
                 isActive: $navigate,
                 label: { EmptyView() }
             )
-            .hidden() // Keep the NavigationLink hidden while using the tap gesture for navigation
+            .hidden()
         )
     }
 }
