@@ -110,6 +110,9 @@ struct LoginScreenView: View {
                       dismissButton: .default(Text("OK")))
             }
             .navigationBarBackButtonHidden(true)
+            .onAppear {
+                userViewModel.navigateToLogin = false
+            }
         }
     }
 }

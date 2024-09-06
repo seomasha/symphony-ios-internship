@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import _PhotosUI_SwiftUI
+import SwiftUI
 
 @MainActor
 final class FlightViewModel: ObservableObject {
@@ -20,6 +22,7 @@ final class FlightViewModel: ObservableObject {
     
     @Published var navigateToOffers = false
     @Published var navigateToHome = false
+    @Published var navigateToSelection = false
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
@@ -35,6 +38,58 @@ final class FlightViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var alertMessage = ""
     
+    @Published var rows = ["A", "B", "C", "D", "E", "F"]
+    @Published var seatNumbers = 1...10
+    
+    @Published var seatColumns: [GridItem] = [GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible()),
+                                              GridItem(.flexible())]
+    
+    var seats: [Seat] {
+            var seatList: [Seat] = []
+            for seat in seatNumbers {
+                for row in rows {
+                    let seatNo = "\(seat)\(row)"
+                    seatList.append(Seat(seatNo: seatNo))
+                }
+            }
+            return seatList
+        }
+    
+    //Personal details
+    @Published var fullName = ""
+    @Published var email = ""
+    @Published var phoneNo = ""
+    @Published var homeAddress = ""
+    
+    @Published var tempFullName = ""
+    @Published var tempEmail = ""
+    @Published var tempPhoneNo = ""
+    @Published var tempHomeAddress = ""
+    
+    //Seat selection
+    @Published var selectedSeat: Seat?
+    
+    @Published var tempSelectedSeat: Seat?
+    
+    //Online check in
+    @Published var passportNumber = ""
+    @Published var nationality = ""
+    @Published var expiryDate = ""
+    @Published var placeOfBirth = ""
+    
+    @Published var tempPassportNumber = ""
+    @Published var tempNationality = ""
+    @Published var tempExpiryDate = ""
+    @Published var tempPlaceOfBirth = ""
+    
+    @Published var selectedItem: PhotosPickerItem? = nil
+    @Published var selectedImageData: Data? = nil
+    
+    @Published var passportImage: Data? = nil
     
     @Published var selectedFlight: FlightModel? {
         didSet {
@@ -90,6 +145,15 @@ final class FlightViewModel: ObservableObject {
         return selectedOption == "One way"
     }
     
+    func validateFlightBooking() -> Bool {
+        if validatePersonalDetails() && selectedSeat == nil {
+            alertMessage = "Please fill in the missing information."
+            showAlert = true
+            return false
+        }
+        return true
+    }
+    
     func validateFlightSelection() -> Bool {
         if selectedFlight == nil || selectedDepartureFlight == nil {
             alertMessage = "Please select both a departure and arrival flight."
@@ -97,5 +161,51 @@ final class FlightViewModel: ObservableObject {
             return false
         }
         return true
+    }
+    
+    func validatePersonalDetails() -> Bool {
+        return fullName.isEmpty || email.isEmpty || phoneNo.isEmpty || homeAddress.isEmpty
+    }
+    
+    func validateOnlineCheckIn() -> Bool {
+        if passportImage != nil {
+            return false
+        }
+        
+        return passportNumber.isEmpty || nationality.isEmpty || expiryDate.isEmpty || placeOfBirth.isEmpty
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
+    
+    func resetInfo() {
+        navigateToOffers = true
+        navigateToSelection = false
+        
+        tempFullName = ""
+        tempEmail = ""
+        tempPhoneNo = ""
+        tempHomeAddress = ""
+        
+        fullName = ""
+        email = ""
+        phoneNo = ""
+        homeAddress = ""
+        
+        tempSelectedSeat = nil
+        
+        selectedSeat = nil
+        
+        passportImage = nil
+    }
+    
+    func savePersonalDetails() {
+        fullName = tempFullName
+        email = tempEmail
+        phoneNo = tempPhoneNo
+        homeAddress = tempHomeAddress
     }
 }

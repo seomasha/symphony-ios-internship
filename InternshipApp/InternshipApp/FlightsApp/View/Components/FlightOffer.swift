@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FlightOffer: View {
     
+    @ObservedObject var flightViewModel: FlightViewModel
+    @ObservedObject var userViewModel: UserViewModel
     var flightOffer: FlightOfferModel
     @Binding var selectedFlightOffer: FlightOfferModel?
     
@@ -85,7 +87,7 @@ struct FlightOffer: View {
                             .foregroundStyle(.gray)
                         
                         VStack(alignment: .leading) {
-                            Text(formatDate(flightOffer.date))
+                            Text(flightViewModel.formatDate(flightOffer.date))
                                 .font(.caption)
                         }
                         Spacer()
@@ -125,12 +127,11 @@ struct FlightOffer: View {
         .padding()
         .onTapGesture {
             selectedFlightOffer = flightOffer
+            flightViewModel.navigateToSelection = true
+            flightViewModel.navigateToOffers = false
         }
-    }
-    
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        return formatter.string(from: date)
+        .navigationDestination(isPresented: $flightViewModel.navigateToSelection) {
+            FlightSelectionScreen(flightViewModel: flightViewModel, userViewModel: userViewModel)
+        }
     }
 }
