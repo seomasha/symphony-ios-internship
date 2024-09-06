@@ -23,6 +23,7 @@ final class FlightViewModel: ObservableObject {
     @Published var navigateToOffers = false
     @Published var navigateToHome = false
     @Published var navigateToSelection = false
+    @Published var navigateToConfirmation = false
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
@@ -182,7 +183,7 @@ final class FlightViewModel: ObservableObject {
     }
     
     func resetInfo() {
-        navigateToOffers = true
+        navigateToConfirmation = true
         navigateToSelection = false
         
         tempFullName = ""
@@ -207,5 +208,23 @@ final class FlightViewModel: ObservableObject {
         email = tempEmail
         phoneNo = tempPhoneNo
         homeAddress = tempHomeAddress
+    }
+    
+    func randomLetter() -> String {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return String(letters.randomElement()!)
+    }
+
+    func randomNumber() -> String {
+        let numbers = "0123456789"
+        return String(numbers.randomElement()!)
+    }
+
+    func generateRandomCombination() -> String {
+        let randomLetters = (0..<3).map { _ in randomLetter() }.joined()
+        
+        let randomNumbers = (0..<3).map { _ in randomNumber() }.joined()
+        
+        return "\(randomLetters)\(randomNumbers)"
     }
 }

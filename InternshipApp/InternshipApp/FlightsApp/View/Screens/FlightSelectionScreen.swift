@@ -160,7 +160,8 @@ struct FlightSelectionScreen: View {
                                 
                                 ButtonView(title: "Book flight", style: .primary) {
                                     if flightViewModel.validateFlightBooking() {
-                                        flightViewModel.resetInfo()
+                                        flightViewModel.navigateToConfirmation = true
+                                        flightViewModel.navigateToSelection = false
                                     } else {
                                         flightViewModel.showAlert = true
                                     }
@@ -180,7 +181,8 @@ struct FlightSelectionScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            flightViewModel.resetInfo()
+                            flightViewModel.navigateToOffers = true
+                            flightViewModel.navigateToSelection = false
                         } label: {
                             Image(systemName: "chevron.left")
                                 .foregroundStyle(.white)
@@ -226,7 +228,8 @@ struct FlightSelectionScreen: View {
                     
                     ButtonView(title: "Book Flight", style: .primary) {
                         if flightViewModel.validateFlightBooking() {
-                            flightViewModel.resetInfo()
+                            flightViewModel.navigateToConfirmation = true
+                            flightViewModel.navigateToSelection = false
                         } else {
                             flightViewModel.showAlert = true
                         }
@@ -240,6 +243,10 @@ struct FlightSelectionScreen: View {
         .navigationDestination(isPresented: $flightViewModel.navigateToOffers) {
             FlightOffersScreen(flightViewModel: flightViewModel,
                                userViewModel: userViewModel)
+        }
+        .navigationDestination(isPresented: $flightViewModel.navigateToConfirmation) {
+            FlightConfirmationScreenView(flightViewModel: flightViewModel,
+                                         userViewModel: userViewModel)
         }
         .alert(isPresented: $flightViewModel.showAlert) {
             Alert(title: Text("Missing Information"),
