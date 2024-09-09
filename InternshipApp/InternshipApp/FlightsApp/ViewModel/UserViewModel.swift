@@ -35,6 +35,7 @@ final class UserViewModel: ObservableObject {
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
     @Published var isSignedIn = false
+    @Published var isLoading = true
     
     @Published var selectedImage: UIImage? = nil
     @Published var selectedItem: PhotosPickerItem? = nil
@@ -45,6 +46,8 @@ final class UserViewModel: ObservableObject {
     @Published var accountCreated: Bool = false
     
     @Published var navigateToLogin = false
+    
+    @Published var bookedFlights: [BookedFlightModel] = []
     
     init() {
         self.name = user?.name ?? ""
@@ -90,7 +93,7 @@ final class UserViewModel: ObservableObject {
             guard let imageData = image.jpegData(compressionQuality: 0.8) else {
                 throw URLError(.badServerResponse)
             }
-
+            
             let storage = Storage.storage()
             let storageRef = storage.reference()
             
@@ -115,7 +118,7 @@ final class UserViewModel: ObservableObject {
             print("\(error.localizedDescription)")
         }
     }
-
+    
     
     func updateImage(_ image: UIImage) {
         self.selectedImage = image
@@ -126,7 +129,7 @@ final class UserViewModel: ObservableObject {
             guard !email.isEmpty, !password.isEmpty else {
                 return
             }
-
+            
             let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
             try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: nil)
             
@@ -180,22 +183,22 @@ final class UserViewModel: ObservableObject {
             print("Failed to find top view controller.")
             throw URLError(.cannotFindHost)
         }
-
+        
         do {
             let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
-
+            
             guard let idToken = gidSignInResult.user.idToken?.tokenString else {
                 print("Failed to retrieve ID token.")
                 throw URLError(.badServerResponse)
             }
-
+            
             let accessToken = gidSignInResult.user.accessToken.tokenString
             let tokens = GoogleSignInResultModel(idToken: idToken, accesToken: accessToken)
             let authDataResult = try await AuthenticationManager.shared.signInWithGoogle(tokens: tokens)
-
+            
             let userID = authDataResult.uid
             print("Attempting to fetch user with userID: \(userID)")
-
+            
             do {
                 let existingUser = try await UserManager.shared.getUser(userID: userID)
                 self.user = existingUser
@@ -205,7 +208,7 @@ final class UserViewModel: ObservableObject {
                 try await UserManager.shared.createNewUser(auth: authDataResult, userViewModel: self, user: gidSignInResult)
                 print("New user created successfully.")
             }
-
+            
         } catch let error as URLError {
             print("URLError occurred: \(error.code.rawValue) - \(error.localizedDescription)")
             throw error
@@ -224,6 +227,7 @@ final class UserViewModel: ObservableObject {
         navigateToLogin = true
         email = ""
         password = ""
+        bookedFlights = []
         user = nil
     }
     
@@ -258,6 +262,78 @@ final class UserViewModel: ObservableObject {
         }
     }
     
+    func addFlight(flightViewModel: FlightViewModel) async throws {
+        let price = flightViewModel.selectedFlightOffer?.price ?? 0
+        let date = flightViewModel.selectedFlightOffer?.date ?? Date()
+        let departureCode = flightViewModel.selectedFlightOffer?.departureCode ?? ""
+        let arrivalCode = flightViewModel.selectedFlightOffer?.arrivalCode ?? ""
+        let airCompany = flightViewModel.selectedFlightOffer?.airCompany ?? ""
+        
+        let bookedFlight = BookedFlightModel(price: price,
+                                                 date: date,
+                                                 departureCode: departureCode,
+                                                 arrivalCode: arrivalCode,
+                                                 airCompany: airCompany)
+        
+        do {
+            guard let userID = user?.userID else {
+                throw URLError(.badServerResponse)
+            }
+            
+            let db = Firestore.firestore()
+            let userRef = db.collection("users").document(userID)
+            
+            try await userRef.updateData([
+                "booked_flights": FieldValue.arrayUnion([[
+                    "price": bookedFlight.price,
+                    "date": bookedFlight.date,
+                    "departureCode": bookedFlight.departureCode,
+                    "arrivalCode": bookedFlight.arrivalCode,
+                    "airCompany": bookedFlight.airCompany
+                ]])
+            ])
+            
+        } catch {
+            print("Error adding flight: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchBookedFlights() async throws {
+        guard let userID = user?.userID else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(userID)
+        
+        do {
+            let documentSnapshot = try await userRef.getDocument()
+            guard let data = documentSnapshot.data(),
+                  let bookedFlightsData = data["booked_flights"] as? [[String: Any]] else {
+                print("No booked flights found.")
+                return
+            }
+            
+            self.bookedFlights = bookedFlightsData.compactMap { flightData in
+                guard let price = flightData["price"] as? Int,
+                      let timestamp = flightData["date"] as? Timestamp,
+                      let departureCode = flightData["departureCode"] as? String,
+                      let arrivalCode = flightData["arrivalCode"] as? String,
+                      let airCompany = flightData["airCompany"] as? String else {
+                    return nil
+                }
+                
+                let date = timestamp.dateValue()
+                
+                return BookedFlightModel(price: price, date: date, departureCode: departureCode, arrivalCode: arrivalCode, airCompany: airCompany)
+            }
+            
+        } catch {
+            print("Error fetching booked flights: \(error.localizedDescription)")
+            throw error
+        }
+    }
+        
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
         let uppercaseValid = matchesPattern(password, pattern: uppercasePattern)
@@ -291,14 +367,14 @@ final class UserViewModel: ObservableObject {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: self.email)
     }
-
+    
     func authenticateWithFaceID() async throws {
         let context = LAContext()
         var error: NSError?
-
+        
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Authenticate using Face ID"
-
+            
             try await withCheckedThrowingContinuation { continuation in
                 context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
                     if success {
@@ -316,5 +392,10 @@ final class UserViewModel: ObservableObject {
             }
         }
     }
-
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
 }
