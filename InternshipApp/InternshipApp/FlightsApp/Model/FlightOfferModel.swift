@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FlightOfferModel: Identifiable, Equatable {
+struct FlightOfferModel: Identifiable, Equatable, Encodable {
     
     let id = UUID()
     
