@@ -7,9 +7,8 @@
 
 import Foundation
 
-struct BookedFlightModel: Identifiable {
-    let id = UUID() // change this to string bookedflightID
-    
+struct BookedFlightModel: Identifiable, Codable {
+    var id = UUID()
     let price: Int
     let date: Date
     let departureCode: String

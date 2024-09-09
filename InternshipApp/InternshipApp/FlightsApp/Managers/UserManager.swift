@@ -27,7 +27,8 @@ final class UserManager {
             "face_id_enabled": userViewModel.faceIDEnabled,
             "profile_image_url": user?.user.profile?.imageURL(withDimension: 40)?.absoluteString ?? "https://firebasestorage.googleapis.com/v0/b/flights-app-643e1.appspot.com/o/airplane_icon.png?alt=media&token=f5269115-330a-471c-8609-4c82a44094b4",
             "date_created": Timestamp(),
-            "email": auth.email!
+            "email": auth.email!,
+            "booked_flights": []
         ]
         
         do {
@@ -57,6 +58,7 @@ final class UserManager {
             let age = data["age"] as? Int ?? 0
             let faceIDEnabled = data["face_id_enabled"] as? Bool ?? false
             let profileImageURL = data["profile_image_url"] as? String ?? ""
+            let bookedFlights = data["booked_flights"] as? [BookedFlightModel] ?? []
 
             return DBUser(userID: userID,
                           name: name,
@@ -65,7 +67,8 @@ final class UserManager {
                           email: email,
                           faceIDEnabled: faceIDEnabled,
                           dateCreated: dateCreated,
-                          profileImageURL: profileImageURL)
+                          profileImageURL: profileImageURL, 
+                          bookedFlights: bookedFlights)
 
         } catch {
             print("Failed to get user: \(error.localizedDescription)")

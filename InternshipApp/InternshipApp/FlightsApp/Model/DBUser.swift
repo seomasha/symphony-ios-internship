@@ -17,4 +17,5 @@ struct DBUser {
     var faceIDEnabled: Bool
     var dateCreated: Date?
     var profileImageURL: String?
+    var bookedFlights: [BookedFlightModel]
 }
