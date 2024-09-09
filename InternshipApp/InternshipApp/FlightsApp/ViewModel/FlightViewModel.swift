@@ -8,6 +8,7 @@
 import Foundation
 import _PhotosUI_SwiftUI
 import SwiftUI
+import CoreImage.CIFilterBuiltins
 
 @MainActor
 final class FlightViewModel: ObservableObject {
@@ -50,15 +51,15 @@ final class FlightViewModel: ObservableObject {
                                               GridItem(.flexible())]
     
     var seats: [Seat] {
-            var seatList: [Seat] = []
-            for seat in seatNumbers {
-                for row in rows {
-                    let seatNo = "\(seat)\(row)"
-                    seatList.append(Seat(seatNo: seatNo))
-                }
+        var seatList: [Seat] = []
+        for seat in seatNumbers {
+            for row in rows {
+                let seatNo = "\(seat)\(row)"
+                seatList.append(Seat(seatNo: seatNo))
             }
-            return seatList
         }
+        return seatList
+    }
     
     //Personal details
     @Published var fullName = ""
@@ -107,6 +108,10 @@ final class FlightViewModel: ObservableObject {
             arrivalFlight.possibleAirports.contains(flight.airportCode)
         }
     }
+    
+    @Published var gate: Int = Int.random(in: 1...10)
+    @Published var terminal: Int = Int.random(in: 1...10)
+    var flightCode: String = ""
     
     func getFlightOffers() -> [FlightOfferModel] {
         guard let selectedFlight = selectedFlight,
@@ -214,17 +219,110 @@ final class FlightViewModel: ObservableObject {
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         return String(letters.randomElement()!)
     }
-
+    
     func randomNumber() -> String {
         let numbers = "0123456789"
         return String(numbers.randomElement()!)
     }
-
+    
     func generateRandomCombination() -> String {
         let randomLetters = (0..<3).map { _ in randomLetter() }.joined()
         
         let randomNumbers = (0..<3).map { _ in randomNumber() }.joined()
         
+        flightCode = "\(randomLetters)\(randomNumbers)"
         return "\(randomLetters)\(randomNumbers)"
+    }
+    
+    func calculateArrivalTime() -> String? {
+        guard let selectedFlightOffer = selectedFlightOffer else {
+            return nil
+        }
+        
+        let timeComponents = selectedFlightOffer.time.split(separator: ":").map { Int($0) ?? 0 }
+        guard timeComponents.count == 2 else {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        let departureDate = selectedFlightOffer.date
+        let departureHour = timeComponents[0]
+        let departureMinute = timeComponents[1]
+        
+        var departureDateTime = calendar.date(bySettingHour: departureHour, minute: departureMinute, second: 0, of: departureDate)
+        
+        let durationComponents = selectedFlightOffer.flightDuration.split(separator: ":").map { Int($0) ?? 0 }
+        guard durationComponents.count == 2 else {
+            return nil
+        }
+        
+        let durationHours = durationComponents[0]
+        let durationMinutes = durationComponents[1]
+        
+        departureDateTime = calendar.date(byAdding: .hour, value: durationHours, to: departureDateTime ?? Date())
+        departureDateTime = calendar.date(byAdding: .minute, value: durationMinutes, to: departureDateTime ?? Date())
+        
+        if let arrivalDateTime = departureDateTime {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm a"
+            return formatter.string(from: arrivalDateTime)
+        }
+        
+        return nil
+    }
+    
+    func generateQRCode(from string: String) -> UIImage? {
+        let context = CIContext()
+        let filter = CIFilter.qrCodeGenerator()
+        
+        let data = Data(string.utf8)
+        filter.setValue(data, forKey: "inputMessage")
+        
+        if let qrCodeImage = filter.outputImage {
+            if let cgImage = context.createCGImage(qrCodeImage, from: qrCodeImage.extent) {
+                return UIImage(cgImage: cgImage)
+            }
+        }
+        return nil
+    }
+    
+    func generateFlightQRCode() -> UIImage? {
+        let flightDetails = """
+            Air Company: \(selectedFlightOffer?.airCompany ?? "")
+            Departure Code: \(selectedFlightOffer?.departureCode ?? "")
+            Arrival Code: \(selectedFlightOffer?.arrivalCode ?? "")
+            Time: \(selectedFlightOffer?.time ?? "")
+            Date: \(formatDate(selectedFlightOffer?.date ?? Date()))
+            Price: \(selectedFlightOffer?.price ?? 0)
+            Selected Seat: \(selectedSeat?.seatNo ?? Seat(seatNo: "0A").seatNo)
+            Flight Code: \(flightCode)
+            Gate: \(gate)
+            Terminal: \(terminal)
+            Arrival Time: \(calculateArrivalTime() ?? "")
+            """
+        return generateQRCode(from: flightDetails)
+    }
+    
+    func shareFlightInfo() {
+        let flightDetails = """
+            Air Company: \(selectedFlightOffer?.airCompany ?? "")
+            Departure Code: \(selectedFlightOffer?.departureCode ?? "")
+            Arrival Code: \(selectedFlightOffer?.arrivalCode ?? "")
+            Time: \(selectedFlightOffer?.time ?? "")
+            Date: \(formatDate(selectedFlightOffer?.date ?? Date()))
+            Price: \(selectedFlightOffer?.price ?? 0)
+            Selected Seat: \(selectedSeat?.seatNo ?? Seat(seatNo: "0A").seatNo)
+            Flight Code: \(flightCode)
+            Gate: \(gate)
+            Terminal: \(terminal)
+            Arrival Time: \(calculateArrivalTime() ?? "")
+            """
+        
+        let activityVC = UIActivityViewController(activityItems: [flightDetails], applicationActivities: nil)
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootVC = windowScene.windows.first?.rootViewController {
+            rootVC.present(activityVC, animated: true, completion: nil)
+        }
     }
 }

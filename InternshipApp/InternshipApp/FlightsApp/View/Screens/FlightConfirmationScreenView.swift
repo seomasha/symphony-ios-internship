@@ -30,7 +30,7 @@ struct FlightConfirmationScreenView: View {
                                 .font(.title3)
                                 .fontWeight(.light)
                             
-                            Text("09:30AM")
+                            Text(flightViewModel.selectedFlightOffer?.time ?? "00:00")
                                 .font(.subheadline)
                                 .fontWeight(.light)
                         }
@@ -38,7 +38,7 @@ struct FlightConfirmationScreenView: View {
                     
                     HStack {
                         VStack {
-                            Text("09:30 AM")
+                            Text(flightViewModel.selectedFlightOffer?.time ?? "00:00")
                                 .fontWeight(.bold)
                             
                             Text(flightViewModel.selectedFlightOffer?.departureCode ?? "MST")
@@ -53,7 +53,7 @@ struct FlightConfirmationScreenView: View {
                                 .foregroundStyle(.blue)
                                 .frame(width: 30, height: 30)
                             
-                            Text(flightViewModel.selectedFlightOffer?.flightDuration ?? "10h30m")
+                            Text((flightViewModel.selectedFlightOffer?.flightDuration ?? "10h30m") + "h")
                                 .font(.caption)
                                 .fontWeight(.light)
                         }
@@ -61,7 +61,7 @@ struct FlightConfirmationScreenView: View {
                         Spacer()
                         
                         VStack {
-                            Text("09:30 AM")
+                            Text(flightViewModel.calculateArrivalTime() ?? "00:00 AM")
                                 .fontWeight(.bold)
                             
                             Text(flightViewModel.selectedFlightOffer?.arrivalCode ?? "LGA")
@@ -82,7 +82,7 @@ struct FlightConfirmationScreenView: View {
                         }
                         
                         VStack {
-                            Text("\(Int.random(in: 1...10))")
+                            Text("\(flightViewModel.gate)")
                                 .fontWeight(.light)
                             
                             Text("Gate")
@@ -91,7 +91,7 @@ struct FlightConfirmationScreenView: View {
                         }
                         
                         VStack {
-                            Text("\(Int.random(in: 1...10))")
+                            Text("\(flightViewModel.terminal)")
                                 .fontWeight(.light)
                             
                             Text("Terminal")
@@ -137,9 +137,11 @@ struct FlightConfirmationScreenView: View {
                     
                     DottedLine()
                     
-                    Image(systemName: "qrcode")
-                        .resizable()
-                        .frame(width: 200, height: 200)
+                    if let qrCodeImage = flightViewModel.generateFlightQRCode() {
+                        Image(uiImage: qrCodeImage)
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                    }
                 }
                 .padding()
                 .background(.white)
@@ -163,6 +165,15 @@ struct FlightConfirmationScreenView: View {
                         flightViewModel.navigateToHome = true
                     } label: {
                         Image(systemName: "chevron.left")
+                            .foregroundStyle(.blue)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        flightViewModel.shareFlightInfo()
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
                             .foregroundStyle(.blue)
                     }
                 }
