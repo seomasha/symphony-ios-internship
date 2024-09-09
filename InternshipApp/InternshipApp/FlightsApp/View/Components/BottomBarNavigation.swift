@@ -22,12 +22,19 @@ struct BottomBarNavigation: View {
                 }
                 .tag(0)
                 
+                MyFlightsScreen(userViewModel: userViewModel)
+                    .tabItem {
+                        Image(systemName: "airplane.circle")
+                        Text("My flights")
+                    }
+                    .tag(1)
+                
                 MyProfileScreenView(userViewModel: userViewModel)
                     .tabItem {
                         Image(systemName: "person")
                         Text("My profile")
                     }
-                    .tag(1)
+                    .tag(2)
             }
             .toolbarBackground(.white, for: .tabBar)
             

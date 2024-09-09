@@ -46,6 +46,8 @@ final class UserViewModel: ObservableObject {
     
     @Published var navigateToLogin = false
     
+    @Published var bookedFlights: [BookedFlightModel] = []
+    
     init() {
         self.name = user?.name ?? ""
         self.surname = user?.surname ?? ""
@@ -258,6 +260,20 @@ final class UserViewModel: ObservableObject {
         }
     }
     
+    func addFlight(flightViewModel: FlightViewModel) {
+        let price = flightViewModel.selectedFlightOffer?.price ?? 0 // Default value
+        let date = flightViewModel.selectedFlightOffer?.date ?? Date() // Default value
+        let departureCode = flightViewModel.selectedFlightOffer?.departureCode ?? ""
+        let arrivalCode = flightViewModel.selectedFlightOffer?.arrivalCode ?? ""
+        let airCompany = flightViewModel.selectedFlightOffer?.airCompany ?? ""
+        
+        bookedFlights.append(BookedFlightModel(price: price,
+                                                date: date,
+                                                departureCode: departureCode,
+                                                arrivalCode: arrivalCode,
+                                                airCompany: airCompany))
+    }
+    
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
         let uppercaseValid = matchesPattern(password, pattern: uppercasePattern)
@@ -316,5 +332,4 @@ final class UserViewModel: ObservableObject {
             }
         }
     }
-
 }

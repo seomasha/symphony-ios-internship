@@ -160,6 +160,8 @@ struct FlightSelectionScreen: View {
                                 
                                 ButtonView(title: "Book flight", style: .primary) {
                                     if flightViewModel.validateFlightBooking() {
+                                        userViewModel.addFlight(flightViewModel: flightViewModel)
+                                        
                                         flightViewModel.navigateToConfirmation = true
                                         flightViewModel.navigateToSelection = false
                                     } else {
@@ -228,6 +230,8 @@ struct FlightSelectionScreen: View {
                     
                     ButtonView(title: "Book Flight", style: .primary) {
                         if flightViewModel.validateFlightBooking() {
+                            userViewModel.addFlight(flightViewModel: flightViewModel)
+                            
                             flightViewModel.navigateToConfirmation = true
                             flightViewModel.navigateToSelection = false
                         } else {
