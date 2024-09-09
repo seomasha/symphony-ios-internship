@@ -35,6 +35,7 @@ final class UserViewModel: ObservableObject {
     private let specialCharacterPattern = "(?=.*[!@#$%^&*()_+{}\\[\\]:;,.<>?~])"
     
     @Published var isSignedIn = false
+    @Published var isLoading = true
     
     @Published var selectedImage: UIImage? = nil
     @Published var selectedItem: PhotosPickerItem? = nil
@@ -390,5 +391,11 @@ final class UserViewModel: ObservableObject {
                 throw NSError(domain: "FaceIDNotAvailable", code: -1, userInfo: [NSLocalizedDescriptionKey: "Face ID is not available on this device."])
             }
         }
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
     }
 }

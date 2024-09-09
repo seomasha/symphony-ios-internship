@@ -10,7 +10,6 @@ import SwiftUI
 struct MyFlightsScreen: View {
     
     @ObservedObject var userViewModel: UserViewModel
-    @State private var isLoading: Bool = true // State variable to track loading
 
     var body: some View {
         NavigationStack {
@@ -18,21 +17,14 @@ struct MyFlightsScreen: View {
                 .font(.title)
                 .foregroundStyle(.blue)
             
-            if isLoading {
+            if userViewModel.isLoading {
                 ProgressView("Loading booked flights...")
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                     .padding()
             } else {
                 ScrollView {
                     ForEach(userViewModel.bookedFlights, id: \.id) { flight in
-                        VStack {
-                            Text(flight.airCompany)
-                            Text(flight.arrivalCode)
-                            Text(flight.departureCode)
-                            Text("\(flight.price)")
-                            Text("\(flight.date)")
-                        }
-                        .padding()
+                        BookedFlight(userViewModel: userViewModel, flight: flight)
                     }
                 }
             }
@@ -42,10 +34,10 @@ struct MyFlightsScreen: View {
             Task {
                 do {
                     try await userViewModel.fetchBookedFlights()
-                    isLoading = false
+                    userViewModel.isLoading = false
                 } catch {
                     print("Failed to load booked flights: \(error.localizedDescription)")
-                    isLoading = false
+                    userViewModel.isLoading = false
                 }
             }
         }
