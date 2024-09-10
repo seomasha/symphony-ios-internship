@@ -37,12 +37,19 @@ struct BottomBarNavigation: View {
                     }
                     .tag(1)
                 
+                OffersScreen()
+                    .tabItem {
+                        Image(systemName: "party.popper")
+                        Text("Offers")
+                    }
+                    .tag(2)
+                
                 MyProfileScreenView(userViewModel: userViewModel, flightViewModel: flightViewModel)
                     .tabItem {
                         Image(systemName: "person")
                         Text("My profile")
                     }
-                    .tag(2)
+                    .tag(3)
             }
             .toolbarBackground(.white, for: .tabBar)
             
@@ -52,5 +59,6 @@ struct BottomBarNavigation: View {
 }
 
 #Preview {
-    BottomBarNavigation(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
+    BottomBarNavigation(userViewModel: UserViewModel(), 
+                        flightViewModel: FlightViewModel())
 }

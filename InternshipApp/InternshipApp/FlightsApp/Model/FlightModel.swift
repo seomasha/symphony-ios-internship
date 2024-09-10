@@ -15,4 +15,5 @@ struct FlightModel: Identifiable {
     let possibleAirports: [String]
     let latitude: Double
     let longitude: Double
+    let url: String
 }

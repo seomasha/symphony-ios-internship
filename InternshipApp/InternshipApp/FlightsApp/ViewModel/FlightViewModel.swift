@@ -114,6 +114,9 @@ final class FlightViewModel: ObservableObject {
     @Published var terminal: Int = Int.random(in: 1...10)
     var flightCode: String = ""
     
+    @Published var nearestAirports: [FlightModel] = []
+    @Published var closestAirportOffers: [FlightOfferModel] = []
+    
     func getFlightOffers() -> [FlightOfferModel] {
         guard let selectedFlight = selectedFlight,
               let selectedDepartureFlight = selectedDepartureFlight else {
@@ -307,7 +310,7 @@ final class FlightViewModel: ObservableObject {
         
         return nil
     }
-
+    
     
     func generateQRCode(from string: String) -> UIImage? {
         let context = CIContext()
@@ -361,6 +364,38 @@ final class FlightViewModel: ObservableObject {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootVC = windowScene.windows.first?.rootViewController {
             rootVC.present(activityVC, animated: true, completion: nil)
+        }
+    }
+    
+    func findNearestAirports(currentLocation: CLLocation) {
+        let flightList = FlightList()
+        let airports = flightList.flights
+        
+        let sortedAirports = airports.sorted {
+            let distance1 = currentLocation.distance(from: CLLocation(latitude: $0.latitude, longitude: $0.longitude))
+            let distance2 = currentLocation.distance(from: CLLocation(latitude: $1.latitude, longitude: $1.longitude))
+            return distance1 > distance2
+        }
+        
+        nearestAirports = Array(sortedAirports.prefix(5))
+        
+        fetchOffersFromNearestAirports(nearestAirports: nearestAirports)
+    }
+    
+    private func fetchOffersFromNearestAirports(nearestAirports: [FlightModel]) {
+        var offers: [FlightOfferModel] = []
+        
+        for airport in nearestAirports {
+            let airportOffers = getFlightOffers(for: airport.airportCode)
+            offers.append(contentsOf: airportOffers)
+        }
+        
+        closestAirportOffers = Array(Set(offers)).prefix(5).map { $0 }
+    }
+    
+    private func getFlightOffers(for airportCode: String) -> [FlightOfferModel] {
+        return FlightList().flightOffers.filter { offer in
+            offer.departureCode == airportCode || offer.arrivalCode == airportCode
         }
     }
 }
