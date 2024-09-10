@@ -284,6 +284,9 @@ final class UserViewModel: ObservableObject {
         let departureLongitude = flightViewModel.selectedDepartureFlight?.longitude ?? 0.0
         let arrivalLatitude = flightViewModel.selectedFlight?.latitude ?? 0.0
         let arrivalLongitude = flightViewModel.selectedFlight?.longitude ?? 0.0
+        let departureTime = flightViewModel.selectedFlightOffer?.time ?? ""
+        let arrivalTime = flightViewModel.calculateArrivalTime(departureTime: flightViewModel.selectedFlightOffer?.time ?? "")
+        
         
         let bookedFlight = BookedFlightModel(price: price,
                                              date: date,
@@ -295,7 +298,9 @@ final class UserViewModel: ObservableObject {
                                              departureLongitude: departureLongitude,
                                              arrivalLatitude: arrivalLatitude,
                                              arrivalLongitude: arrivalLongitude,
-                                             airCompany: airCompany)
+                                             airCompany: airCompany,
+                                             departureTime: departureTime,
+                                             arrivalTime: arrivalTime!)
         
         do {
             guard let userID = user?.userID else {
@@ -317,7 +322,9 @@ final class UserViewModel: ObservableObject {
                     "departure_latitude": bookedFlight.departureLatitude,
                     "departure_longitude": bookedFlight.departureLongitude,
                     "arrival_latitude": bookedFlight.arrivalLatitude,
-                    "arrival_longitude": bookedFlight.arrivalLongitude
+                    "arrival_longitude": bookedFlight.arrivalLongitude,
+                    "departure_time": bookedFlight.departureTime,
+                    "arrival_time": bookedFlight.arrivalTime
                 ]])
             ])
             
@@ -353,7 +360,9 @@ final class UserViewModel: ObservableObject {
                       let departureLatitude = flightData["departure_latitude"] as? Double,
                       let departureLongitude = flightData["departure_longitude"] as? Double,
                       let arrivalLatitude = flightData["arrival_latitude"] as? Double,
-                      let arrivalLongitude = flightData["arrival_longitude"] as? Double 
+                      let arrivalLongitude = flightData["arrival_longitude"] as? Double,
+                      let departureTime = flightData["departure_time"] as? String,
+                      let arrivalTime = flightData["arrival_time"] as? String
                 else {
                     return nil
                 }
@@ -370,7 +379,9 @@ final class UserViewModel: ObservableObject {
                                          departureLongitude: departureLongitude,
                                          arrivalLatitude: arrivalLatitude,
                                          arrivalLongitude: arrivalLongitude,
-                                         airCompany: airCompany)
+                                         airCompany: airCompany,
+                                         departureTime: departureTime,
+                                         arrivalTime: arrivalTime)
             }
             
         } catch {

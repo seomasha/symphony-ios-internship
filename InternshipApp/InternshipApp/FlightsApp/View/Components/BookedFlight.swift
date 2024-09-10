@@ -59,5 +59,7 @@ struct BookedFlight: View {
                                            departureLongitude: 0.0,
                                            arrivalLatitude: 0.0,
                                            arrivalLongitude: 0.0,
-                                           airCompany: "Lufthansa"))
+                                           airCompany: "Lufthansa",
+                                           departureTime: "09:30",
+                                           arrivalTime: "15:30"))
 }

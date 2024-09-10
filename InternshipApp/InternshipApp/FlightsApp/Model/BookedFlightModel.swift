@@ -20,4 +20,6 @@ struct BookedFlightModel: Identifiable, Codable {
     let arrivalLatitude: Double
     let arrivalLongitude: Double
     let airCompany: String
+    let departureTime: String
+    let arrivalTime: String
 }

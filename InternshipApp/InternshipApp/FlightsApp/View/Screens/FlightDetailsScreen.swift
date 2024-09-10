@@ -154,14 +154,14 @@ struct FlightDetailsScreen: View {
                                 VStack(alignment: .leading) {
                                     Text("Scheduled")
                                         .fontWeight(.bold)
-                                    Text("09:30Am")
+                                    Text("\(userViewModel.selectedBookedFlight?.departureTime ?? "")")
                                         .foregroundStyle(.blue)
                                 }
                                 
                                 VStack(alignment: .leading) {
                                     Text("Actual")
                                         .fontWeight(.bold)
-                                    Text("09:50Am")
+                                    Text("\(userViewModel.selectedBookedFlight?.departureTime ?? "")")
                                         .foregroundStyle(.blue)
                                 }
                             }
@@ -201,14 +201,14 @@ struct FlightDetailsScreen: View {
                                 VStack(alignment: .trailing) {
                                     Text("Scheduled")
                                         .fontWeight(.bold)
-                                    Text("09:30Am")
+                                    Text("\(userViewModel.selectedBookedFlight?.arrivalTime ?? "")")
                                         .foregroundStyle(.blue)
                                 }
                                 
                                 VStack(alignment: .trailing) {
                                     Text("Actual")
                                         .fontWeight(.bold)
-                                    Text("09:50Am")
+                                    Text("\(userViewModel.selectedBookedFlight?.arrivalTime ?? "")")
                                         .foregroundStyle(.blue)
                                 }
                             }
@@ -226,7 +226,7 @@ struct FlightDetailsScreen: View {
                         }
                         
                         HStack {
-                            Text("Departed in 09:30 AM")
+                            Text("Departed in \(userViewModel.selectedBookedFlight?.departureTime ?? "")")
                                 .font(.caption)
                                 .foregroundStyle(Color(.systemGray))
                             
@@ -238,7 +238,7 @@ struct FlightDetailsScreen: View {
                             
                             Spacer()
                             
-                            Text("Arriving in 09:30 AM")
+                            Text("Arriving in \(userViewModel.selectedBookedFlight?.arrivalTime ?? "")")
                                 .font(.caption)
                                 .foregroundStyle(Color(.systemGray))
                         }
