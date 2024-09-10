@@ -138,6 +138,9 @@ struct HomeScreenView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {
+            flightViewModel.navigateToHome = true
+            flightViewModel.navigateToOffers = false
+            
             Task {
                 do {
                     try await userViewModel.loadCurrentUser()

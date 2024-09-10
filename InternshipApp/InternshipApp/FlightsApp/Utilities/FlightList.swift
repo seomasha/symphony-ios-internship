@@ -12,42 +12,58 @@ struct FlightList {
         FlightModel(town: "Mostar",
                     airportCode: "MST",
                     airportFullName: "Mostar International Airport",
-                    possibleAirports: ["MUC", "IST"]),
+                    possibleAirports: ["MUC", "IST"],
+                    latitude: 43.2901,
+                    longitude: 17.8362),
         
         FlightModel(town: "Sarajevo",
                     airportCode: "SJJ",
                     airportFullName: "Sarajevo International Airport",
-                    possibleAirports: ["LGA", "IST"]),
+                    possibleAirports: ["LGA", "IST"],
+                    latitude: 43.8262,
+                    longitude: 18.3368),
         
         FlightModel(town: "New York",
                     airportCode: "LGA",
                     airportFullName: "LaGuardia Airport",
-                    possibleAirports: ["SJJ", "MST", "ZRH", "LOS", "FCO", "MUC"]),
+                    possibleAirports: ["SJJ", "MST", "ZRH", "LOS", "FCO", "MUC"],
+                    latitude: 40.7766,
+                    longitude: -73.8742),
         
         FlightModel(town: "Istanbul",
                     airportCode: "IST",
                     airportFullName: "Istanbul Airport",
-                    possibleAirports: ["SJJ", "MST"]),
+                    possibleAirports: ["SJJ", "MST"],
+                    latitude: 41.2768,
+                    longitude: 28.7301),
         
         FlightModel(town: "Munchen",
                     airportCode: "MUC",
                     airportFullName: "Munich International Airport",
-                    possibleAirports: ["LGA", "IST", "SJJ", "MST"]),
+                    possibleAirports: ["LGA", "IST", "SJJ", "MST"],
+                    latitude: 48.3540,
+                    longitude: 11.7884),
         
         FlightModel(town: "Zurich",
                     airportCode: "ZRH",
                     airportFullName: "Zurich Airport",
-                    possibleAirports: ["SJJ", "LGA", "MUC"]),
+                    possibleAirports: ["SJJ", "LGA", "MUC"],
+                    latitude: 47.4597,
+                    longitude: 8.5510),
         
         FlightModel(town: "Lagos",
                     airportCode: "LOS",
                     airportFullName: "Murtala Muhammed International Airport",
-                    possibleAirports: ["ZRH"]),
+                    possibleAirports: ["ZRH"],
+                    latitude: 6.5790,
+                    longitude: 6.5790),
         
         FlightModel(town: "Rome",
                     airportCode: "FCO",
                     airportFullName: "Leonardo da Vinci–Fiumicino Airport",
-                    possibleAirports: ["MUC", "LGA", "ZRH", "SJJ"])
+                    possibleAirports: ["MUC", "LGA", "ZRH", "SJJ"],
+                    latitude: 41.8035,
+                    longitude: 12.2519)
     ]
     
     var flightOffers: [FlightOfferModel] = [

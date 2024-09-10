@@ -46,8 +46,18 @@ final class UserViewModel: ObservableObject {
     @Published var accountCreated: Bool = false
     
     @Published var navigateToLogin = false
+    @Published var navigateToDetails = false
+    @Published var navigateToHome = false
     
     @Published var bookedFlights: [BookedFlightModel] = []
+    
+    @Published var selectedBookedFlight: BookedFlightModel?
+    
+    var midPoint: CLLocationCoordinate2D {
+        let midLat = ((selectedBookedFlight?.departureLatitude ?? 0.0) + (selectedBookedFlight?.arrivalLatitude ?? 0.0)) / 2
+        let midLon = ((selectedBookedFlight?.departureLongitude ?? 0.0) + (selectedBookedFlight?.arrivalLongitude ?? 0.0)) / 2
+        return CLLocationCoordinate2D(latitude: midLat, longitude: midLon)
+    }
     
     init() {
         self.name = user?.name ?? ""
@@ -268,12 +278,24 @@ final class UserViewModel: ObservableObject {
         let departureCode = flightViewModel.selectedFlightOffer?.departureCode ?? ""
         let arrivalCode = flightViewModel.selectedFlightOffer?.arrivalCode ?? ""
         let airCompany = flightViewModel.selectedFlightOffer?.airCompany ?? ""
+        let departureTown = flightViewModel.selectedFlightOffer?.departureTown ?? ""
+        let arrivalTown = flightViewModel.selectedFlightOffer?.arrivalTown ?? ""
+        let departureLatitude = flightViewModel.selectedDepartureFlight?.latitude ?? 0.0
+        let departureLongitude = flightViewModel.selectedDepartureFlight?.longitude ?? 0.0
+        let arrivalLatitude = flightViewModel.selectedFlight?.latitude ?? 0.0
+        let arrivalLongitude = flightViewModel.selectedFlight?.longitude ?? 0.0
         
         let bookedFlight = BookedFlightModel(price: price,
-                                                 date: date,
-                                                 departureCode: departureCode,
-                                                 arrivalCode: arrivalCode,
-                                                 airCompany: airCompany)
+                                             date: date,
+                                             departureCode: departureCode,
+                                             arrivalCode: arrivalCode,
+                                             departureTown: departureTown,
+                                             arrivalTown: arrivalTown,
+                                             departureLatitude: departureLatitude,
+                                             departureLongitude: departureLongitude,
+                                             arrivalLatitude: arrivalLatitude,
+                                             arrivalLongitude: arrivalLongitude,
+                                             airCompany: airCompany)
         
         do {
             guard let userID = user?.userID else {
@@ -287,9 +309,15 @@ final class UserViewModel: ObservableObject {
                 "booked_flights": FieldValue.arrayUnion([[
                     "price": bookedFlight.price,
                     "date": bookedFlight.date,
-                    "departureCode": bookedFlight.departureCode,
-                    "arrivalCode": bookedFlight.arrivalCode,
-                    "airCompany": bookedFlight.airCompany
+                    "departure_code": bookedFlight.departureCode,
+                    "arrival_code": bookedFlight.arrivalCode,
+                    "departure_town": departureTown,
+                    "arrival_town": arrivalTown,
+                    "air_company": bookedFlight.airCompany,
+                    "departure_latitude": bookedFlight.departureLatitude,
+                    "departure_longitude": bookedFlight.departureLongitude,
+                    "arrival_latitude": bookedFlight.arrivalLatitude,
+                    "arrival_longitude": bookedFlight.arrivalLongitude
                 ]])
             ])
             
@@ -317,15 +345,32 @@ final class UserViewModel: ObservableObject {
             self.bookedFlights = bookedFlightsData.compactMap { flightData in
                 guard let price = flightData["price"] as? Int,
                       let timestamp = flightData["date"] as? Timestamp,
-                      let departureCode = flightData["departureCode"] as? String,
-                      let arrivalCode = flightData["arrivalCode"] as? String,
-                      let airCompany = flightData["airCompany"] as? String else {
+                      let departureCode = flightData["departure_code"] as? String,
+                      let arrivalCode = flightData["arrival_code"] as? String,
+                      let departureTown = flightData["departure_town"] as? String,
+                      let arrivalTown = flightData["arrival_town"] as? String,
+                      let airCompany = flightData["air_company"] as? String,
+                      let departureLatitude = flightData["departure_latitude"] as? Double,
+                      let departureLongitude = flightData["departure_longitude"] as? Double,
+                      let arrivalLatitude = flightData["arrival_latitude"] as? Double,
+                      let arrivalLongitude = flightData["arrival_longitude"] as? Double 
+                else {
                     return nil
                 }
                 
                 let date = timestamp.dateValue()
                 
-                return BookedFlightModel(price: price, date: date, departureCode: departureCode, arrivalCode: arrivalCode, airCompany: airCompany)
+                return BookedFlightModel(price: price,
+                                         date: date,
+                                         departureCode: departureCode,
+                                         arrivalCode: arrivalCode,
+                                         departureTown: departureTown,
+                                         arrivalTown: arrivalTown,
+                                         departureLatitude: departureLatitude,
+                                         departureLongitude: departureLongitude,
+                                         arrivalLatitude: arrivalLatitude,
+                                         arrivalLongitude: arrivalLongitude,
+                                         airCompany: airCompany)
             }
             
         } catch {
@@ -333,7 +378,7 @@ final class UserViewModel: ObservableObject {
             throw error
         }
     }
-        
+    
     func validatePassword() -> Bool {
         let lengthValid = password.count >= minLength
         let uppercaseValid = matchesPattern(password, pattern: uppercasePattern)
@@ -398,4 +443,32 @@ final class UserViewModel: ObservableObject {
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: date)
     }
+    
+    func calculateFlightDistance() -> Double {
+        guard let departureLat = selectedBookedFlight?.departureLatitude,
+              let departureLon = selectedBookedFlight?.departureLongitude,
+              let arrivalLat = selectedBookedFlight?.arrivalLatitude,
+              let arrivalLon = selectedBookedFlight?.arrivalLongitude else {
+            return 0.0
+        }
+
+        let earthRadiusKm: Double = 6371.0
+        
+        let departureLatRad = departureLat * .pi / 180
+        let departureLonRad = departureLon * .pi / 180
+        let arrivalLatRad = arrivalLat * .pi / 180
+        let arrivalLonRad = arrivalLon * .pi / 180
+        
+        let deltaLat = arrivalLatRad - departureLatRad
+        let deltaLon = arrivalLonRad - departureLonRad
+        
+        let a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+                cos(departureLatRad) * cos(arrivalLatRad) *
+                sin(deltaLon / 2) * sin(deltaLon / 2)
+        
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        
+        return earthRadiusKm * c
+    }
+
 }

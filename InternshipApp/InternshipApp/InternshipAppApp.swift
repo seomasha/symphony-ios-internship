@@ -18,12 +18,14 @@ struct InternshipAppApp: App {
      */
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
     
     init() {
         FirebaseApp.configure()
         print("Configured Firebase!")
         
         self.userViewModel = UserViewModel()
+        self.flightViewModel = FlightViewModel()
     }
     
     var body: some Scene {
@@ -35,7 +37,7 @@ struct InternshipAppApp: App {
                 reminderViewModel: ReminderViewModel())
              */
             
-            LoginScreenView(userViewModel: userViewModel)
+            LoginScreenView(userViewModel: userViewModel, flightViewModel: flightViewModel)
         }
     }
 }

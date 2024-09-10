@@ -10,23 +10,8 @@ import MapKit
 
 struct FlightDetailsScreen: View {
     
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-    )
-    
-    let mostar = CLLocationCoordinate2D(latitude: 43.2901,
-                                        longitude: 17.8362)
-    
-    let newYork = CLLocationCoordinate2D(latitude: 40.7766,
-                                         longitude: 73.8742)
-    
-    private var midPoint: CLLocationCoordinate2D {
-        let midLat = (mostar.latitude + newYork.latitude) / 2
-        let midLon = (mostar.longitude + newYork.longitude) / 2
-        return CLLocationCoordinate2D(latitude: midLat, longitude: midLon)
-    }
-    
+    @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
     
     var body: some View {
         NavigationStack {
@@ -35,47 +20,76 @@ struct FlightDetailsScreen: View {
                 
                 VStack {
                     HStack {
+                        NavigationLink {
+                            BottomBarNavigation(userViewModel: userViewModel,
+                                                flightViewModel: flightViewModel,
+                                                initialTab: 1)
+                        } label: {
+                            
+                            Image(systemName: "chevron.left")
+                                .foregroundStyle(.white)
+                                .padding(.horizontal)
+                            
+                        }
+                        
+                        
+                        Spacer()
+                        
                         Text("My flight")
                             .font(.title3)
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                             .padding(8)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.clear)
+                            .padding(.horizontal)
                     }
                     .frame(maxWidth: .infinity)
                     .background(
                         Color.blue.ignoresSafeArea()
                     )
                     
-                    Map() {
-                        Annotation("LGA\nNewYork", coordinate: mostar) {
-                            Image(systemName: "airplane.departure")
-                                .padding(12)
-                                .background(.blue)
-                                .foregroundStyle(.white)
-                                .clipShape(Circle())
-                        }
+                    if let departureLatitude = userViewModel.selectedBookedFlight?.departureLatitude,
+                       let departureLongitude = userViewModel.selectedBookedFlight?.departureLongitude,
+                       let arrivalLatitude = userViewModel.selectedBookedFlight?.arrivalLatitude,
+                       let arrivalLongitude = userViewModel.selectedBookedFlight?.arrivalLongitude {
                         
-                        Annotation("MST\nMostar", coordinate: newYork) {
-                            Image(systemName: "airplane.arrival")
-                                .padding(12)
-                                .background(.blue)
-                                .foregroundStyle(.white)
-                                .clipShape(Circle())
-                        }
-                        
-                        MapPolyline(coordinates: [mostar, newYork])
+                        Map {
+                            Annotation("\(userViewModel.selectedBookedFlight?.departureCode ?? "")\n\(userViewModel.selectedBookedFlight?.departureTown ?? "")", coordinate: CLLocationCoordinate2D(latitude: arrivalLatitude, longitude: arrivalLongitude)) {
+                                Image(systemName: "airplane.departure")
+                                    .padding(12)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .clipShape(Circle())
+                            }
+                            
+                            Annotation("\(userViewModel.selectedBookedFlight?.arrivalCode ?? "")\n\(userViewModel.selectedBookedFlight?.arrivalTown ?? "")", coordinate: CLLocationCoordinate2D(latitude: departureLatitude, longitude: departureLongitude)) {
+                                Image(systemName: "airplane.arrival")
+                                    .padding(12)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .clipShape(Circle())
+                            }
+                            
+                            MapPolyline(coordinates: [
+                                CLLocationCoordinate2D(latitude: departureLatitude, longitude: departureLongitude),
+                                CLLocationCoordinate2D(latitude: arrivalLatitude, longitude: arrivalLongitude)
+                            ])
                             .stroke(.blue, lineWidth: 5)
-                        
-                        Annotation("", coordinate: midPoint) {
-                            Image(systemName: "airplane")
-                                .padding(12)
-                                .background(Color.red)
-                                .foregroundStyle(.white)
-                                .clipShape(Circle())
+                            
+                            Annotation("", coordinate: userViewModel.midPoint) {
+                                Image(systemName: "airplane")
+                                    .padding(12)
+                                    .background(Color.red)
+                                    .foregroundStyle(.white)
+                                    .clipShape(Circle())
+                            }
                         }
+                        .frame(maxWidth: .infinity)
                     }
-                    .frame(width: .infinity, height: 250)
-                    .allowsHitTesting(false)
                     
                     HStack(spacing: 16) {
                         VStack {
@@ -115,7 +129,7 @@ struct FlightDetailsScreen: View {
                         }
                     }
                     .padding()
-                    .frame(width: .infinity)
+                    .frame(maxWidth: .infinity)
                     .background(.blue)
                     .clipShape(RoundedRectangle(cornerRadius: 15))
                     
@@ -123,10 +137,10 @@ struct FlightDetailsScreen: View {
                         VStack(alignment: .leading) {
                             Spacer()
                             
-                            Text("MST")
+                            Text("\(userViewModel.selectedBookedFlight?.departureCode ?? "")")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                            Text("Mostar")
+                            Text("\(userViewModel.selectedBookedFlight?.departureTown ?? "")")
                                 .font(.subheadline)
                                 .foregroundStyle(.blue)
                             
@@ -170,10 +184,10 @@ struct FlightDetailsScreen: View {
                         VStack(alignment: .trailing) {
                             Spacer()
                             
-                            Text("MST")
+                            Text("\(userViewModel.selectedBookedFlight?.arrivalCode ?? "")")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                            Text("Mostar")
+                            Text("\(userViewModel.selectedBookedFlight?.arrivalTown ?? "")")
                                 .font(.subheadline)
                                 .foregroundStyle(.blue)
                             
@@ -218,7 +232,7 @@ struct FlightDetailsScreen: View {
                             
                             Spacer()
                             
-                            Text("2,111km")
+                            Text("\(String(format: "%.1f", userViewModel.calculateFlightDistance())) km")
                                 .font(.caption)
                                 .foregroundStyle(.blue)
                             
@@ -240,5 +254,5 @@ struct FlightDetailsScreen: View {
 }
 
 #Preview {
-    FlightDetailsScreen()
+    FlightDetailsScreen(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

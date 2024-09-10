@@ -25,6 +25,7 @@ final class FlightViewModel: ObservableObject {
     @Published var navigateToHome = false
     @Published var navigateToSelection = false
     @Published var navigateToConfirmation = false
+    @Published var navigateToDetails = false
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
