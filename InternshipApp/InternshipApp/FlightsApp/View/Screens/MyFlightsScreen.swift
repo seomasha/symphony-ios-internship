@@ -10,6 +10,7 @@ import SwiftUI
 struct MyFlightsScreen: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
 
     var body: some View {
         NavigationStack {
@@ -24,13 +25,18 @@ struct MyFlightsScreen: View {
             } else {
                 ScrollView {
                     ForEach(userViewModel.bookedFlights, id: \.id) { flight in
-                        BookedFlight(userViewModel: userViewModel, flight: flight)
+                        BookedFlight(userViewModel: userViewModel,
+                                     flightViewModel: flightViewModel,
+                                     flight: flight)
                     }
                 }
             }
             Spacer()
         }
         .onAppear {
+            
+            flightViewModel.navigateToDetails = false
+            
             Task {
                 do {
                     try await userViewModel.fetchBookedFlights()
@@ -46,5 +52,5 @@ struct MyFlightsScreen: View {
 }
 
 #Preview {
-    MyFlightsScreen(userViewModel: UserViewModel())
+    MyFlightsScreen(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

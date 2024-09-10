@@ -11,6 +11,7 @@ import PhotosUI
 struct MyProfileScreenView: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
     @State private var showingPhotoPicker = false
     
     var body: some View {
@@ -88,7 +89,7 @@ struct MyProfileScreenView: View {
                     .ignoresSafeArea(edges: .top)
                     
                     ScrollView {
-                        ProfileCard(userViewModel: userViewModel)
+                        ProfileCard(userViewModel: userViewModel, flightViewModel: flightViewModel)
                     }
                     
                     Spacer()
@@ -121,5 +122,5 @@ struct MyProfileScreenView: View {
 }
 
 #Preview {
-    MyProfileScreenView(userViewModel: UserViewModel())
+    MyProfileScreenView(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

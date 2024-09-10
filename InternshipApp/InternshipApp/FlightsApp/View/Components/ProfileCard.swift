@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileCard: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -54,11 +55,11 @@ struct ProfileCard: View {
             .padding()
         }
         .navigationDestination(isPresented: $userViewModel.navigateToLogin) {
-            LoginScreenView(userViewModel: userViewModel)
+            LoginScreenView(userViewModel: userViewModel, flightViewModel: flightViewModel)
         }
     }
 }
 
 #Preview {
-    ProfileCard(userViewModel: UserViewModel())
+    ProfileCard(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

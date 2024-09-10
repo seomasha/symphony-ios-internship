@@ -10,10 +10,18 @@ import SwiftUI
 struct BottomBarNavigation: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
+    @State private var selectedTab = 0
+    
+    init(userViewModel: UserViewModel, flightViewModel: FlightViewModel, initialTab: Int = 0) {
+        self.userViewModel = userViewModel
+        self.flightViewModel = flightViewModel
+        self._selectedTab = State(initialValue: initialTab)
+    }
     
     var body: some View {
         NavigationStack {
-            TabView {
+            TabView(selection: $selectedTab) {
                 HomeScreenView(userViewModel: userViewModel,
                                flightViewModel: FlightViewModel())
                 .tabItem {
@@ -22,14 +30,14 @@ struct BottomBarNavigation: View {
                 }
                 .tag(0)
                 
-                MyFlightsScreen(userViewModel: userViewModel)
+                MyFlightsScreen(userViewModel: userViewModel, flightViewModel: flightViewModel)
                     .tabItem {
                         Image(systemName: "airplane.circle")
                         Text("My flights")
                     }
                     .tag(1)
                 
-                MyProfileScreenView(userViewModel: userViewModel)
+                MyProfileScreenView(userViewModel: userViewModel, flightViewModel: flightViewModel)
                     .tabItem {
                         Image(systemName: "person")
                         Text("My profile")
@@ -44,5 +52,5 @@ struct BottomBarNavigation: View {
 }
 
 #Preview {
-    BottomBarNavigation(userViewModel: UserViewModel())
+    BottomBarNavigation(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

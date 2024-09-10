@@ -138,7 +138,7 @@ struct FlightOffersScreen: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $flightViewModel.navigateToHome) {
-            BottomBarNavigation(userViewModel: userViewModel)
+            BottomBarNavigation(userViewModel: userViewModel, flightViewModel: flightViewModel, initialTab: 0)
         }
     }
 }

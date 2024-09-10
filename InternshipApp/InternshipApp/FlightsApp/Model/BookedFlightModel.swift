@@ -13,5 +13,13 @@ struct BookedFlightModel: Identifiable, Codable {
     let date: Date
     let departureCode: String
     let arrivalCode: String
+    let departureTown: String
+    let arrivalTown: String
+    let departureLatitude: Double
+    let departureLongitude: Double
+    let arrivalLatitude: Double
+    let arrivalLongitude: Double
     let airCompany: String
+    let departureTime: String
+    let arrivalTime: String
 }

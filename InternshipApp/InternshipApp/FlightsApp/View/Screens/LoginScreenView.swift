@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginScreenView: View {
     
     @ObservedObject var userViewModel: UserViewModel
+    @ObservedObject var flightViewModel: FlightViewModel
     
     var body: some View {
         NavigationStack {
@@ -64,7 +65,7 @@ struct LoginScreenView: View {
                                 }
                             })
                             
-                            NavigationLink(destination: BottomBarNavigation(userViewModel: userViewModel), isActive: $userViewModel.isSignedIn) {
+                            NavigationLink(destination: BottomBarNavigation(userViewModel: userViewModel, flightViewModel: flightViewModel), isActive: $userViewModel.isSignedIn) {
                                 EmptyView()
                             }
                             
@@ -88,7 +89,7 @@ struct LoginScreenView: View {
                             Button {
                                 
                             } label: {
-                                NavigationLink(destination: RegistrationScreenView(userViewModel: userViewModel)) {
+                                NavigationLink(destination: RegistrationScreenView(userViewModel: userViewModel, flightViewModel: flightViewModel)) {
                                     Text("Create an account")
                                 }
                             }
@@ -118,5 +119,5 @@ struct LoginScreenView: View {
 }
 
 #Preview {
-    LoginScreenView(userViewModel: UserViewModel())
+    LoginScreenView(userViewModel: UserViewModel(), flightViewModel: FlightViewModel())
 }

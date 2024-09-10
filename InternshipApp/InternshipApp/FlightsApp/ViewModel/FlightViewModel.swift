@@ -25,6 +25,7 @@ final class FlightViewModel: ObservableObject {
     @Published var navigateToHome = false
     @Published var navigateToSelection = false
     @Published var navigateToConfirmation = false
+    @Published var navigateToDetails = false
     
     @Published var selectedFlightOffer: FlightOfferModel?
     
@@ -270,6 +271,43 @@ final class FlightViewModel: ObservableObject {
         
         return nil
     }
+    
+    func calculateArrivalTime(departureTime: String) -> String? {
+        guard let selectedFlightOffer = selectedFlightOffer else {
+            return nil
+        }
+        
+        let timeComponents = departureTime.split(separator: ":").map { Int($0) ?? 0 }
+        guard timeComponents.count == 2 else {
+            return nil
+        }
+        
+        let calendar = Calendar.current
+        let departureHour = timeComponents[0]
+        let departureMinute = timeComponents[1]
+        
+        var departureDateTime = calendar.date(bySettingHour: departureHour, minute: departureMinute, second: 0, of: selectedFlightOffer.date)
+        
+        let durationComponents = selectedFlightOffer.flightDuration.split(separator: ":").map { Int($0) ?? 0 }
+        guard durationComponents.count == 2 else {
+            return nil
+        }
+        
+        let durationHours = durationComponents[0]
+        let durationMinutes = durationComponents[1]
+        
+        departureDateTime = calendar.date(byAdding: .hour, value: durationHours, to: departureDateTime ?? Date())
+        departureDateTime = calendar.date(byAdding: .minute, value: durationMinutes, to: departureDateTime ?? Date())
+        
+        if let arrivalDateTime = departureDateTime {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm a"
+            return formatter.string(from: arrivalDateTime)
+        }
+        
+        return nil
+    }
+
     
     func generateQRCode(from string: String) -> UIImage? {
         let context = CIContext()

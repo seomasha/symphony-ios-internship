@@ -181,7 +181,7 @@ struct FlightConfirmationScreenView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationDestination(isPresented: $flightViewModel.navigateToHome) {
-            BottomBarNavigation(userViewModel: userViewModel)
+            BottomBarNavigation(userViewModel: userViewModel, flightViewModel: flightViewModel)
         }
     }
 }
