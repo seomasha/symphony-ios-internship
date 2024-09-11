@@ -75,7 +75,8 @@ struct FlightList {
                          time: "09:30 AM",
                          date: Date(),
                          airCompany: "Qatar Airways",
-                         price: 250),
+                         price: 250,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipNbAq0AF2I5K4t5jlZSQkQXEi30iav_2eMqLewH=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "SJJ",
                          departureTown: "Sarajevo",
@@ -85,7 +86,8 @@ struct FlightList {
                          time: "01:20 PM",
                          date: Date(),
                          airCompany: "Turkish Airlines",
-                         price: 190),
+                         price: 190,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipNc4RBeiZed0bYR6KrI0QOk7vV8QJxZYI8CkIYX=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
@@ -95,7 +97,8 @@ struct FlightList {
                          time: "10:00 AM",
                          date: Date(),
                          airCompany: "Lufthansa",
-                         price: 220),
+                         price: 220,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN9hsZG34HwFFoUEK1lxWJFLKFA3EAG55TzAj8t=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LGA",
                          departureTown: "New York",
@@ -105,7 +108,8 @@ struct FlightList {
                          time: "07:00 AM",
                          date: Date(),
                          airCompany: "Ryanair",
-                         price: 350),
+                         price: 350,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN-8QSrnaOiXeBrQdliJkXm50s_2fu5wh_YicOY=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LGA",
                          departureTown: "New York",
@@ -115,7 +119,8 @@ struct FlightList {
                          time: "07:00 AM",
                          date: Date(),
                          airCompany: "Swiss Air",
-                         price: 450),
+                         price: 450,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN-8QSrnaOiXeBrQdliJkXm50s_2fu5wh_YicOY=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "FCO",
                          departureTown: "Rome",
@@ -125,7 +130,8 @@ struct FlightList {
                          time: "11:00 AM",
                          date: Date(),
                          airCompany: "Alitalia",
-                         price: 380),
+                         price: 380,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipOvNpjnSbLyBGlG9Xzp4m4K-pjh-hy3ihWwNTYG=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
@@ -135,7 +141,8 @@ struct FlightList {
                          time: "06:00 AM",
                          date: Date(),
                          airCompany: "Turkish Airlines",
-                         price: 200),
+                         price: 200,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN9hsZG34HwFFoUEK1lxWJFLKFA3EAG55TzAj8t=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
@@ -145,7 +152,8 @@ struct FlightList {
                          time: "09:00 AM",
                          date: Date(),
                          airCompany: "Lufthansa",
-                         price: 230),
+                         price: 230,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN9hsZG34HwFFoUEK1lxWJFLKFA3EAG55TzAj8t=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "ZRH",
                          departureTown: "Zurich",
@@ -155,7 +163,8 @@ struct FlightList {
                          time: "08:00 AM",
                          date: Date(),
                          airCompany: "Swiss Air",
-                         price: 210),
+                         price: 210,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipMGyj1RKqaGf7JkgI59c7bYF4ny9nSPAZ1kRoMe=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "ZRH",
                          departureTown: "Zurich",
@@ -165,7 +174,8 @@ struct FlightList {
                          time: "05:00 AM",
                          date: Date(),
                          airCompany: "Swiss Air",
-                         price: 400),
+                         price: 400,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipMGyj1RKqaGf7JkgI59c7bYF4ny9nSPAZ1kRoMe=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LGA",
                          departureTown: "New York",
@@ -175,7 +185,8 @@ struct FlightList {
                          time: "10:00 PM",
                          date: Date(),
                          airCompany: "Alitalia",
-                         price: 360),
+                         price: 360,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN-8QSrnaOiXeBrQdliJkXm50s_2fu5wh_YicOY=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LGA",
                          departureTown: "New York",
@@ -185,7 +196,8 @@ struct FlightList {
                          time: "02:00 PM",
                          date: Date(),
                          airCompany: "Delta Airlines",
-                         price: 400),
+                         price: 400,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN-8QSrnaOiXeBrQdliJkXm50s_2fu5wh_YicOY=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "SJJ",
                          departureTown: "Sarajevo",
@@ -195,7 +207,8 @@ struct FlightList {
                          time: "04:00 PM",
                          date: Date(),
                          airCompany: "Lufthansa",
-                         price: 180),
+                         price: 180,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipNc4RBeiZed0bYR6KrI0QOk7vV8QJxZYI8CkIYX=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "FCO",
                          departureTown: "Rome",
@@ -205,7 +218,8 @@ struct FlightList {
                          time: "06:00 AM",
                          date: Date(),
                          airCompany: "Swiss Air",
-                         price: 170),
+                         price: 170,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipOvNpjnSbLyBGlG9Xzp4m4K-pjh-hy3ihWwNTYG=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "MUC",
                          departureTown: "Munchen",
@@ -215,7 +229,8 @@ struct FlightList {
                          time: "11:00 AM",
                          date: Date(),
                          airCompany: "Lufthansa",
-                         price: 450),
+                         price: 450,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipN9hsZG34HwFFoUEK1lxWJFLKFA3EAG55TzAj8t=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LOS",
                          departureTown: "Lagos",
@@ -225,7 +240,8 @@ struct FlightList {
                          time: "08:00 AM",
                          date: Date(),
                          airCompany: "Swiss Air",
-                         price: 500),
+                         price: 500,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipMl9FKMRlJqBWrx4LCOxxKp54s3DsYeUcJ7rArV=s1360-w1360-h1020"),
         
         FlightOfferModel(departureCode: "LOS",
                          departureTown: "Lagos",
@@ -235,6 +251,18 @@ struct FlightList {
                          time: "06:00 PM",
                          date: Date(),
                          airCompany: "Ryanair",
-                         price: 470)
+                         price: 470,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipMl9FKMRlJqBWrx4LCOxxKp54s3DsYeUcJ7rArV=s1360-w1360-h1020"),
+        
+        FlightOfferModel(departureCode: "IST",
+                         departureTown: "Istanbul",
+                         arrivalCode: "SJJ",
+                         arrivalTown: "Sarajevo",
+                         flightDuration: "7:45",
+                         time: "06:00 PM",
+                         date: Date(),
+                         airCompany: "Ryanair",
+                         price: 470,
+                         url: "https://lh3.googleusercontent.com/p/AF1QipPQXQ2wjVuzKhAQd1TvwndrYBgWyng84NzuJtdW=s1360-w1360-h1020")
     ]
 }

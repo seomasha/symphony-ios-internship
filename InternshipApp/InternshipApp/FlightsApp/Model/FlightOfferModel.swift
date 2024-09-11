@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FlightOfferModel: Identifiable, Equatable, Encodable {
+struct FlightOfferModel: Identifiable, Equatable, Encodable, Hashable {
     
     let id = UUID()
     
@@ -24,4 +24,6 @@ struct FlightOfferModel: Identifiable, Equatable, Encodable {
     
     var airCompany: String
     var price: Int
+    
+    var url: String
 }
