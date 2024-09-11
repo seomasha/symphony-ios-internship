@@ -1,4 +1,5 @@
-# ios-internship
-Repository for IOS internship 
+# Symphony IOS Internship
+Repository for IOS internship I did at symphony.is where I developed two apps using SwiftUI and also Firebase:
 
-Template
+TODO App
+Flights App
