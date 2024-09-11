@@ -24,4 +24,6 @@ struct FlightOfferModel: Identifiable, Equatable, Encodable, Hashable {
     
     var airCompany: String
     var price: Int
+    
+    var url: String
 }

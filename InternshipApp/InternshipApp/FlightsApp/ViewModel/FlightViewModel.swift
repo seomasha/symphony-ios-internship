@@ -374,7 +374,7 @@ final class FlightViewModel: ObservableObject {
         let sortedAirports = airports.sorted {
             let distance1 = currentLocation.distance(from: CLLocation(latitude: $0.latitude, longitude: $0.longitude))
             let distance2 = currentLocation.distance(from: CLLocation(latitude: $1.latitude, longitude: $1.longitude))
-            return distance1 > distance2
+            return distance1 < distance2
         }
         
         nearestAirports = Array(sortedAirports.prefix(5))

@@ -11,7 +11,7 @@ import CoreLocation
 struct OffersScreen: View {
     @ObservedObject private var locationManager: LocationManager
     @ObservedObject var flightViewModel: FlightViewModel
-
+    
     init() {
         locationManager = LocationManager()
         flightViewModel = FlightViewModel()
@@ -24,14 +24,10 @@ struct OffersScreen: View {
                     Text("Nearest Airports:")
                         .font(.largeTitle)
                         .padding()
-
+                    
                     ScrollView {
-                        ForEach(flightViewModel.nearestAirports, id: \.airportCode) { airport in
-                            ForEach(flightViewModel.closestAirportOffers, id: \.id) { offer in
-                                AirportView(airport: airport,
-                                            offer: offer,
-                                            flightViewModel: flightViewModel)
-                            }
+                        ForEach(flightViewModel.closestAirportOffers, id: \.id) { offer in
+                            AirportView(offer: offer, flightViewModel: flightViewModel)
                         }
                     }
                     .onAppear {
@@ -40,7 +36,7 @@ struct OffersScreen: View {
                 } else {
                     Text("Location permission is denied.")
                         .padding()
-
+                    
                     Text("Please enable location services in Settings.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
